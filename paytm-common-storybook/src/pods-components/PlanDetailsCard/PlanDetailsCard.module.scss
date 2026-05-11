@@ -1,0 +1,169 @@
+@import "../../commonStyles/mixin";
+
+/* Figma 252:6647 — RU / Plan Details */
+
+.root {
+  width: 100%;
+  @include borderBox();
+}
+
+.card {
+  box-sizing: border-box;
+  width: 100%;
+  padding-top: $padding-vertical-s;
+  padding-inline: $padding-horizontal-3xl !important;
+  /* Figma inset below footer CTA — use token (16px), not raw px. */
+  padding-bottom: $padding-vertical-3xl !important;
+  border: none !important;
+  border-radius: $radius-3xl !important;
+  background-color: getColorVariable(--surface-level-1) !important;
+  /* Stretch row children to the same width (footer = plan block inset). */
+  @include flexBox(flex, stretch, flex-start, false, column, null, $gap-3xl);
+}
+
+.headerRow {
+  @include flexBox(flex, center, flex-start, false, row, null, $gap-3xl);
+  width: 100%;
+  min-height: 72px;
+  padding: $padding-vertical-xs $padding-horizontal-xs;
+  @include borderBox();
+}
+
+.headerLeading {
+  flex-shrink: 0;
+  align-self: stretch;
+  padding: $padding-vertical-2xl $padding-horizontal-xs;
+  @include flexBox(flex, center, center, false, row, null, 0);
+}
+
+.headerMain {
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: stretch;
+  padding: $padding-vertical-2xl $padding-horizontal-xs;
+  @include flexBox(flex, flex-start, space-between, false, row, null, $gap-2xl);
+}
+
+.headerTexts {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 42px;
+  @include flexBox(flex, flex-start, center, false, column, null, $gap-m);
+}
+
+.headerName {
+  margin: 0;
+  width: 100%;
+  @include getFontStyle(title4-medium, getColorVariable(--text-neutral-strong));
+}
+
+.headerPhone {
+  margin: 0;
+  width: 100%;
+  @include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+}
+
+.changeWrap {
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.changeBtn {
+  height: auto !important;
+  min-height: 0;
+  padding: $padding-vertical-xs $padding-horizontal-xs !important;
+}
+
+.separatorWrap {
+  width: 100%;
+}
+
+.planAmountLabel {
+  margin: 0;
+  width: 100%;
+  @include getFontStyle(subtext-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.planBlock {
+  width: 100%;
+  @include flexBox(flex, stretch, flex-start, false, column, null, $gap-2xl);
+}
+
+.planRow {
+  width: 100%;
+  @include flexBox(flex, flex-start, flex-start, false, row, null, $gap-3xl);
+}
+
+.priceCol {
+  flex: 0 0 auto;
+  @include flexBox(flex, flex-start, flex-start, false, column, null, 0);
+}
+
+.priceStack {
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $unit-1);
+}
+
+.headlinePrice {
+  margin: 0;
+  @include getFontStyle(title3-bold, getColorVariable(--text-neutral-strong));
+}
+
+.priceSubtitle {
+  margin: 0;
+  width: 100%;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+}
+
+.badgeRow {
+  width: 100%;
+  @include flexBox(flex, flex-start, flex-start, false, row, null, 0);
+}
+
+.badgeWrap {
+  max-width: 100%;
+}
+
+.detailCol {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.specRow {
+  @include flexBox(flex, flex-start, flex-start, false, row, null, $gap-4xl);
+}
+
+.specPair {
+  flex-shrink: 0;
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $gap-s);
+}
+
+.specPairWide {
+  min-width: 0;
+}
+
+.specLabel {
+  margin: 0;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+}
+
+.specValue {
+  margin: 0;
+  @include getFontStyle(subtext-medium, getColorVariable(--text-neutral-strong));
+}
+
+.description {
+  margin: 0;
+  width: 100%;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+/* Full-width tonal CTA; same horizontal inset as plan row (card padding only). */
+.viewMoreFooterBtn {
+  width: 100% !important;
+  align-self: stretch;
+  max-width: none;
+}

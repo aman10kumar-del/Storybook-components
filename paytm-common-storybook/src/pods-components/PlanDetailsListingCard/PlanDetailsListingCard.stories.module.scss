@@ -1,0 +1,11 @@
+@import "../../commonStyles/mixin";
+
+.pageCanvasCard {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 400px;
+  padding: $padding-vertical-3xl $padding-horizontal-3xl !important;
+  background-color: getColorVariable(--surface-level-4) !important;
+  border: none !important;
+  border-radius: $radius-m;
+}

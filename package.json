@@ -1,0 +1,43 @@
+{
+  "name": "pods-ai-wgmi",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6010",
+    "storybook:paytm": "npm run storybook --prefix ./paytm-common-storybook",
+    "build-storybook": "storybook build",
+    "check:doc-links": "node scripts/check-doc-links.mjs"
+  },
+  "dependencies": {
+    "@paytm-h5-common/paytm_common_ui": "^3.0.3",
+    "@szhsin/react-menu": "^4.5.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^5.1.1",
+    "@storybook/addon-a11y": "^10.3.4",
+    "@storybook/addon-docs": "^10.3.4",
+    "@storybook/addon-mcp": "^0.5.0",
+    "@storybook/addon-vitest": "^10.3.4",
+    "@storybook/react-vite": "^10.3.4",
+    "@types/node": "^22.19.17",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/browser-playwright": "^4.1.2",
+    "@vitest/coverage-v8": "^4.1.2",
+    "playwright": "^1.59.1",
+    "sass": "^1.99.0",
+    "sharp": "^0.34.5",
+    "storybook": "^10.3.4",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0",
+    "vite-plugin-svgr": "^5.2.0",
+    "vitest": "^4.1.2"
+  }
+}

@@ -1,0 +1,111 @@
+@import "../../commonStyles/mixin";
+
+.iconsListContainer {
+	padding: 0px 16px 16px 16px;
+	@include flexBox(flex, flex-start, flex-start, false, column, null, 0px);
+	@include colGap(16px);
+	@include borderBox();
+	.search {
+		width: 100%;
+	}
+	.iconSection {
+		width: 100%;
+		@include flexBox(flex, flex-start, flex-start, false, column, null, 0px);
+		@include colGap(8px);
+		.sectionName {
+			@include fontStyle(24px, getColorVariable(--text-neutral-strong), 700);
+		}
+		.icons {
+			width: 100%;
+			display: grid;
+			grid-template-columns: repeat(auto-fill, 48px);
+			grid-auto-rows: 48px;
+			gap: 8px;
+			justify-content: space-between;
+			.iconBox {
+				@include flexBox(flex, center, center, false, column, null, 0px);
+				@include colGap(4px);
+				background: getColorVariable(--background-neutral-inverse);
+				box-shadow: 0 1px 3px 0 getColorVariable(--background-neutral-weak), 0 1px 2px 0 getColorVariable(--background-neutral-weak);
+				border: 1px solid getColorVariable(--background-neutral-weak);
+				border-bottom: none;
+				border-radius: 5px;
+				@include pointerCursor();
+				color: getColorVariable(--icon-neutral-strong)
+			}
+		}
+	}
+	.modal {
+		@include position(fixed, 0, 0, 0, 0);
+		margin: 0;
+		.backdrop {
+			@include position(absolute, 0, 0, 0, 0);
+			background: getColorVariable(--overlay-strong);
+		}
+		.content {
+			@include flexBox(flex, flex-start, flex-start, false, column, null, 0px);
+			@include colGap(16px);
+			@include position(absolute, 45%, null, null, 50%);
+			transform: translate(-50%, -50%);
+			width: 90%;
+			max-height: 90%;
+			overflow-y: auto;
+			background: getColorVariable(--background-neutral-inverse);
+			border-radius: 8px;
+			padding: 16px;
+			color: getColorVariable(--text-neutral-strong);
+			.titleSection {
+				width: 100%;
+				@include flexBox(flex, center, space-between, false, row, null, 0px);
+				@include rowGap(4px);
+				.iconName {
+					@include fontStyle(24px, getColorVariable(--text-neutral-strong), 700);
+					@include ellipsis();
+				}
+				.dismissIcon {
+					@include pointerCursor();
+					color: getColorVariable(--background-neutral-medium);
+					&, & > * {
+						@include dimensions(32px, 32px)
+					}
+				}
+			}
+			.separator {
+				width: 100%;
+				margin-top: 8px;
+			}
+			.codeSection {
+				position: relative;
+				width: 100%;
+				@include flexBox(flex, flex-start, flex-start, false, column, null, 0px);
+				@include colGap(8px);
+				.code {
+					width: 100%;
+					background: getColorVariable(--background-neutral-strong);
+					padding: 8px;
+					overflow: hidden;
+					word-break: break-word;
+					border-radius: 4px;
+					max-width: 100%;
+					@include fontStyle(12px, lightgreen, 400);
+				}
+				.copyIcon {
+					@include position(absolute, null, 0, 0, null);
+					color: getColorVariable(--background-neutral-inverse);
+					@include pointerCursor();
+					&:active {
+						transform: scale(1.2);
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.codeSection {
+		.code {
+			color: getColorVariable(--vivid-02-strong) !important;
+		}
+	}
+}

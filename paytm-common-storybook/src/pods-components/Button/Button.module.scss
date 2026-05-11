@@ -1,0 +1,173 @@
+@import "../../commonStyles/mixin";
+
+.button {
+  @include flexBox(flex, center, center, false, column, null, 0px);
+  @include borderBox();
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  @include pointerCursor();
+  .titleSection {
+    @include flexBox(flex, center, center, false, row, null, 0px);
+    @include rowGap($gap-m);
+    max-width: 100%;
+  }
+  .label {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .leadingIcon, .trailingIcon {
+    display: inline-flex;
+		align-items: center;
+		justify-content: center;
+    flex-shrink: 0;
+  }
+  .iconOnly {
+    border-radius: 50%;
+  }
+  &.large {
+    height: 52px;
+    width: 100%;
+    border-radius: 40px;
+    .label {
+      @include getFontStyle(title4-semibold, null);
+    }
+    .leadingIcon, .trailingIcon {
+      @include dimensions(24px, 24px);
+      > * {
+        @include dimensions(100%, 100%)
+      }
+    }
+    &.iconOnly {
+      width: 52px;
+    }
+  }
+  &.medium {
+    padding: $padding-vertical-xs $padding-horizontal-2xl;
+    height: 32px;
+    max-width: 100%;
+    border-radius: 40px;
+    display: inline-flex;
+    .label {
+      @include getFontStyle(subtext-semibold, null)
+    }
+    .leadingIcon, .trailingIcon {
+      @include dimensions(16px, 16px);
+      > * {
+        @include dimensions(100%, 100%)
+      }
+    }
+    &.iconOnly {
+      padding: $padding-vertical-xs $padding-horizontal-2xl;
+      width: 32px;
+    }
+  }
+  &.small {
+    padding: $padding-vertical-xs $padding-horizontal-xl;
+    height: 24px;
+    max-width: 100%;
+    border-radius: 40px;
+    display: inline-flex;
+    .label {
+      @include getFontStyle(subtext-medium, null)
+    }
+    .leadingIcon, .trailingIcon {
+      @include dimensions(16px, 16px);
+      > * {
+        @include dimensions(100%, 100%)
+      }
+    }
+    &.iconOnly {
+      padding: $padding-vertical-xs $padding-horizontal-xl;
+      width: 24px;
+    }
+  }
+  &.filled {
+    background: getColorVariable(--background-primary-strong);
+    border: none;
+    .label {
+      color: getColorVariable(--text-universal-light);
+    }
+    .leadingIcon svg,
+    .trailingIcon svg {
+      color: getColorVariable(--icon-universal-light);
+    }
+    &:disabled {
+      background: getColorVariable(--background-neutral-weak);
+      .label {
+        color: getColorVariable(--text-neutral-medium);
+      }
+      .leadingIcon svg,
+      .trailingIcon svg {
+        color: getColorVariable(--icon-neutral-medium);
+      }
+    }
+    &:active {
+      background : getColorVariable(--icon-primary-medium);
+    }
+  }
+  &.tonal {
+    background: getColorVariable(--background-offset-2-medium);
+    border: 1px solid getColorVariable(--border-offset-2-strong);
+    .label, .leadingIcon svg, .trailingIcon svg {
+      color: getColorVariable(--text-primary-medium);
+    }
+    &:disabled {
+      background: getColorVariable(--background-offset-2-weak); 
+      border: 1px solid getColorVariable(--border-offset-2-weak);
+      .label, .leadingIcon svg, .trailingIcon svg {
+        color: getColorVariable(--text-neutral-weak);
+      }
+    }
+    &:active {
+      background-color: getColorVariable(--button-background-pressed-tertiary);
+      .label, .leadingIcon svg, .trailingIcon svg {
+        color: getColorVariable(--text-primary-medium);
+      }
+    }
+  }
+  &.stroke {
+    background: getColorVariable(--background-neutral-inverse);
+    border: 1px solid getColorVariable(--border-primary-strong);
+    .label, .leadingIcon svg, .trailingIcon svg {
+      color: getColorVariable(--text-primary-strong);
+    }
+    &:disabled {
+      border: 1px solid getColorVariable(--border-neutral-weak);
+      .label, .leadingIcon svg, .trailingIcon svg {
+        color: getColorVariable(--text-neutral-weak);
+      }
+    }
+    &:active {
+      background-color: getColorVariable(--button-background-pressed-secondary);
+      border: 1px solid getColorVariable(--border-primary-strong);
+      .label, .leadingIcon svg, .trailingIcon svg {
+        color: getColorVariable(--text-primary-strong);
+      }
+    }
+  }
+  &.link {
+    background: transparent;
+    border: none;
+    .label, .leadingIcon svg, .trailingIcon svg {
+      color: getColorVariable(--text-primary-medium);
+    }
+    &:disabled {
+      .label, .leadingIcon svg, .trailingIcon svg {
+        color: getColorVariable(--text-neutral-weak);
+      }
+    }
+    &:active {
+      background-color: getColorVariable(--button-background-pressed-tonal);
+      border: 1px solid getColorVariable(--border-offset-2-strong);
+      .label, .leadingIcon svg, .trailingIcon svg {
+        color: getColorVariable(--text-primary-variant);
+      }
+    }
+  }
+  &:disabled {
+    pointer-events: none;
+  }
+}
+

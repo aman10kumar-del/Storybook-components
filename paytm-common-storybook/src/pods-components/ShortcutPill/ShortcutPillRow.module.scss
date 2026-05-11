@@ -1,0 +1,26 @@
+@import "../../commonStyles/mixin";
+
+.scroller {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  @include flexBox(flex, center, flex-start, false, row, null, $gap-xl);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  @include borderBox();
+
+  &.inset {
+    padding-left: $padding-horizontal-2xl;
+  }
+}
+
+.item {
+  flex-shrink: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

@@ -1,0 +1,98 @@
+@import "../../commonStyles/mixin";
+
+.sectionHeaderContainer {
+	padding: $padding-vertical-xl $padding-horizontal-3xl;
+	@include flexBox(flex, flex-start, center, false, column, null, 0px);
+	@include borderBox();
+	.firstRow {
+		@include flexBox(flex, center, space-between, false, row, null, 0px);
+		@include rowGap($gap-3xl);
+		width: 100%;
+		.title {
+			flex-grow: 1;
+			text-align: left;
+			word-break: break-word;
+			padding: $padding-vertical-s $padding-horizontal-xs;
+		}
+		.trailingSection {
+			max-width: 25%;
+			height: 24px;
+			@include rowGap($gap-2xl);
+			flex-shrink: 0;
+			.trailingIcon {
+				flex-shrink: 0;
+				& , & > * {
+					@include dimensions(24px, 24px);
+					color: getColorVariable(--icon-neutral-strong)
+				}
+			}
+			.trailingLink {
+				@include getFontStyle(subtext-medium, getColorVariable(--text-primary-strong));
+				a {
+					@include anchorStyle();
+				}
+			}
+			.trailingButton {
+				flex-shrink: 0;
+			}
+			.trailingText {
+				@include getFontStyle(subtext-medium, getColorVariable(--text-neutral-strong));
+			}
+		}
+	}
+	.secondRow {
+		@include flexBox(flex, center, space-between, false, row, null, 0px);
+		width: 100%;
+		.subTitle {
+			flex-grow: 1;
+			text-align: left;
+			word-break: break-word;
+			@include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+		}
+	}
+	&.large {
+		.firstRow {
+			.title {
+				@include getFontStyle(title2-bold, getColorVariable(--text-neutral-strong));
+			}
+		}
+	}
+	&.large.largeTitleMedium {
+		.firstRow {
+			.title {
+				@include getFontStyle(title2-medium, getColorVariable(--text-neutral-strong));
+			}
+		}
+	}
+	&.medium {
+		.firstRow {
+			.title {
+				@include getFontStyle(title3-bold, getColorVariable(--text-neutral-strong));
+			}
+		}
+	}
+	&.extra-large {
+		.firstRow {
+			.title {
+				@include getFontStyle(title1-bold, getColorVariable(--text-neutral-strong));
+			}
+		}
+	}
+	&.small {
+		.firstRow {
+			.title {
+				padding: $padding-vertical-s $padding-horizontal-xs;
+				@include getFontStyle(body-bold, getColorVariable(--text-neutral-strong));
+			}
+		}
+		.secondRow {
+			.subTitle {
+				@include getFontStyle(subtext-medium, getColorVariable(--text-neutral-strong));
+			}
+		}
+	}
+	&.offset {
+		padding: $padding-vertical-xl $padding-horizontal-3xl;
+		background: getColorVariable(--background-offset-2-medium);
+	}
+}

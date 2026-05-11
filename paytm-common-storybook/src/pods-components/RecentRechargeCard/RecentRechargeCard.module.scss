@@ -1,0 +1,106 @@
+@import "../../commonStyles/mixin";
+
+/* Figma 252:6644 — RU / Recent Recharge Card */
+
+.root {
+  width: 100%;
+  @include borderBox();
+}
+
+.card {
+  padding: 0 !important;
+  border: none !important;
+  border-radius: $radius-3xl !important;
+  background-color: getColorVariable(--surface-level-1) !important;
+  overflow: hidden;
+}
+
+.row {
+  @include flexBox(flex, center, flex-start, false, row, null, $gap-3xl);
+  width: 100%;
+  min-height: 72px;
+  padding: $padding-vertical-xs $padding-horizontal-3xl;
+  @include borderBox();
+}
+
+.leading {
+  flex-shrink: 0;
+  align-self: stretch;
+  padding: $padding-vertical-2xl $padding-horizontal-xs;
+  @include flexBox(flex, center, center, false, row, null, 0);
+}
+
+.body {
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: stretch;
+  padding: $padding-vertical-2xl $padding-horizontal-xs;
+  @include flexBox(flex, flex-start, space-between, false, row, null, $gap-2xl);
+}
+
+.texts {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 42px;
+  @include flexBox(flex, flex-start, center, false, column, null, 0);
+  @include colGap($gap-m);
+}
+
+.primary {
+  width: 100%;
+  margin: 0;
+  @include getFontStyle(title4-medium, getColorVariable(--text-neutral-strong));
+}
+
+.secondary {
+  width: 100%;
+  margin: 0;
+  @include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+}
+
+.tertiary {
+  width: 100%;
+  margin: 0;
+  @include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+}
+
+.menuWrap {
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding: $padding-vertical-xs $padding-horizontal-xs;
+  @include flexBox(flex, flex-start, flex-end, false, row, null, 0);
+}
+
+.menuButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: getColorVariable(--icon-neutral-strong);
+  line-height: 0;
+  @include pointerCursor();
+
+  &:focus-visible {
+    outline: $unit-1 solid getColorVariable(--border-primary-strong);
+    outline-offset: $unit-1;
+    border-radius: $radius-s;
+  }
+
+  &:is(span) {
+    cursor: default;
+  }
+
+  &,
+  & svg {
+    @include dimensions($unit-8, $unit-8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menuButton:focus-visible {
+    transition: none;
+  }
+}

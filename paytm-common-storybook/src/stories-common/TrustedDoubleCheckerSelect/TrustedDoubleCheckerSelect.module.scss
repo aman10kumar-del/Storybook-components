@@ -1,0 +1,116 @@
+@import "../../commonStyles/mixin";
+
+.root {
+  @include borderBox();
+  width: 100%;
+  min-height: 100%;
+  background: getColorVariable(--surface-level-4);
+}
+
+.scroll {
+  @include borderBox();
+  width: 100%;
+  max-width: 376px;
+  margin: 0 auto;
+  padding: 0 $padding-horizontal-3xl $padding-vertical-3xl;
+}
+
+.searchWrap {
+  margin-top: $gap-2xl;
+  margin-bottom: $gap-2xl;
+}
+
+.suggestionsBlock {
+  margin-bottom: $gap-2xl;
+}
+
+.sectionHeaderSpacing {
+  margin-bottom: $gap-xl;
+}
+
+.contactListCard {
+  padding: 0 !important;
+  overflow: hidden;
+  border-radius: $radius-3xl !important;
+  background-color: getColorVariable(--surface-level-1) !important;
+}
+
+.listRow {
+  @include borderBox();
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $gap-3xl;
+  min-height: 72px;
+  padding: $padding-vertical-2xl $padding-horizontal-3xl;
+}
+
+.listRowLeading {
+  flex-shrink: 0;
+}
+
+.listMain {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+
+  &:focus-visible {
+    outline: $unit-1 solid getColorVariable(--border-primary-strong);
+    outline-offset: $unit-1;
+  }
+}
+
+.listName {
+  margin: 0;
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+}
+
+.listPhone {
+  margin: 0;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+}
+
+.listTrailing {
+  flex-shrink: 0;
+}
+
+.rowSeparator {
+  height: 1px;
+  margin: 0 $padding-horizontal-3xl;
+  background: getColorVariable(--border-neutral-weak);
+}
+
+.footer {
+  @include flexBox(flex, center, center, false, row, wrap, $gap-m);
+  margin-top: $gap-3xl;
+  padding: $padding-vertical-xl $padding-horizontal-3xl;
+  text-align: center;
+}
+
+.footerBrand {
+  margin: 0;
+  @include getFontStyle(caption-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.footerDivider {
+  width: 1px;
+  height: 12px;
+  background: getColorVariable(--border-neutral-medium);
+}
+
+.footerSub {
+  margin: 0;
+  @include getFontStyle(caption-regular, getColorVariable(--text-neutral-moderate));
+}

@@ -1,0 +1,60 @@
+@import "../../commonStyles/mixin";
+
+
+.typeContainer {
+  @include flexBox(flex, stretch, center, false, column, null, 0px);
+  @include colGap(24px);
+  padding: 0 16px 16px;
+  .section {
+    @include flexBox(flex, stretch, center, false, column, null, 0px);
+    @include colGap(8px);
+    .sectionHeading {
+      @include fontStyle(24px, getColorVariable(--text-neutral-strong), 700);
+    }
+    &.scaleSection {
+      .scaleTable {
+        width: 100%;
+        border-collapse: collapse;
+        th, td {
+          border: 1px solid getColorVariable(--background-neutral-weak);
+          padding: 4px 8px;
+        }
+        thead {
+          text-align: left;
+          vertical-align: text-top;
+          @include getFontStyle(title3-bold, getColorVariable(--text-neutral-strong))
+        }
+        tbody {
+          @include fontStyle(20px, getColorVariable(--text-neutral-strong), 400);
+        }
+      }
+    }
+    &.weightSection {
+      .sectionBody {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(355px, 1fr));
+        justify-content: space-between;
+        grid-column-gap: 8px;
+        grid-row-gap: 16px;
+        .weightContainer {
+          @include flexBox(flex, center, center, false, column, null, 0px);
+          @include colGap(4px);
+          .weightName {
+            @include getFontStyle(title3-bold, getColorVariable(--text-neutral-strong))
+          }
+          .weightDemoContainer {
+            @include flexBox(flex, flex-start, center, false, column, null, 0px);
+            @include colGap(4px);
+            width: 100%;
+            background: getColorVariable(--background-neutral-inverse);
+            border: 1px solid getColorVariable(--background-neutral-weak);
+            box-shadow: 0px 8px 16px -6px getColorVariable(--background-neutral-weak);
+            color: getColorVariable(--text-neutral-strong);
+            padding: 4px 8px;
+            border-radius: 7px;
+          }
+        }
+      }
+    }
+  }
+}

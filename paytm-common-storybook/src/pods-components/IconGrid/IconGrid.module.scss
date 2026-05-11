@@ -1,0 +1,204 @@
+@import "../../commonStyles/mixin";
+
+/* Figma column width — no exact 72px token; flag in story docs. */
+$cell-width: 72px;
+/* Figma circle — between regular Avatar (48) and next token; size via test id override below. */
+$avatar-well: 52px;
+
+.root {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(var(--icon-grid-cols, 4), $cell-width);
+  column-gap: $unit-7;
+  row-gap: $unit-7;
+  justify-content: center;
+  @include borderBox();
+}
+
+/* Page / wash: fixed light well + dark icon (Avatar still supplies base colour). */
+.placementDefault {
+  .avatarHost [data-testid="avatar-icon-container"] span:has([data-testid="icon"]) {
+    background-color: getColorVariable(--icon-neutral-inverse);
+  }
+}
+
+/* Under shell gutter: align grid start edge with section titles (not centred in the column). */
+.placementContentColumn {
+  justify-content: start;
+}
+
+/*
+ * In Card (or similar): well + icon colours come from semantic CSS variables so designers
+ * can swap tokens via prompts without a hard-coded matrix here.
+ *
+ * Layout: default placement uses fixed column width + justify-content:center (wash layout).
+ * Inside Card, centering the whole grid adds side margins *on top of* Card padding — reads as
+ * double inset. Here the row uses equal flex columns; each cell stays max $cell-width wide,
+ * centred in its track so Card is the only horizontal inset owner.
+ */
+.placementInCard {
+  justify-content: stretch;
+  grid-template-columns: repeat(var(--icon-grid-cols, 4), minmax(0, 1fr));
+
+  .item {
+    justify-self: center;
+    width: 100%;
+    max-width: $cell-width;
+  }
+
+  /*
+   * Re-thread semantic vars through each row root so `var()` resolves reliably inside
+   * `<button>` cells (some UAs / resets treat custom-property inheritance oddly).
+   */
+  .cellButton,
+  .cell {
+    --icon-grid-well-bg: inherit;
+    --icon-grid-icon-on-well: inherit;
+    --icon-grid-well-border: inherit;
+  }
+
+  /* Beat Avatar outline/fill rules from another chunk when vars are set. */
+  .avatarHost [data-testid="avatar-icon-container"] {
+    background-color: var(
+      --icon-grid-well-bg,
+      getColorVariable(--surface-level-1)
+    ) !important;
+    border-color: var(--icon-grid-well-border, transparent) !important;
+    /* !important beats Avatar `.avatarIcon` icon-neutral-strong when chunk order varies. */
+    color: var(
+      --icon-grid-icon-on-well,
+      getColorVariable(--icon-neutral-strong)
+    ) !important;
+  }
+
+  .avatarHost [data-testid="avatar-icon-container"] span:has([data-testid="icon"]) {
+    background-color: var(
+      --icon-grid-well-bg,
+      getColorVariable(--surface-level-1)
+    ) !important;
+  }
+
+  /*
+   * Do not target Avatar’s `.iconContainer` by class — in CSS Modules that name hashes per file,
+   * so `IconGrid`’s `.iconContainer` never matches `Avatar`’s shell. Use stable `data-testid`s.
+   */
+  .avatarHost [data-testid="avatar-icon-container"] [data-testid="icon"] {
+    color: var(
+      --icon-grid-icon-on-well,
+      #{getColorVariable(--icon-neutral-strong)}
+    ) !important;
+  }
+
+  .avatarHost [data-testid="avatar-icon-container"] [data-testid="icon"] svg {
+    color: var(
+      --icon-grid-icon-on-well,
+      #{getColorVariable(--icon-neutral-strong)}
+    ) !important;
+    fill: currentColor !important;
+  }
+
+  .iconStandard,
+  .badgeIconStandard {
+    color: var(
+      --icon-grid-icon-on-well,
+      getColorVariable(--icon-neutral-strong)
+    ) !important;
+  }
+}
+
+.item {
+  width: 100%;
+  max-width: $cell-width;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cell {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  @include flexBox(flex, center, center, false, column, null, $gap-xl);
+  @include borderBox();
+}
+
+.cellButton {
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid getColorVariable(--border-primary-strong);
+    outline-offset: 4px;
+    border-radius: $radius-m;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.avatarHost {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Size shell to Figma 52px; Avatar `regular` is 48px — attribute hook is stable. */
+  [data-testid="avatar-icon-container"] {
+    width: $avatar-well;
+    height: $avatar-well;
+    min-width: $avatar-well;
+    min-height: $avatar-well;
+  }
+}
+
+.label {
+  width: 100%;
+  margin: 0;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+}
+
+.labelLine {
+  margin: 0;
+  line-height: 16px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.labelLine + .labelLine {
+  margin-top: 0;
+}
+
+/* Standard glyph box for ultra-icons (24×24). Custom assets can follow the same slot later. */
+.iconStandard {
+  @include dimensions($unit-8, $unit-8);
+  flex-shrink: 0;
+  @include flexBox(flex, center, center, false, row, null, 0px);
+  svg,
+  img {
+    @include dimensions(100%, 100%);
+    display: block;
+    object-fit: contain;
+  }
+}
+
+.badgeIconStandard {
+  @include dimensions($unit-6, $unit-6);
+  flex-shrink: 0;
+  @include flexBox(flex, center, center, false, row, null, 0px);
+  svg,
+  img {
+    @include dimensions(100%, 100%);
+    display: block;
+    object-fit: contain;
+  }
+}

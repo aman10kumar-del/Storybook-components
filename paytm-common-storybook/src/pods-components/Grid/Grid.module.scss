@@ -1,0 +1,77 @@
+@import "../../commonStyles/mixin";
+
+.gridContainer {
+	.gridContent {
+		display: grid;
+		justify-content: space-around;
+	}
+	&.category {
+		.gridContent {
+			grid-template-columns: repeat(auto-fit, 80px);
+			grid-auto-rows: 60px;
+			grid-column-gap: 8px;
+			grid-row-gap: 16px;
+		}
+		.gridItemContainer {
+			@include flexBox(flex, center, center, false, column, null, 0px);
+			@include colGap(8px);
+			.gridIcon {
+				flex-shrink: 0;
+				color: getColorVariable(--icon-neutral-strong);
+				&, & > * {
+					@include dimensions(36px, 36px)
+				}
+			}
+			.gridLabel {
+				@include getFontStyle(subtext-medium, getColorVariable(--text-neutral-strong));
+				@include ellipsis();
+				max-width: 100%
+			}
+		}
+	}
+	&.icon {
+		.gridContent {
+			grid-template-columns: repeat(auto-fit, 74px);
+			grid-auto-rows: 76px;
+			grid-column-gap: 16px;
+			grid-row-gap: 24px;
+		}
+		.gridItemContainer {
+			@include flexBox(flex, center, center, false, column, null, 0px);
+			@include colGap(12px);
+			.gridIcon {
+				@include flexBox(flex, center, center, false, column, null, 0px);
+				flex-shrink: 0;
+				@include dimensions(48px, 48px);
+				background: getColorVariable(--background-primary-strong);
+				border-radius: 50%;
+				& > * {
+					@include dimensions(24px, 24px);
+					color: getColorVariable(--background-neutral-inverse);
+				}
+			}
+			.gridLabel {
+				@include getFontStyle(subtext-medium, getColorVariable(--text-neutral-strong));
+				@include ellipsis();
+				max-width: 100%
+			}
+		}
+	}
+	&.avatar {
+		.gridContent {
+			grid-template-columns: repeat(auto-fit, 74px);
+			grid-auto-rows: 76px;
+			grid-column-gap: 16px;
+			grid-row-gap: 24px;
+		}
+		.gridItemContainer {
+			@include flexBox(flex, center, center, false, column, null, 0px);
+			@include colGap(12px);
+			.gridLabel {
+				@include getFontStyle(subtext-medium, getColorVariable(--text-neutral-strong));
+				@include ellipsis();
+				max-width: 100%
+			}
+		}
+	}
+}

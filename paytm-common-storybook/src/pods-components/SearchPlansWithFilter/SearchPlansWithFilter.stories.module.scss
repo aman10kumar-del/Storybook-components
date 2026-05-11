@@ -1,0 +1,10 @@
+@import "../../commonStyles/mixin";
+
+.contentArea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 120px;
+  padding: $padding-vertical-3xl $padding-horizontal-3xl;
+  background-color: getColorVariable(--surface-level-4);
+  border-radius: $radius-m;
+}

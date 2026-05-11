@@ -1,0 +1,29 @@
+@import "../../commonStyles/mixin";
+
+.progressBar {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  border-radius: 4px;
+  @include dimensions(false, 8px);
+  background-color: var(--progress-bar-bg, #{getColorVariable(--background-neutral-weak)});
+  .bar {
+    @include dimensions(0%, 8px);
+    background-color: var(--progress-bar-fill, #{getColorVariable(--background-positive-strong)});
+    border-radius: 4px;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    animation-name: fillIn;
+    -webkit-animation-name: fillIn;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+  }
+  @keyframes fillIn {
+    from {
+      width: 0;
+    }
+    to {
+      width: var(--w, 100%);
+    }
+  }
+}

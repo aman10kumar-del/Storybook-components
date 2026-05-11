@@ -1,0 +1,26 @@
+@import "../../commonStyles/mixin";
+
+.contentArea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 120px;
+  padding: $padding-vertical-3xl $padding-horizontal-3xl;
+  background-color: getColorVariable(--surface-level-4);
+  border-radius: $radius-m;
+}
+
+.narrowPhone {
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.graphicDemo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(
+    145deg,
+    getColorVariable(--background-notice-weak) 0%,
+    getColorVariable(--background-primary-weak) 100%
+  );
+}

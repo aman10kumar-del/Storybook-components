@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "formatVersion": "1",
+    "lastUpdated": "2026-04-09",
+    "description": "Structured PODS core-component specs and deltas for developer handoff. For the same change id, this file is the canonical machine-readable spec; pair with docs/design-system/design-system-changelog.md for narrative and consumer actions. Storybook must match; resolve drift rather than guessing.",
+    "figmaToCodeNotes": [
+      "Figma label 'Header Large / extended' maps to HeaderDefault prop size=\"large\" — there is no extended prop in code."
+    ]
+  },
+  "entries": [
+    {
+      "id": "header-default-large-main-title-typography",
+      "status": "active",
+      "date": "2026-04-09",
+      "component": {
+        "name": "HeaderDefault",
+        "exportPath": "paytm-common-storybook/src/pods-components/Header",
+        "storybookTitle": "PODS Components/Header/Header Default"
+      },
+      "figma": {
+        "aliases": ["Header Large", "extended", "Header Large extended"],
+        "codeMapping": {
+          "prop": "size",
+          "value": "large"
+        }
+      },
+      "change": {
+        "summary": "Large layout: main title on the second row uses Display 3 Bold.",
+        "typography": {
+          "mixinOrStyleId": "display3-bold",
+          "scaleToken": "typography.scale.display3",
+          "weightToken": "typography.weight.bold",
+          "colorSemantic": "text-neutral-strong"
+        },
+        "sourceFiles": [
+          "paytm-common-storybook/src/pods-components/Header/Default/HeaderDefault.module.scss"
+        ]
+      },
+      "relatedDocs": [
+        "AGENTS.md",
+        "docs/README.md",
+        "docs/design-system/design-system-changelog.md",
+        ".cursor/design.mdc",
+        ".cursor/tokens.mdc"
+      ]
+    }
+  ]
+}

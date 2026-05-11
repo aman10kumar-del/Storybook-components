@@ -1,0 +1,9 @@
+@import "../../commonStyles/mixin";
+
+.separator {
+  width: 100%;
+  border-bottom: $gap-2xl solid getColorVariable(--background-offset-2-medium);
+  &.hairline {
+    border-bottom: 1px solid getColorVariable(--border-neutral-weak);
+  }
+}

@@ -1,0 +1,303 @@
+@import "../../commonStyles/mixin";
+
+.avatarContainer {
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	border-radius: 50%;
+	@include borderBox();
+	.sideIcon {
+		position: absolute;
+		@include flexBox(flex, flex-start, flex-start, false, column);
+		background: getColorVariable(--background-neutral-inverse);
+		border-radius: 50%;
+		color: getColorVariable(--icon-neutral-strong)
+	}
+	&.small {
+		@include dimensions(32px, 32px);
+		.sideIcon {
+			&, & > * {
+				@include dimensions(12px, 12px)
+			}
+			&.actionIcon {
+				top: 22px;
+				left: 22px;
+			}
+			&.statusIcon, &.selectedIcon {
+				top: -2px;
+				left: 22px;
+			}
+		}
+		&.selected {
+			border: 1px solid getColorVariable(--border-primary-strong);
+			.image, .profileInitials, .iconContainer {
+				border: 1px solid getColorVariable(--border-neutral-inverse);
+			}
+		}
+		&.avatarInitials {
+			.profileInitials {
+				@include getFontStyle(subtext-semibold, getColorVariable(--text-neutral-inverse));
+			}
+		}
+		&.avatarIcon {
+			.icon {
+				&, & > * {
+					@include dimensions(20px, 20px)
+				}
+			}
+		}
+	}
+	&.regular {
+		@include dimensions(48px, 48px);
+		.sideIcon {
+			&, & > * {
+				@include dimensions(16px, 16px)
+			}
+			&.actionIcon {
+				top: 32px;
+				left: 32px;
+			}
+			&.statusIcon, &.selectedIcon {
+				top: 0px;
+				left: 32px;
+			}
+		}
+		&.selected {
+			border: 2px solid getColorVariable(--border-primary-strong);
+			.image, .profileInitials, .iconContainer {
+				border: 2px solid getColorVariable(--border-neutral-inverse);
+			}
+		}
+		&.avatarInitials {
+			.profileInitials {
+				@include getFontStyle(body-bold, getColorVariable(--text-neutral-inverse));
+			}
+		}
+
+		&.avatarIcon {
+			.icon {
+				&, & > * {
+					@include dimensions(32px, 32px)
+				}
+			}
+		}
+	}
+	&.large {
+		@include dimensions(64px, 64px);
+		.sideIcon {
+			&, & > * {
+				@include dimensions(20px, 20px)
+			}
+			&.actionIcon {
+				top: 44px;
+				left: 44px;
+			}
+			&.statusIcon, &.selectedIcon {
+				top: 0px;
+				left: 44px;
+			}
+		}
+		&.selected {
+			border: 2px solid getColorVariable(--border-primary-strong);
+			.image, .profileInitials, .iconContainer {
+				border: 2px solid getColorVariable(--border-neutral-inverse);
+			}
+		}
+		&.avatarInitials {
+			.profileInitials {
+				@include getFontStyle(title4-bold, getColorVariable(--text-neutral-inverse));
+			}
+		}
+		&.avatarIcon {
+			.icon {
+				&, & > * {
+					@include dimensions(36px, 36px)
+				}
+			}
+		}
+	}
+	&.extra-large {
+		@include dimensions(128px, 128px);
+		.sideIcon {
+			&, & > * {
+				@include dimensions(32px, 32px)
+			}
+			&.actionIcon {
+				top: 92px;
+				left: 92px;
+			}
+			&.statusIcon, &.selectedIcon {
+				top: 4px;
+				left: 92px;
+			}
+		}
+		&.selected {
+			border: 4px solid getColorVariable(--border-primary-strong);
+			.image, .profileInitials, .iconContainer {
+				border: 4px solid getColorVariable(--border-neutral-inverse);
+			}
+		}
+		&.avatarInitials {
+			.profileInitials {
+				@include getFontStyle(display1-medium, getColorVariable(--text-neutral-inverse))
+			}
+		}
+		&.avatarIcon {
+			.icon {
+				&, & > * {
+					@include dimensions(72px, 72px)
+				}
+			}
+		}
+	}
+	&.avatarInitials {
+		.profileInitials {
+			@include dimensions(100%, 100%);
+			@include flexBox(flex, center, center, false, row);
+			background: getColorVariable(--vivid-07-weak);
+			border-radius: 50%;
+			
+			&.lavender {
+				background: getColorVariable(--pastel-01-weak);
+				color: getColorVariable(--pastel-01-strong);
+			}
+			&.water {
+				background: getColorVariable(--pastel-02-weak);
+				color: getColorVariable(--pastel-02-strong);
+			}
+			&.pepperMint {
+				background: getColorVariable(--pastel-03-weak);
+				color: getColorVariable(--pastel-03-strong);
+			}
+			&.frostedMint {
+				background: getColorVariable(--pastel-04-weak);
+				color: getColorVariable(--pastel-04-strong);
+			}
+			&.sprout {
+				background: getColorVariable(--pastel-05-weak);
+				color: getColorVariable(--pastel-05-strong);
+			}
+			&.earlyDawn {
+				background: getColorVariable(--pastel-06-weak);
+				color: getColorVariable(--pastel-06-strong);
+			}
+			&.wheatField {
+				background: getColorVariable(--pastel-07-weak);
+				color: getColorVariable(--pastel-07-strong);
+			}
+			&.mistyRose {
+				background: getColorVariable(--pastel-08-weak);
+				color: getColorVariable(--pastel-08-strong);
+			}
+			&.softPeach {
+				background: getColorVariable(--pastel-09-weak);
+				color: getColorVariable(--pastel-09-strong);
+			}
+			&.lightRose {
+				background: getColorVariable(--pastel-10-weak);
+				color: getColorVariable(--pastel-10-strong);
+			}
+			&.purpleChalk {
+				background: getColorVariable(--pastel-11-weak);
+				color: getColorVariable(--pastel-11-strong);
+			}
+			&.plum {
+				background: getColorVariable(--pastel-12-weak);
+				color: getColorVariable(--pastel-12-strong);
+			}
+		}
+	}
+	&.avatarProfile {
+		overflow: hidden;
+		.profileImage {
+			display: block;
+			width: 100%;
+			height: 100%;
+			max-width: 100%;
+			max-height: 100%;
+			border-radius: 50%;
+			object-fit: cover;
+			object-position: center;
+		}
+	}
+	&.avatarLogo {
+		overflow: hidden;
+		.logoImage {
+			display: block;
+			width: 100%;
+			height: 100%;
+			max-width: 100%;
+			max-height: 100%;
+			border-radius: 50%;
+			object-fit: cover;
+			object-position: center;
+			&.outline {
+				border: 1px solid getColorVariable(--border-neutral-weak);
+			}
+		}
+	}
+	&.avatarIcon {
+		@include flexBox(inline-flex, center, center, false, row);
+		color: getColorVariable(--icon-neutral-strong);
+		&.outline {
+			background: getColorVariable(--icon-neutral-inverse);
+			border: 1px solid getColorVariable(--border-neutral-weak)
+		}
+		background: getColorVariable(--background-offset-2-medium);
+		.iconContainer {
+			@include dimensions(100%, 100%);
+			@include flexBox(inline-flex, center, center, false, row);
+			border-radius: 50%;
+			background: getColorVariable(--background-offset-2-medium);
+			
+			&.lavender {
+				background: getColorVariable(--pastel-01-weak);
+				color: getColorVariable(--pastel-01-strong);
+			}
+			&.water {
+				background: getColorVariable(--pastel-02-weak);
+				color: getColorVariable(--pastel-02-strong);
+			}
+			&.pepperMint {
+				background: getColorVariable(--pastel-03-weak);
+				color: getColorVariable(--pastel-03-strong);
+			}
+			&.frostedMint {
+				background: getColorVariable(--pastel-04-weak);
+				color: getColorVariable(--pastel-04-strong);
+			}
+			&.sprout {
+				background: getColorVariable(--pastel-05-weak);
+				color: getColorVariable(--pastel-05-strong);
+			}
+			&.earlyDawn {
+				background: getColorVariable(--pastel-06-weak);
+				color: getColorVariable(--pastel-06-strong);
+			}
+			&.wheatField {
+				background: getColorVariable(--pastel-07-weak);
+				color: getColorVariable(--pastel-07-strong);
+			}
+			&.mistyRose {
+				background: getColorVariable(--pastel-08-weak);
+				color: getColorVariable(--pastel-08-strong);
+			}
+			&.softPeach {
+				background: getColorVariable(--pastel-09-weak);
+				color: getColorVariable(--pastel-09-strong);
+			}
+			&.lightRose {
+				background: getColorVariable(--pastel-10-weak);
+				color: getColorVariable(--pastel-10-strong);
+			}
+			&.purpleChalk {
+				background: getColorVariable(--pastel-11-weak);
+				color: getColorVariable(--pastel-11-strong);
+			}
+			&.plum {
+				background: getColorVariable(--pastel-12-weak);
+				color: getColorVariable(--pastel-12-strong);
+			}
+		}
+	}
+}

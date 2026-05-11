@@ -1,0 +1,202 @@
+@import "../../commonStyles/mixin";
+
+.textFieldContainer {
+	width: 100%;
+	@include flexBox(flex, flex-start, flex-start, false, column, null, 0px);
+	@include borderBox();
+	@include colGap($gap-m);
+	.inputSection {
+		width: 100%;
+		height: 48px;
+		padding: $padding-vertical-2xl $padding-horizontal-2xl;
+		box-sizing: border-box;
+		@include flexBox(flex, center, space-between, false, row, null, 0px);
+		@include rowGap($gap-xl);
+		border: 1px solid getColorVariable(--border-neutral-medium);
+		border-radius: $radius-l;
+		position: relative;
+		
+    &:focus-within {
+			border: 1px solid getColorVariable(--border-primary-strong);
+		}
+		.leadingIcon {
+			order: 0;
+		}
+		.inputContainer {
+			flex-grow: 1;
+			height: 24px;
+			order: 1;
+			overflow: hidden;
+			input {
+				border: none;
+				outline: none;
+				height: 24px;
+				padding: 0;
+				width: 100%;
+				caret-color: getColorVariable(--text-primary-strong);
+				overflow: hidden;
+				background-color: transparent;
+				color: getColorVariable(--text-neutral-strong);
+				&:disabled {
+					color: getColorVariable(--text-neutral-medium);
+				}
+
+			}
+			.label {
+				color: getColorVariable(--text-neutral-strong);
+				position: absolute;
+				margin-left: 0px;
+				padding: 0px 4px;
+				background: getColorVariable(--background-neutral-inverse);
+				left: 12px;
+				top: -9px;
+				white-space: nowrap;
+				overflow: hidden;
+				max-width: calc(100% - 26px);
+				@include ellipsis();
+				// TODO: improve animation and re-enable 
+				// -webkit-transition: top .2s ease;
+				// -moz-transition: top .2s ease;
+				// -o-transition: top .2s ease;
+				// transition: top .2s ease;
+			}
+			&.inputEmpty {
+				position: relative;
+				.label {
+					color: getColorVariable(--text-neutral-medium);
+					left: 0px !important;
+					top: 2px;
+					padding: 0px;
+					max-width: 100%;
+					background: transparent;
+					pointer-events: none;
+					-webkit-transition: none;
+					-moz-transition: none;
+					-o-transition: none;
+					transition: none;
+				}
+			}
+		}
+		.icon {
+			flex-shrink: 0;
+			@include dimensions(24px, 24px);
+			svg {
+				color: getColorVariable(--icon-neutral-strong);
+			}
+			svg {
+				@include dimensions(100%, 100%)
+			}
+		}
+		.trailingIcon {
+			order: 2;
+		}
+		.trailingLink {
+			order: 2;
+			color: getColorVariable(--text-primary-medium);
+			max-width: 25%;
+			@include getFontStyle(subtext-semibold);
+			@include ellipsis();
+			a {
+				@include anchorStyle();
+			}
+		}
+	}
+	&.disabled .inputSection {
+		border: 1px solid getColorVariable(--border-neutral-weak);
+		.icon svg {
+			color: getColorVariable(--icon-neutral-medium);
+		}
+		.trailingLink {
+			color: getColorVariable(--text-neutral-medium);
+			&>a {
+				color: getColorVariable(--text-neutral-medium);
+				pointer-events: none;
+			}
+		}
+		.label {
+			color: getColorVariable(--text-neutral-medium);
+		}
+	}
+	.infoSection {
+		width: 100%;
+		padding: 0px $padding-horizontal-2xl;
+		text-align: left;
+		.assistiveText {
+			color:  getColorVariable(--text-neutral-strong);
+			word-break: break-word;
+			display: block;
+		}
+		.error {
+			color: getColorVariable(--text-negative-strong);
+			word-break: break-word;
+			display: block;
+		}
+	}
+	&.error {
+		.inputSection {
+			border: 1px solid getColorVariable(--border-negative-strong) !important;
+			input {
+				caret-color: getColorVariable(--border-negative-strong);
+				&::placeholder {
+					@include getFontStyle(title4-medium, getColorVariable(--text-negative-strong));
+				}
+				&::-webkit-input-placeholder {
+					@include getFontStyle(title4-medium, getColorVariable(--text-negative-strong));
+				}
+			}
+			input:not(:focus):placeholder-shown ~ .label {
+				color: getColorVariable(--text-negative-strong);
+			}
+		}
+	}
+	&.high {
+		.inputSection {
+			.inputContainer {
+				.label {
+					@include getFontStyle(body-regular);
+				}
+				&.inputEmpty {
+					.label {
+						@include getFontStyle(title4-medium);
+					}
+				}
+			}
+			&.hasLeadingIcon {
+				padding-left: 8px;
+			}
+			&.hasTrailingIcon {
+				padding-right: 8px;
+			}
+			.inputContainer {
+				input {
+					@include getFontStyle(title4-medium);
+				}
+			}
+		}
+		.infoSection {
+			@include getFontStyle(body-regular);
+		}
+	}
+	&.low {
+		.inputSection {
+			.inputContainer {
+				.label {
+					@include getFontStyle(subtext-regular);
+				}
+				&.inputEmpty {
+					.label {
+						@include getFontStyle(body-medium);
+					}
+				}
+			}
+			.inputContainer {
+				input {
+					@include getFontStyle(body-medium);
+				}
+			}
+		}
+		.infoSection {
+			@include getFontStyle(subtext-regular);
+		}
+	}
+}

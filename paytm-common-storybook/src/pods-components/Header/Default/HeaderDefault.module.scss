@@ -1,0 +1,223 @@
+@import "../../../commonStyles/mixin";
+
+// Large size layout styles
+.headerDefaultContainer {
+  padding: $padding-vertical-3xl $padding-horizontal-2xl;
+  @include flexBox(flex, flex-start, center, false, column, null, 0px);
+  @include colGap($gap-2xl);
+  .firstLine {
+    width: 100%;
+    @include flexBox(flex, center, space-between, false, row, null, 0px);
+    @include rowGap($gap-2xl);
+    .icon {
+      @include dimensions(24px, 24px);
+      flex-shrink: 0;
+      svg {
+        color: getColorVariable(--icon-neutral-strong);
+      }
+      &.backArrow svg, &.trailingIcon > * {
+        @include dimensions(24px, 24px);
+        @include pointerCursor();
+      }
+    }
+    .customContent {
+      flex-grow: 1;
+      min-width: 0;
+    }
+
+  }
+  .secondLine {
+    width: 100%;
+    @include flexBox(flex, flex-start, flex-start, false, row, null, 0px);
+    @include rowGap($gap-xl);
+    .avatar {
+      padding: $padding-vertical-s $padding-horizontal-xs;
+      box-sizing: content-box;
+      flex-shrink: 0;
+    }
+    .titlesContainer {
+      @include flexBox(flex, center, center, false, column, null, 0px);
+      @include colGap($gap-m);
+      max-width: 100%;
+      .title {
+        @include getFontStyle(display3-bold, getColorVariable(--text-neutral-strong));
+        word-break: break-word;
+        width: 100%;
+      }
+      .subTitleContainer {
+        @include flexBox(flex, center, flex-start, false, row, null, 0px);
+        max-width: 100%;
+        width: 100%;
+        .actionButton {
+          @include getFontStyle(body-semibold, getColorVariable(--text-primary-medium));
+          @include pointerCursor();
+          padding: 0 $padding-horizontal-m;
+          text-decoration: none;
+        }
+        .subTitle {
+          max-width: 100%;
+          @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+          word-break: break-word;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          & * {
+            display: inline;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Medium size layout styles (RegularAvatar style)
+.headerRegularAvatarContainer {
+  @include flexBox(flex, center, space-between, false, row, null, 0px);
+  padding: 0 $padding-horizontal-2xl;
+  @include rowGap($gap-2xl);
+  min-height: 56px;
+  .icon {
+    @include dimensions(24px, 24px);
+    flex-shrink: 0;
+    svg {
+      color: getColorVariable(--icon-neutral-strong);
+    }
+    &.backArrow svg, &.trailingIcon > * {
+      @include dimensions(24px, 24px);
+      @include pointerCursor();
+    }
+  }
+  .titlesSection {
+    flex-grow: 1;
+    min-width: 0;
+    overflow: hidden;
+    @include flexBox(flex, center, flex-start, false, row, null, 0px);
+    @include rowGap($gap-xl);
+    padding: $padding-vertical-m 0;
+    .avatarImage {
+      flex-shrink: 0;
+    }
+    .titlesContainer {
+      min-width: 0;
+      @include flexBox(flex, flex-start, center, false, column, null, 0px);
+      @include colGap($gap-m);
+      .titleContainer {
+        max-width: 100%;
+        @include flexBox(flex, center, flex-start, false, row, null, 0px);
+        @include rowGap($gap-m);
+        .title {
+          @include getFontStyle(title3-bold, getColorVariable(--text-neutral-strong));
+          @include ellipsis();
+        }
+        .titleIcon {
+          @include dimensions(16px, 16px);
+          flex-shrink: 0;
+          color: getColorVariable(--icon-neutral-strong);
+          > * {
+            @include dimensions(16px, 16px);
+          }
+        }
+      }
+      .subTitleContainer {
+        @include flexBox(flex, center, flex-start, false, row, null, 0px);
+        max-width: 100%;
+        .actionButton {
+          @include getFontStyle(body-semibold, getColorVariable(--text-primary-medium));
+          @include pointerCursor();
+          padding: 0 $padding-horizontal-m;
+          text-decoration: none;
+        }
+        .subTitle {
+          max-width: 100%;
+          @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+          word-break: break-word;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          & * {
+            display: inline;
+          }
+        }
+      }
+    }
+  }
+  .trailingSection {
+    @include flexBox(flex, center, flex-end, false, row, null, 0px);
+    @include rowGap($gap-2xl);
+  }
+}
+
+.headerSmallAvatarContainer {
+  @include flexBox(flex, center, space-between, false, row, null, 0px);
+  padding: 0 $padding-horizontal-2xl;
+  min-height: 56px;
+  @include rowGap($gap-2xl);
+  .icon {
+    @include dimensions(24px, 24px);
+    flex-shrink: 0;
+    svg {
+      color: getColorVariable(--icon-neutral-strong);
+    }
+    &.backArrow svg, &.trailingIcon > * {
+      @include dimensions(24px, 24px);
+      @include pointerCursor();
+    }
+  }
+  .titlesSection {
+    flex-grow: 1;
+    min-width: 0;
+    overflow: hidden;
+    @include flexBox(flex, center, flex-start, false, row, null, 0px);
+    @include rowGap($gap-xl);
+    padding: $padding-vertical-xl 0;
+    .avatarImage {
+      flex-shrink: 0;
+      padding: $padding-vertical-m $padding-horizontal-xs;
+      box-sizing: content-box;
+    }
+    .titlesContainer {
+      min-width: 0;
+      @include flexBox(flex, flex-start, center, false, column, null, 0px);
+      @include colGap($gap-m);
+      .titleContainer {
+        max-width: 100%;
+        @include flexBox(flex, center, flex-start, false, row, null, 0px);
+        .title {
+          @include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+          @include ellipsis();
+        }
+      }
+      .subTitleContainer {
+        @include flexBox(flex, center, flex-start, false, row, null, 0px);
+        max-width: 100%;
+        .actionButton {
+          @include getFontStyle(subtext-semibold, getColorVariable(--text-primary-medium));
+          @include pointerCursor();
+          padding: 0 $padding-horizontal-m;
+          text-decoration: none;
+        }
+        .subTitle {
+          max-width: 100%;
+          @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-moderate));
+          word-break: break-word;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          & * {
+            display: inline;
+          }
+        }
+      }
+    }
+  }
+  .trailingSection {
+    @include flexBox(flex, center, flex-end, false, row, null, 0px);
+    @include rowGap($gap-2xl);
+  }
+}

@@ -1,0 +1,214 @@
+@import "../../commonStyles/mixin";
+
+/* Figma 252:7044 — Passbook / Month Card */
+
+.root {
+  @include borderBox();
+  width: 352px;
+  max-width: 352px;
+}
+
+/* Reset **Card** wrapper defaults (border, radius-l, padding) — Figma 252:7044: no stroke, 24px radius */
+.card {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: $radius-3xl !important;
+  background-color: getColorVariable(--surface-level-1) !important;
+  overflow: hidden;
+}
+
+.header {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 43px;
+  margin: 0;
+  /* Same 16px horizontal inset as list rows — total+chevron sit on the card content right edge */
+  padding: $padding-vertical-2xl $padding-horizontal-3xl $padding-vertical-2xl $padding-horizontal-2xl;
+  border: none;
+  background: getColorVariable(--background-offset-1-weak);
+  border-radius: $radius-3xl $radius-3xl 0 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: $gap-m;
+  text-align: left;
+  cursor: default;
+
+  &.interactive {
+    @include pointerCursor();
+
+    &:focus-visible {
+      outline: 2px solid getColorVariable(--border-primary-strong);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.monthTitle {
+  min-width: 0;
+  justify-self: start;
+  text-align: left;
+  @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.headerTrailing {
+  justify-self: end;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $gap-m;
+  text-align: right;
+}
+
+.totalAmount {
+  text-align: right;
+  @include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+  white-space: nowrap;
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: getColorVariable(--icon-primary-medium);
+  line-height: 0;
+  @include flexBox(flex, center, center, false, row, null, 0px);
+  &,
+  & > * {
+    @include dimensions(16px, 16px);
+    max-width: 16px;
+    max-height: 16px;
+  }
+
+  svg {
+    display: block;
+    width: 16px !important;
+    height: 16px !important;
+    flex-shrink: 0;
+    color: getColorVariable(--icon-primary-medium) !important;
+  }
+}
+
+.list {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: $gap-2xl 0 $gap-xl;
+  list-style: none;
+  background: getColorVariable(--surface-level-1);
+}
+
+.row {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  /* Figma: row anchor spacing 76px = 72px row + 4px */
+  & + & {
+    margin-top: $gap-m;
+  }
+}
+
+.rowInner {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  height: 72px;
+  min-height: 72px;
+  max-height: 72px;
+  padding: 0 $padding-horizontal-3xl;
+  gap: $gap-3xl;
+}
+
+.leading {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: $padding-vertical-2xl 0;
+  @include flexBox(flex, center, center, false, row, null, 0px);
+}
+
+.main {
+  position: relative;
+  box-sizing: border-box;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  align-self: stretch;
+  padding: $padding-vertical-2xl 0;
+  /* Name stack flush left; amount / From flush right (full width of main) */
+  @include flexBox(flex, center, space-between, false, row, null, 0px);
+  gap: $gap-2xl;
+}
+
+.texts {
+  flex: 1;
+  min-width: 0;
+  min-height: 42px;
+  /* Cross axis = horizontal: start = left-aligned labels */
+  @include flexBox(flex, flex-start, center, false, column, null, 0px);
+  @include colGap(4px);
+}
+
+.name {
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  @include getFontStyle(title4-regular, getColorVariable(--text-neutral-strong));
+}
+
+.subtitle {
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  @include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+}
+
+.trailing {
+  flex-shrink: 0;
+  width: max-content;
+  @include flexBox(flex, flex-start, flex-end, false, column, null, 0px);
+  @include colGap($gap-l);
+  align-items: flex-end;
+  text-align: right;
+}
+
+.amount {
+  margin: 0;
+  @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+  white-space: nowrap;
+  text-align: right;
+
+  &.credit {
+    color: getColorVariable(--text-positive-strong);
+  }
+}
+
+.source {
+  @include flexBox(flex, center, flex-end, false, row, null, 0px);
+  gap: 4px;
+}
+
+.sourceLabel {
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-moderate));
+  white-space: nowrap;
+}
+
+.bankLogo {
+  @include dimensions(18px, 18px);
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.rowDivider {
+  position: absolute;
+  left: 0;
+  right: #{-$padding-horizontal-3xl};
+  bottom: 0;
+  height: 1px;
+  background: getColorVariable(--border-neutral-weak);
+}

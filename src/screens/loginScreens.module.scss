@@ -1,0 +1,358 @@
+@import "../../paytm-common-storybook/src/commonStyles/mixin";
+
+.loginCanvas {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  background: var(--surface-level-1);
+}
+
+.appCanvas {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  background: var(--surface-level-4);
+}
+
+.statusSpacer {
+  flex-shrink: 0;
+  height: 44px;
+  width: 100%;
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* §11 horizontal gutter on scroll content (shellMain does not pad — avoids white strips beside appCanvas) */
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* §11 “Between sections” default rhythm */
+  gap: $gap-4xl;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0 $margin-horizontal-m $padding-vertical-3xl;
+  box-sizing: border-box;
+}
+
+.innerAfterHeader {
+  padding-top: $gap-3xl;
+}
+
+.brandBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $gap-m;
+  width: 100%;
+  align-self: center;
+}
+
+.brandLogoPng {
+  display: block;
+  width: 142px;
+  height: 45px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* PaytmEmiLoginCredentials: logo row first, top-centered below status bar */
+.credentialsHeaderStack {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+}
+
+.credentialsLogoRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: $gap-m 0 0;
+}
+
+/*
+ * Credentials header: shell strips HeaderDefault horizontal padding — restore §11 gutter (12px) here.
+ * 32px below logo — $gap-5xl (token ladder).
+ */
+.credentialsHeaderPad {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: $gap-5xl;
+  padding-left: $margin-horizontal-m;
+  padding-right: $margin-horizontal-m;
+}
+
+.credentialsFormInner {
+  padding-top: $gap-3xl;
+}
+
+.paytmRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: $gap-m;
+}
+
+.paytmWordmark {
+  display: block;
+  height: 26px;
+  width: auto;
+}
+
+.heartMark {
+  display: block;
+  height: 20px;
+  width: auto;
+}
+
+.emiWord {
+  margin: 0;
+  padding: 0;
+  @include getFontStyle(display3-bold, getColorVariable(--text-primary-strong));
+  letter-spacing: 0.08em;
+}
+
+.tagline {
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  @include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.shopSmart {
+  color: var(--brand-primary);
+}
+
+.hero {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.heroImg {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  max-height: 240px;
+  object-fit: contain;
+  display: block;
+}
+
+.heroCompact {
+  min-height: 120px;
+}
+
+.heroImgCompact {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  max-height: 160px;
+  object-fit: contain;
+  display: block;
+}
+
+.fieldStack {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+  width: 100%;
+}
+
+.copyBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $gap-m;
+  width: 100%;
+  text-align: center;
+}
+
+.welcomeTitle {
+  margin: 0;
+  width: 100%;
+  @include getFontStyle(title1-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.welcomeSub {
+  margin: 0;
+  width: 100%;
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-medium));
+}
+
+/* Landing: keep subcopy on one line in the 376px frame */
+.welcomeSubSingleLine {
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.02em;
+}
+
+.ctaColumn {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+  width: 100%;
+}
+
+.ctaPair {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-4xl;
+  width: 100%;
+}
+
+.fullWidth {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.homeIndicator {
+  flex-shrink: 0;
+  height: 34px;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: $gap-xl;
+  box-sizing: border-box;
+}
+
+.homeIndicatorBar {
+  width: 134px;
+  height: 5px;
+  border-radius: $radius-max;
+  background: var(--background-neutral-strong);
+}
+
+.homeBody {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-4xl;
+  width: 100%;
+}
+
+/* §8.1a / §11: only SectionHeader’s own padding separates label from following Card — no flex gap */
+.sectionHeaderTight {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.cardText {
+  margin: 0;
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+}
+
+/* Full-bleed under scroll; gutter lives on sibling `.inner` blocks (shell no longer pads horizontally) */
+.heroBleed {
+  width: 100%;
+  flex-shrink: 0;
+  align-self: stretch;
+  box-sizing: border-box;
+}
+
+.innerAfterHeroBleed {
+  padding-top: $gap-3xl;
+}
+
+/* Landing: space below logo before hero — token ($unit-12 = 48px) */
+.landingBrandInner {
+  margin-bottom: $unit-12;
+}
+
+/* Landing: space between welcome block and primary CTAs */
+.landingCopyStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: $unit-12;
+}
+
+.landingLinkWrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.lockIconImg {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+/* Reference index.css: login-slide-up + staggered delays */
+@keyframes emiLoginSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY($gap-4xl);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loginEnter {
+  animation: emiLoginSlideUp 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.loginEnterD1 {
+  animation: emiLoginSlideUp 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation-delay: 0.08s;
+}
+
+.loginEnterD2 {
+  animation: emiLoginSlideUp 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation-delay: 0.16s;
+}
+
+.loginEnterD3 {
+  animation: emiLoginSlideUp 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation-delay: 0.24s;
+}
+
+.loginEnterD4 {
+  animation: emiLoginSlideUp 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation-delay: 0.32s;
+}
+
+/* Merchant BottomSheet: extra step between description and actions ($gap-4xl = 24px) */
+.merchantSheetDescToActionGap :global(section:nth-of-type(2)) {
+  margin-top: $gap-4xl;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loginEnter,
+  .loginEnterD1,
+  .loginEnterD2,
+  .loginEnterD3,
+  .loginEnterD4 {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

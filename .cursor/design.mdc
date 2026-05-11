@@ -1,0 +1,548 @@
+---
+alwaysApply: true
+---
+
+### For implementation tasks (read these sections first)
+
+| Need | Sections |
+|------|----------|
+| Vertical rhythm, proximity, section spacing | **§8** — especially **§8.1a** (quick-reference table) |
+| Device frame, page gutter, BottomSheet / ActionSheet attach | **§9** |
+| Cards, lists, SectionHeader, in-flow spacing | **§11** |
+| Colour / semantic variables | **§2**–**§5** |
+| TextField-in-Card, list avatars (consumer patterns) | **§13** |
+
+**Token ladder** (gap sizes, radii, type steps): **`.cursor/tokens.mdc`** — use it with §8 / §11; do not invent literals.
+
+**When sources disagree:** **Screen structure** — `docs/layout-references/layouts.md` (and the Figma link inside it) wins for *what blocks exist and in what order*. **Numbers and composition law** — `paytm-common-storybook/configs/design-tokens.json` (generated Sass/CSS) + **this file** + **`tokens.mdc`** win; do not copy raw px from a mock as the source of truth.
+
+> **`.cursor` rules:** This file stays **always on** (workspace behaviour, Storybook IDs, patterns). **Token/spacing tables** live in **`tokens.mdc`**, which loads when you edit matching UI files (see **`.cursor/README.md`**) so both aren’t injected into every chat.
+
+## 2. Colour: primitives → semantics → CSS variables
+
+### 2.1 Source files
+
+| Layer | Where to look |
+|--------|----------------|
+| Design token definitions | `configs/design-tokens.json` → `color-primitives`, `color-semantics` |
+| Runtime (auto light/dark) | Generated `src/commonStyles/sass-generated/variables.css` → `--background-*`, `--text-*`, `--icon-*`, `--border-*`, `--surface-*`, `--overlay-*`, component-specific vars |
+| Storybook catalogue | Story **PODS Colors/Colors** (`src/stories-common/Color/`) + `Colors.mdx` (lists variable names and usage patterns) |
+| Figma link | In `Colors.mdx` / `Number.mdx` (Design Tokens file) |
+
+### 2.2 Primitive families (JSON paths)
+
+Use these buckets when reasoning about “which primitive backs a semantic”:
+
+- `color-primitives.sky-blue.*` — primary / link family
+- `color-primitives.mono.*` — neutrals, surfaces, text greys
+- `color-primitives.pearl.*`, `color-primitives.sky-blue.*` (offset rows) — offset backgrounds
+- `color-primitives.red.*`, `color-primitives.orange.*`, `color-primitives.green.*` — negative / notice / positive
+- `color-primitives.shadow.*` — alpha-stacked shadow tints on `#101010`
+- Additional semantic-only rows in CSS: `--pastel-01-strong` … `--pastel-12-weak`, badge/chips/switch helpers (see `variables.css`)
+
+### 2.3 Semantic roles → CSS variables (naming pattern)
+
+**Do not hand-pick greys.** Map UI roles to variables:
+
+| Role | Typical variables (see `variables.css` for full set) |
+|------|--------------------------------------------------------|
+| Page / card surfaces | `--surface-level-1` … `--surface-level-4`, `--background-neutral-inverse` |
+| Primary actions & links | `--text-primary-medium`, `--text-primary-strong`, `--background-primary-medium`, `--border-primary-medium` |
+| Body text | `--text-neutral-strong`, `--text-neutral-moderate`, `--text-neutral-medium`, `--text-neutral-weak` |
+| Status | `--text-negative-strong`, `--text-notice-strong`, `--text-positive-strong` (+ matching `--background-*`, `--icon-*`, `--border-*`) |
+| Overlays | `--overlay-strong`, `--overlay-weak` |
+| Brand (non-semantic UI) | `--brand-primary`, `--brand-secondary` |
+| Secondary body / helper lines (readability) | `--text-neutral-moderate` |
+| Tertiary / placeholder / de-emphasised UI copy | `--text-neutral-medium` |
+
+**Dark mode:** the same variable *names* swap values under `@media (prefers-color-scheme: dark)` in `variables.css`.
+
+---
+
+## 3. Typography rules
+
+### 3.1 Font stack
+
+Applied globally in `src/commonStyles/sass-generated/index.css` (and source `_modified-normalize.scss`): **`inter-subset`** with system UI fallbacks. Weights 400 / 500 / 600 / 700 are loaded per face.
+
+### 3.2 Scale & weights (token IDs)
+
+**Canonical data:** `configs/design-tokens.json` → `typography.scale`, `typography.weight`.
+
+**Scale keys** (as shown in Storybook; display names may be overridden in `src/stories-common/Typography/styleConfigs.ts`):
+
+- Display: `display1`, `display2`, `display3` (and any additional keys present in JSON)
+- Titles: `title1` … `title4`
+- Body: `body`, `subtext`, `caption`
+- Story-only labels: `tab-bar`, `overline1`, `overline2` (when present in token data / style config)
+
+**Weight keys:** `regular` (400), `medium` (500), `semibold` (600), `bold` (700).
+
+Each scale entry exposes `font-size`, `line-height`, and `letter-spacing` objects with a `value` field — Storybook **PODS Typography/Typography** renders the matrix from this JSON.
+
+### 3.3 Using type in code
+
+- **SCSS mixins:** Storybook typography pages use helpers like `getFontStyle(title3-bold, …)` (see `Typography.module.scss`) — follow the same mixin pattern as other pods-components.
+- **Colour on type:** pair scale with semantic text colours, e.g. `var(--text-neutral-strong)` for primary reading text.
+
+### 3.4 Landing title in **Header Default** (large / extended row)
+
+- **Do not** add a **SectionHeader** for the same primary screen title when that title already appears on **`HeaderDefault`** **`size="large"`** second row — one hierarchy owner for the H1-level label.
+- The main title string on that second row uses **`typography.scale.display3`** + **`typography.weight.bold`** and **`var(--text-neutral-strong)`** (implementation: `getFontStyle(display3-bold, …)`). The optional line below stays **`body`** + **`medium`** + **`var(--text-neutral-moderate)`** unless a component story specifies otherwise.
+- **Figma reference:** “Design Standardisation for Gen AI” — Header component node `118:4466` in file `e58GKvGTgkVs6jputDoINS`.
+- **Do not** pull in Material / M3 static type tokens for PODS screens — stay on `typography.scale` / `typography.weight` from `design-tokens.json`.
+
+---
+
+## 4. Number system: spacing, gap, radius
+
+**Canonical data:** `configs/design-tokens.json` → `number-primitives`, `number-semantics`.
+
+| Group | JSON path | SCSS (see Number docs) | Use |
+|--------|-----------|-------------------------|-----|
+| Base grid | `number-primitives.unit-*` | `$unit-0` … `$unit-14` | All layout math resolves to these steps |
+| Margin | `number-semantics.margin.*` | `$margin-horizontal-*`, `$margin-vertical-*` | External spacing |
+| Padding | `number-semantics.padding.*` | `$padding-horizontal-*`, `$padding-vertical-*` | Internal spacing |
+| Gap | `number-semantics.gap.*` | `$gap-*` | Flex/grid gaps (includes `5xl` → `unit-9`) |
+| Radius | `number-semantics.radius.*` | `$radius-*` | Corner radius scale (`xs` … `max`) |
+
+**Storybook:** **PODS Number System/Number System** — import paths for consumers: `@import "~@paytm-h5-common/paytm_common_ui/styles/number"` (see `Number.mdx`).
+
+---
+
+## 5. Components (Storybook inventory)
+
+Stories live under `src/pods-components/**`. Story sort order is defined in `.storybook/preview.js` (`Introduction` → `PODS Components` → `PODS Colors` → `PODS Typography` → `PODS Icons` → `Paytm UI Components`).
+
+### 5.1 Foundation stories
+
+| Story title | Purpose |
+|-------------|---------|
+| `Introduction/Welcome` | Install, theming, V2→V3 changes, peer deps |
+| `PODS Colors/Colors` | Semantic + primitive colour reference |
+| `PODS Typography/Typography` | Type scale & weight matrix from tokens |
+| `PODS Icons/Icons` | Icon set browser |
+| `PODS Number System/Number System` | Spacing / radius token usage |
+
+*Note: `Paytm UI Components` appears in the sort order but has no matching `title` in the scanned CSF files — use it only if you add stories with that prefix.*
+
+### 5.2 PODS Components (CSF `title` paths)
+
+Use these paths as the stable IDs for docs, agents, and deep links in Storybook. Generated from active `*.stories.*` under `pods-components`.
+
+**`PODS Components/…` (main catalogue)**
+
+- `PODS Components/ActionSheet`
+- `PODS Components/ActivityTimeline`
+- `PODS Components/Alerts`
+- `PODS Components/Avatar/Avatar Initials`
+- `PODS Components/Avatar/Avatar Icon`
+- `PODS Components/Avatar/Avatar Logo`
+- `PODS Components/Avatar/Avatar Profile`
+- `PODS Components/Badge`
+- `PODS Components/BottomNavBar`
+- `PODS Components/BottomSheet`
+- `PODS Components/BrandBand`
+- `PODS Components/Button`
+- `PODS Components/Card`
+- `PODS Components/Checkbox`
+- `PODS Components/Chips`
+- `PODS Components/Dropdown`
+- `PODS Components/FAB`
+- `PODS Components/FAB/Floating extended mini`
+- `PODS Components/Header/Header Default`
+- `PODS Components/Header/Header Logo`
+- `PODS Components/Header/Header Search`
+- `PODS Components/List`
+- `PODS Components/Loader`
+- `PODS Components/OTP`
+- `PODS Components/OverflowMenu`
+- `PODS Components/Popover`
+- `PODS Components/ProgressBar`
+- `PODS Components/RadioButton`
+- `PODS Components/Search`
+- `PODS Components/SectionHeader`
+- `PODS Components/Segmented Control`
+- `PODS Components/Separator`
+- `PODS Components/Snackbar`
+- `PODS Components/Switch`
+- `PODS Components/Tabs`
+- `PODS Components/TextField/High Emphasis`
+- `PODS Components/TextField/Low Emphasis`
+
+**`PODS Components - New/…` (staging — promote to `PODS Components/…` when ready; see §7)**
+
+- `PODS Components - New/CurrentPlanCard`
+- `PODS Components - New/EnterMobileNumber`
+- `PODS Components - New/IconGrid`
+- `PODS Components - New/MixedControlsList`
+- `PODS Components - New/PassbookMonthCard`
+- `PODS Components - New/PassbookTile`
+- `PODS Components - New/PaymentDetailsTimelineCard`
+- `PODS Components - New/PaymentsContactGrid`
+- `PODS Components - New/PlanDetailsCard`
+- `PODS Components - New/PlanDetailsListingCard`
+- `PODS Components - New/RecentPaymentsCard`
+- `PODS Components - New/RecentRechargeCard`
+- `PODS Components - New/SearchPlansWithFilter`
+- `PODS Components - New/ShortcutPill`
+
+### 5.3 `HeaderDefault` — trailing icons (`TrailingIcons`)
+
+`HeaderTrailing` (`pods-components/Header/HeaderTrailing.tsx`) wraps **each** `TrailingIcons` entry in a `<span>` that uses **`Header.module.scss`** `.icon`: a **24×24px** slot, with **`& > *`** sizing the **immediate child** to the same touch/icon size.
+
+- **Do** pass **unwrapped** icon nodes as `TrailingIcons` elements — typically the SVG **`ReactComponent`** from `@paytm-h5-common/.../ultra-icons/...`, with **`role="button"`**, **`tabIndex={0}`**, **`aria-label`**, **`onClick`**, and **`onKeyDown`** (activate on Enter/Space) on **that icon element**. Optional: **`style={{ cursor: "pointer" }}`** when not using a filled hit target.
+- **Don’t** wrap those icons in **extra** story/layout `<span>`s (or other containers) that apply smaller **`svg { width/height }`** rules or arbitrary sizes. An extra wrapper becomes the `.icon > *` target, so the **inner** SVG may no longer receive the header’s 24×24 rule and can render **too small** or inconsistently — especially with **two** trailing icons (`MAX_TRAILING_ITEMS` = 2 in `Header.types.ts`).
+- **Don’t** rely on deprecated story-only header icon wrappers; keep parity with **`PODS Components/Header/Header Default`** behaviour.
+
+**Consumption:** `import { Button, … } from '@paytm-h5-common/paytm_common_ui'` (see Introduction story).
+
+**Per-component rules:** each story file documents props via Storybook Docs (`autodocs: true` in `.storybook/main.js`). Prefer **controls + ArgsTable** over duplicating measurements in markdown.
+
+### 5.3a **`Button`** **`type="filled"`** — label vs icon colour
+
+**Implementation:** **`pods-components/Button/Button.module.scss`**.
+
+- **Label** on **`filled`**: **`--text-universal-light`** (inverse primary copy).
+- **Leading / trailing SVGs** (selectors **`.leadingIcon svg`**, **`.trailingIcon svg`**): **`--icon-universal-light`** — icon semantic for glyphs on the primary fill, not **`--text-universal-light`** (aligns with **FAB**, **Badge**, and other inverse primary chrome).
+- **Disabled** **`filled`**: label **`--text-neutral-medium`**, SVGs **`--icon-neutral-medium`**.
+- **Consumers:** do not put **`color`** / **`fill`** **inline** on SVG nodes passed as **`LeadingIcon`** / **`TrailingIcon`** unless you intend to override the component; inline rules outrank the module and break token tinting. Prefer **ultra-icons** paths that use **`currentColor`**. Do not add screen CSS that shrinks **leading** / **trailing** SVGs in ways that fight **`Button`**’s size tokens (**`large`** → **24×24** icon slot, etc.).
+
+### 5.4 **`ListItem` leading **`Avatar`** (logo / profile) — no skewed rasters
+
+**`PODS Components/List`** **`ListItem`** with **`leading={{ type: "avatar", … }}`** renders **`PODS Components/Avatar`** (same sources as **`paytm_common_ui`** / Storybook **`pods-components`**; production **`import … from '@paytm-h5-common/paytm_common_ui'`**).
+
+- **Circular raster treatment:** **`Avatar`** **`type="logo"`** (**`logo-image`**) and **`type="profile"`** must fill the **token-sized** circle (**`small`**, **`regular`**, **`large`**, …) **without** non-uniform scaling. The library uses **`width: 100%`**, **`height: 100%`**, **`object-fit: cover`**, **`object-position: center`**, **`display: block`**, and **`overflow: hidden`** on the **avatar container** so rectangular product/photo assets stay **proportionally** cropped inside the circle — not stretched or “skewed.”
+- **Do not** override with **`customClass`** / screen SCSS that forces **`img`** to different **width** and **height** without **`object-fit`**, or that sets **`flex-grow: 1`** / **`height: 100%`** on **`leading-avatar`** / **`avatar-logo-container`** wrappers — that **breaks** aspect ratio. If you need a **letterboxed** brand mark (full logo visible, not cropped), treat it as a **product** choice and use **`object-fit: contain`** **only** via an approved **Avatar** / design-system update, not one-off list CSS.
+- **`ListItem`** **`leadingSection`** may **`align-self: stretch`** to the row height; the **Avatar** chip itself remains fixed to the **`size`** token — do not stretch the **Avatar** root to the full row height in consumer layouts.
+
+### 5.5 **Bill / saved-account hub** (Card + `ListItem` + promo strip + FAB)
+
+Use for screens that list **saved payees** (electricity, water, BBPS-style hubs). **Reference:** **`docs/layout-references/layouts.md`** (bill-pay hub flows) and **PODS Components** (**Card**, **List**, **FAB**).
+
+| Topic | Rule |
+|--------|------|
+| **Row surface** | One **`Card`** per row; **`List`** with a **single** **`ListItem`** per card (`separator={false}`). Page wash **`--surface-level-4`** (or shell equivalent); card fill **`--surface-level-1`**. |
+| **Card elevation** | **Do not** add **`box-shadow`** or other discretionary elevation on these **Card**s unless the product spec or design explicitly requests it. Use surface contrast + radius; **`border: none`** on tiles-on-wash is OK for hub-style bill rows—**without** stacking shadow. |
+| **Horizontal offer / promo strip** | When the design is **one row**: leading mark (e.g. circular icon) + primary copy + **`Button`** **`type="link"`** (e.g. “View All ›”) on the right, **prefer a token-composed strip** over **`Alerts`** if **`Alerts`** layout does not match (stacking, typography, or action placement). Build with **`--background-positive-weak`**, **`--text-positive-strong`**, **`--icon-positive-strong`**, **`Button`** link, plus **`$radius-*`**, **`$padding-*`**, **`$gap-*`**. Use **`PODS Components/Alerts`** when the real pattern matches its **block** / **inline** stories. |
+| **Leading `Avatar` (multi-line rows)** | **`type="logo"`** with **biller** marks per row (§5.4); **`leading.size: "regular"`**, **`leading.position: "top"`**. Production passes **`billerLogoImage`** / **`billerLogoAlt`**. |
+| **Trailing overflow** | **`trailing.type: "icon"`** with **`position: "top"`** for vertical ellipsis / overflow; **`stopPropagation`** on icon **`onClick`** / keyboard activation so row **`onClick`** does not fire. |
+| **Primary add action** | **`FAB`** for **Add …** when it is the screen’s main action; position inside the same framed shell as other product screens (override fixed positioning if the story uses a phone preview). |
+
+---
+
+## 6. Layout & elevation principles
+
+- **Default canvas:** global `body` background uses `var(--surface-level-1)` (`index.css`).
+- **Cards & sheets:** rely on component implementations in Storybook (e.g. **BottomSheet**, **Card**) — they consume semantic colours and number tokens internally. **PODS Card** default inner padding is **16px** on all sides (`number-semantics.padding.horizontal-3xl` / `vertical-3xl`, `number-primitives.unit-6`).
+- **List-hub Cards and shadow:** do not add discretionary **`box-shadow`** on **Card** tiles in saved-account / bill-hub lists unless asked—see **§5.5**.
+- **Elevation / scrim:** use `--overlay-strong` / `--overlay-weak` for modal scrims; shadow stacks should trace back to `color-primitives.shadow.*` where components use tokenised shadows.
+- **Screen layout inventory (product flows):** `docs/layout-references/layouts.md` — Figma-derived **structure, flow, per-screen ASCII region sketch**, and suggested Paytm common UI composition (semantic only; no pixel or hex in prose or diagrams). Patterns are **cross-vertical**: any team may reuse an entry when the **use case** matches (same screen job / structure), not only the vertical named in the file title. When building or extending screens, use this file for **which blocks and patterns** apply; use §2–§5 here for **tokens and components**. Regenerate or edit that doc when flows change (see **`prompts/hi-pods.md`** **MODE B** at repo root); do not mirror its full content inside `.cursor`.
+- **Reusable layout pattern menu:** `docs/layout-references/layout-pattern-catalog.md` — **50 generic shells** (`LP-01` … `LP-50`) with use-when cues, Paytm component families, and compact ASCII. **When implementing a new screen:** (1) Check `layouts.md` for a concrete match; if none, (2) pick the closest **`LP-NN`** (or compose two, e.g. list body + sheet overlay), (3) state the chosen pattern ID in reasoning or PR text when helpful. Do not treat catalog entries as pixel specs — tokens and Storybook variants still win.
+
+---
+
+## 7. Storybook mechanics (for contributors & agents)
+
+| Topic | Location |
+|--------|----------|
+| Story globs | `.storybook/main.js` — `../src/**/*.stories.mdx`, `../src/pods-components/**/*.stories!(.old).@(js|jsx|ts|tsx)`, `../src/stories-common/**/*.stories.@(js|jsx|ts|tsx)` |
+| Global CSS | `.storybook/preview.js` imports `sass-generated/index.css` + `variables.css` |
+| Docs page layout | Custom docs page with `Title`, `Subtitle`, `Description`, `Primary`, `ArgsTable`, `Stories` |
+| Addons | Essentials, interactions, SCSS preset, a11y, MDX GFM, **css-user-preferences** (theme) |
+| Figma links in docs | Many stories use `getFigmaLinkHTML` from `src/stories-common/utils` — follow that pattern for new components |
+| **New components (sidebar)** | Use story **`title`:** **`PODS Components - New/<ComponentName>`** so additions sit under **PODS Components - New** until promoted to the main **PODS Components** catalogue |
+
+---
+
+## 8. Do’s and don’ts (token-first)
+
+### Do
+
+- Use **semantic CSS variables** (`--text-*`, `--background-*`, `--surface-*`, `--border-*`, `--icon-*`) for any new UI; let light/dark swap automatically.
+- Use **number-semantics** (`margin`, `padding`, `gap`, `radius`) or their SCSS aliases instead of arbitrary `px` values.
+- Use **typography.scale** + **typography.weight** from `design-tokens.json` for type sizing.
+- Open the **matching Storybook story** when describing or implementing a component variant.
+
+### Don’t
+
+- **Don’t pierce or override `pods-components` internals from pattern / story / app SCSS** — no `:global([data-testid="…"])`, `:deep`, or descendant selectors that change **typography, colours, padding, or borders inside** shipped components (**Badge**, **Button**, **ListItem**, etc.). **Allowed:** layout wrappers around the component (`flex`, `gap`, `min-width`, **`customClass` only where the component documents it as a safe outer shell**). If the design needs a new size or density, add a **documented prop or variant in `pods-components`** (or a new token-backed component) instead of local overrides.
+- Don’t embed one-off hex values in prompts or specs when a **semantic variable** or **primitive path** exists.
+- Don’t bypass the token file: if a value is missing, extend **`design-tokens.json`** and regenerate styles rather than hardcoding in product code.
+- Don’t describe type using **external systems** (e.g. Material static “body medium”) when **`typography.scale`** / **`typography.weight`** entries exist for the same role.
+- **Don’t add extra `margin-top`, spacer divs, or section-level flex `gap` between `SectionHeader` and its immediately following `Card`.** Wrap **`SectionHeader` + `Card`** in one column with **`gap: 0`**. The **only** vertical space between the section label and the card top should be **`SectionHeader`’s own bottom padding** (**`padding-vertical-xl`** = **8px** per tokens) — not **`gap.4xl`**. See **§8.1a** and **§11**.
+- Don’t use **`disabled`** on a **primary flow CTA** (e.g. **Proceed**, **Continue**, **Pay**) to communicate “form not ready.” Keep that button **enabled**; on tap, run validation and show problems with **TextField** **`error`** / assistive copy where the issue belongs, or with **Alerts** (**`layout="inline"`** in-flow, **`layout="block"`** for screen-level banners) when there is no single field owner. **Exception:** short **in-flight** guards (e.g. **`loading`** while a payment call runs) may still avoid double submission — prefer **`loading`** + idempotent handlers over greying out the main action for validation reasons.
+
+### 8.1 Composition principles
+
+These rules are intended to be **generally applicable PODS composition guidance**, not one-off harness shortcuts.
+
+| Principle | Meaning |
+|-----------|---------|
+| **One horizontal inset owner** | In any region, only one layer owns the outer left/right gutter: page shell, **Card**, **BottomSheet**, inline surface, or row wrapper. Child roots may keep **interior** padding, but they should not re-apply page gutter. |
+| **One vertical rhythm owner per boundary** | Space **between** sections, **within** a card, and **within** a control stack should come from the parent rhythm rule for that boundary. Do not stack parent `gap` with child `margin-block` unless the pattern explicitly calls for both. |
+| **Surface owns comfort padding** | Components that paint a surface or control shell (for example **Card**, **Search**, **Alerts**, **SegmentedControl**, **BottomSheet**) usually keep their **interior** padding even when the page shell owns outer gutter. |
+| **Rows inherit parent inset** | Repeating rows inside a parent surface (for example **ListItem**, custom settings rows, selectable rows) should inherit the parent inset when that parent already owns horizontal spacing. Strip duplicate row padding where needed, then re-stretch separators to the new span. |
+| **Overlays belong to the layout that launches them** | Portaled UI should visually belong to the same frame/shell/surface that launches it. If the app is framed in a preview shell, attach overlays to that shell; if the app is truly full-bleed, attach to the app root. |
+| **Section chrome stays outside elevated content by default** | Page-level **Header** and section-level **SectionHeader** label the content that follows; they should usually stay outside **Card** and precede it directly. |
+| **Proximity beats generic gaps** | **Gestalt (grouping):** blocks that answer one user question or deliver one message (title + supporting lines, bullets that belong together, helper + legal line + text link) should sit **close** — use **small** token steps between them (`gap.m` … `gap.2xl`, or type line-height alone). Reserve **`gap.3xl`** and larger **only between separate ideas** (e.g. disclaimer cluster vs primary actions, or two unrelated sections). Reusing **section-sized** vertical rhythm **between every** text sibling turns one message into scattered islands and breaks layout **gestalt**. |
+
+**Proximity → token mapping (quick rule of thumb):**
+- **Within one cluster** (lines forming a single thought): `gap.m` (4px) to `gap.xl` (8px)
+- **Between clusters in the same section/surface**: `gap.2xl` (12px) to `gap.3xl` (16px)
+- **Between sections on the page**: `gap.4xl` (24px)
+- **After hero header to first section**: `gap.xl` (8px)
+
+### 8.1a Vertical rhythm quick reference
+
+**Scan this table first** when deciding which gap token to use between two vertical neighbours. Detailed rationale lives in **§11**; this is the lookup.
+
+| Transition (top → bottom) | Gap token | Value | Key rule |
+|----------------------------|-----------|-------|----------|
+| **Header (large) → Search** | **none** (`0`) | 0px | Header chrome supplies spacing; do not add margin/gap |
+| **Header (large) → Tabs** | **`unit-2`** | 4px | Hairline step only |
+| **Header (large) → first section cluster** | **`gap.xl`** | 8px | Tight step after the hero header to the first section block |
+| **Header (`size="medium"` / small) → first scroll block** | **`gap.3xl`** | 16px | Put **`padding-top: $padding-vertical-3xl`** on the scroll/page column (or first block wrapper) so content clears header chrome consistently. |
+| **Header (`size="medium"`) → first block when it is a marketing / hero headline** | **`gap.4xl`** | 24px | e.g. landing hero under title+subtitle — use a page modifier (e.g. **`pageFirstHero`**) instead of the default 16px step. |
+| **SectionHeader → its Card / body** | **wrapper `gap: 0`** | 0px added | **Only** **`SectionHeader`’s** built-in **`padding-vertical-xl` (8px)** sits above the **`Card`**. **Do not** add **`gap.4xl`** between them. Wrap **`SectionHeader` + `Card`** in **`.sectionHeaderTight`** (or equivalent) if the page stack uses **`gap.4xl`** between other sections. |
+| **Stacked `Card`s (listing / plan rows, same column)** | **`margin.horizontal-m`** | 12px | Vertical gap between stacked cards should **match the page gutter** for a uniform grid — use **`$margin-horizontal-m`**, not **`gap.4xl`**, unless the screen is explicitly “sparse sections.” |
+| **Search → Tabs** (same cluster) | **`gap.3xl`** | 16px | Inside one Search + Tabs column |
+| **Tabs → section body below** | **`gap.3xl`** | 16px | Tabs ship no bottom margin |
+| **Between sections** (separate ideas: Card group → Card group) | **`gap.4xl`** | 24px | Default inter-section rhythm (use `gap.5xl` only when spec says so). **Exception:** **dense stacked cards** in one list — use **`margin.horizontal-m`** (12px); see row **Stacked `Card`s** above. |
+| **Inside Card** (TextField → Chips, TextField → TextField, etc.) | **`gap.3xl`** | 16px | One flex column per card body stack. **Default:** primary **form fields** live **inside** a **`Card`** (or one card per logical group), not naked on the page wash unless the spec is edge-to-edge. |
+| **`List` inside `Card`** (benefits, settings, payment rows) | **consumer `List` `customClass`** | — | Avoid **double horizontal inset**: apply **negative horizontal `margin`** on the **`List` ul root** equal to **`Card`’s horizontal `padding`**, with **`width: calc(100% + 2×padding)`**, so **`ListItem`’s** horizontal padding is the **only** inset. **Do not** override **`ListItem`** internals. |
+| **Inside a text/copy cluster** (title → supporting line, label → helper) | **`gap.m`** – **`gap.xl`** | 4–8px | Proximity: lines that form one thought stay close |
+| **Between separate clusters** (in sheets, disclaimers, etc.) | **`gap.2xl`** – **`gap.3xl`** | 12–16px | Separate ideas, still within one surface |
+| **Chip → Chip** (horizontal row) | **`gap.xl`** | 8px | Not `gap.2xl` |
+| **Quick-action icons** (horizontal row) | **`gap.3xl`** | 16px | Circular hit targets at `unit-13` (56px) |
+
+**Common mistakes:** (1) Applying **`gap.4xl`** between **`SectionHeader`** and its **`Card`** — use a **`gap: 0`** wrapper (**`sectionHeaderTight`**) instead. (2) **`Alerts` `layout="inline"`** next to full-width **`Card`**s — the shipped **`width: calc(100% - 24px)`** + **`margin: 0 12px`** narrows the bar; pass **`customClass`** on **`Alerts`** with **`width: 100%`**, **`max-width: 100%`**, **`margin-inline: 0`** (**`!important`** if needed) so the alert matches the **content column**; keep **inner** padding on the alert root for copy/icon inset. (3) **Sum insured / discrete amounts** — prefer **`List`** + **`leading: radio`** (or **`Slider`** when continuous) over ad-hoc **`Button`** grids unless the pattern is explicitly CTA-style chips. (4) **`Alerts`** without **`LeadingIcon`** — copy hugging the left edge reads wrong; pass **`LeadingIcon`** (**`info`** for **`primary`**, **`pending_themed`** / notice-tinted for **`notice`**, **`success_themed`** for **`positive`**, **`failed`** family for **`negative`**) or add equivalent left inset in the library; see **PODS Components/Alerts** stories.
+
+### 8.2 Layout ownership model
+
+When adding or evaluating a component, classify it before changing spacing:
+
+| Question | Typical answers |
+|----------|-----------------|
+| Who owns **outer horizontal inset** here? | page shell / **Card** / **BottomSheet** / full-bleed banner / row wrapper |
+| Who owns **interior padding**? | the component root if it paints a surface or field shell |
+| Who owns **vertical rhythm**? | page section stack / card content stack / sheet body stack / row internals |
+| Who owns **separators / hairlines**? | the repeated row stack, stretched to the current inset owner |
+| Who owns **portal attachment / clipping**? | root app for full-bleed layouts, or preview shell / local frame for framed layouts |
+
+### 8.3 Component context guide
+
+Use this as a default classification when extending rules to additional components:
+
+| Component kind | Examples | Default treatment |
+|----------------|----------|-------------------|
+| **Page chrome** | **Header**, sticky top bars, bottom docks | Align to shell/page inset. May break out full width only when the pattern is explicitly edge-to-edge. |
+| **Section labels** | **SectionHeader**, helper headings | Outside **Card** by default. **Horizontal:** when the page shell already applies **`margin.horizontal-m`**, cancel **`SectionHeader`’s horizontal root padding** via **`customClass`** (**`padding-left/right: 0`**) so the title aligns with the **Card** outer edge in the content column — do not stack **`padding-horizontal-3xl`** on **`SectionHeader`** with the page gutter. **Vertical:** no extra spacer before the following **`Card`** beyond **`SectionHeader`’s** own **`padding-vertical-xl`** (see §8.1a). |
+| **Raised content surfaces** | **Card**, inline **Alerts**, grouped content blocks | Surface owns interior padding; children should not re-apply the same gutter. |
+| **Field/control shells** | **Search**, **TextField**, **Dropdown**, **OTP**, **SegmentedControl** | Keep field-internal padding; add block spacing from the parent stack, not from arbitrary per-control margins. |
+| **Repeating rows** | **ListItem**, settings rows, radio/checkbox rows, switch rows | Parent surface usually owns horizontal inset; rows may need padding reset and separator restretch. |
+| **Meters / progress tracks** | **ProgressBar** (`data-testid="progress-bar-container"`) | **Fill the parent content width** (`width: 100%`, `box-sizing: border-box`, **no** horizontal **`margin`** on the component root). The **Card**, sheet body, or shell column already owns horizontal inset — extra margin on the bar **shortens** the track and reads as a second inset. Space from labels above/below comes from the **parent** stack **`gap.*`**, not from the bar’s side margins. |
+| **Viewport-edge banners / docks** | block **Alerts**, docked **BottomNavBar**, floating CTA bands, sticky promo bands | Use breakout deliberately so the background reaches the device edge while interior copy/actions stay token-inset. |
+| **Portaled overlays** | **BottomSheet**, **ActionSheet** (uses **BottomSheet**), popovers, menus | **`attachToElementID`** must target a **portal host inside `mobile-preview-shell`** for device-framed UIs — see §9 **Rule — BottomSheet and ActionSheet in a device frame**. Match clipping to the shell that launched them. |
+
+---
+
+## 9. Responsive behaviour
+
+This package is **component-level**; breakpoints are not centralised in `design-tokens.json` like a marketing site. Treat responsiveness as:
+
+- **Per-component** behaviour documented in each story (fullscreen layout in `preview.js` encourages true mobile framing).
+- **Consumer-owned** page grids — use the **number system** for consistent gutters and touch targets when implementing screens.
+
+**Design-review / demo framing (consumer apps):** Full-screen flows (e.g. R&U prototypes at **376×812**, iPhone 13 Mini) use **two** wrappers so the flow is visually inside a **mobile preview frame** on desktop, not only a loose full-width column:
+
+| Layer | Role | Typical class |
+|--------|------|----------------|
+| **Frame** | Outermost viewport wrapper: centers the preview, optional desk background (**`--surface-level-1`** or a neutral from `color-semantics` so it contrasts the flow background), safe-area / vertical padding so the preview does not hug the browser chrome. On real phones this layer is a **pass-through** (no extra inset). | e.g. **`mobile-preview-frame`** |
+| **Shell** | **Direct parent of the flow root** (e.g. **`DthRechargeFlow`**): owns the **376×812** (or full-bleed) geometry, page wash, horizontal inset, and bottom padding. Use **`overflow: hidden`** on the shell and put **vertical scroll** only on an inner **`.mobile-preview-shell-scroll`** (flex **`flex: 1`**, **`min-height: 0`**, **`overflow-y: auto`**) so **`position: fixed`** **BottomSheet** overlays (portaled beside the scroll column) **do not** move when the user scrolls — if the portal lived **inside** the scrolling subtree, fixed sheets would **scroll away** with content and could create **phantom scroll** past the real page. Apply **horizontal page inset once** on the shell using **`number-semantics.margin.horizontal-m`**. See §11. | e.g. **`mobile-preview-shell`** |
+
+**Behaviour**
+
+- **Narrow viewport** (`max-width: 599px`): **frame** is neutral (block layout, no horizontal centering). **Shell** is **100% width**, **`min-height: 100vh`** — matches a physical device.
+- **Wide viewport** (`min-width: 600px`): **frame** uses flex (or grid) to **horizontally center** the shell and optional vertical padding. **Shell** is **376px** wide, **height `min(812px, 100vh)`**, **`overflow: hidden`** — scroll the **`.mobile-preview-shell-scroll`** child when content exceeds the viewport. Optional: **`border-radius`** on the shell only, tied to **`number-semantics.radius.3xl`** (preview chrome), not a substitute for in-flow **Card** radius rules in §11.
+
+**DOM expectation:** `div.mobile-preview-frame` → `div.mobile-preview-shell` → **`div.mobile-preview-shell-scroll`** → *(optional scroll-height stabiliser when bottom chrome must dock to the viewport edge)* content wrapper → **`Header`**, sections, **Card**s, **and** a **sibling** portal host on the **shell** (**`position: absolute`**, **`inset: 0`**, **`pointer-events: none`**) → **BottomSheet** roots (portaled into the host). Do not attach **`mobile-preview-shell`** only to `#root` without a **frame** when the spec calls for a centered device preview on desktop.
+
+**Scroll viewport height & bottom-docked primary CTA:** Make **`.mobile-preview-shell-scroll`** a **flex column** with a definite height chain so short pages can still dock bottom chrome to the viewport edge. If the page has screen-level actions or a **BottomNavBar**, wrap body content in a growable column and keep the dock as a trailing sticky region. **Semantic placement:** actions that apply to the **whole screen** belong in the bottom dock; actions scoped to **one section** belong inside that section’s **Card**.
+
+**Overlays inside the device shell (BottomSheet / portaled UI):** **PODS Components/BottomSheet** renders with **`createPortal`** and a **`position: fixed`** full-viewport container (`data-testid="bottom-sheet-container"`). The default **`attachToElementID`** is **`root`**, so the scrim and sheet **span the browser window**, not the **376px** preview — wrong for design-review shells.
+
+**Rule — BottomSheet and ActionSheet in a device frame:** **`ActionSheet`** is built on **`BottomSheet`**. Whenever the flow sits inside **`mobile-preview-shell`** (Storybook preview or any centered **376px** shell), **`attachToElementID`** **must** target a **portal host `div` that is a direct child of that shell** (`position: absolute; inset: 0; z-index` above content; **`pointer-events: none`** on the host; sheet roots set **`pointer-events: auto`** when active) — **never** **`#storybook-root`**, **`#root`**, or **`document.body`**. Otherwise the scrim and sheet cover the **whole browser window** instead of staying **inside the device frame**. Use a fixed **`id`** (e.g. **`pods-sheet-portal`**) or React **`useId()`** for the host. Full-bleed apps with no preview shell may keep the default **`root`** attach target.
+
+For flows inside **`mobile-preview-shell`**:
+
+1. Wrap **scrollable** page content (**`Header`**, sections, **Card**s) in **`.mobile-preview-shell-scroll`**; keep **`overflow-y: auto`** on **that** wrapper only, not on the shell (shell **`overflow: hidden`** + flex column).
+2. Mount the empty portal host as a **direct child** of the shell **after** **`.mobile-preview-shell-scroll`**, with **`position: absolute; inset: 0; z-index`** above the scroll layer and **`pointer-events: none`** (sheets set **`pointer-events: auto`** when active). **Sticky bottom dock:** On **`.mobile-preview-shell-scroll`**, prefer **`overflow-x: clip`** (not **`hidden`**) alongside **`overflow-y: auto`** so **`position: sticky; bottom: 0`** primary CTA / bottom chrome reliably sticks inside the scrollport in WebKit and Chromium. If the **shell height is not bounded** (page scroll outside the scroll column) or you need the CTA glued to the **device frame** regardless, use **`position: fixed`** bottom chrome (**`shellFixedBottomChromeStack`**) with an **in-flow** **`shellScrollInFlowBottomReserveForFixedChrome`** block last inside **`shellScrollMainGrow`** (reserve = chrome height + **`number-semantics.gap.4xl`** per §11 **Between sections**; do not rely on **`padding-bottom`** on the outer column — flex overflow can skip it), and keep the shell under **`transform`** so **`fixed`** is clipped to the frame. **Do not** shrink the preview shell below the §9 desktop geometry (**`376px` × `min(812px, 100vh)`**) with extra **`max-height: 100%`** on the shell — that breaks the defined device frame.
+3. Pass **`attachToElementID`** to that host’s **`id`** on every **`BottomSheet`** and **`ActionSheet`** in that flow (same **`attachToElementID`** string as the host **`div`**).
+4. On **`.mobile-preview-shell`**, set a non-**`none`** **`transform`** (e.g. **`translateZ(0)`**) so **`position: fixed`** **BottomSheet** containers use the **shell** as their **containing block**. **`position: relative`** on the shell for the absolute portal host.
+
+Then **`--overlay-strong`** and the sheet panel are clipped to the **device frame** on desktop. Apps that are truly full-bleed (no preview shell) keep the default **`attachToElementID`** (**`root`**).
+
+**Design-review note:** In a harness that compares right vs wrong behaviour, the **correct** reference should always attach the sheet to the shell portal host in framed layouts—never rely on **`document.body`** when a device frame is present.
+
+**Single horizontal inset owner (shell vs component roots):** When **`mobile-preview-shell`** (or the app scroll column) applies the **12px** page gutter (**`margin.horizontal-m`** / **`unit-5`**), **do not** let PODS component **root** wrappers add **another** horizontal inset — typography and **Card** edges will misalign (e.g. **SectionHeader** uses **`padding-horizontal-3xl`** on **`section-header-container`**; **Header** uses **`padding-horizontal-2xl`** on its roots). **Consumer pattern:** under **`div.mobile-preview-shell`**, set **`padding-left`** and **`padding-right`** to **`0`** (**`!important`** if needed to beat CSS modules) on the component roots in the table below — **vertical** padding on those nodes stays as shipped.
+
+**Exceptions — keep horizontal padding on these roots:** **Do not** zero these roots when applying the §9 strip. Their horizontal padding is **interior** inset (inside the control or raised surface within the shell’s content column), **not** a second **page** gutter. **Search** uses **`padding-horizontal-2xl`** for the field interior; stripping it removes icon/input inset. **Alerts** keeps **inner** horizontal padding on **`alerts-container`** for both **`layout="inline"`** and **`layout="block"`**; stripping it removes copy/icon inset inside the notice. **`layout="block"`** is for **viewport-edge** banners (e.g. sticky below the header or above the nav): span the **full shell width** with **negative horizontal margin** equal to the shell gutter so the **background** is flush to the device edge while **padding on the alert root** still insets the text. **`layout="inline"`** is for **in-flow** notices (section body, inside **Card**): rounded surface aligned to the **content column**; when the shell already applies **`margin.horizontal-m`**, cancel any component-level outer margin so inset is **not doubled**. The **`Alerts`** **`inline`** implementation also ships **`width: calc(100% - 24px)`** and **`margin: 0 12px`** — under a shell-owned gutter that **narrows** the notice vs sibling **Card**s. **Consumer rule:** when **`inline`** **Alerts** sit in the **same stacked column** as **Card**s (same content width as §11 **376px** column / **`~352px`** body), wrap them (or target **`alerts-container`**) so the root is **`width: 100%`**, **`max-width: 100%`**, **`margin-inline: 0`** (**`!important`** if needed to beat **`.inline`**), while **keeping** inner horizontal padding on the alert root for copy/icon inset. **Card** uses **`padding-horizontal-3xl` / `vertical-3xl`** for inner content inset. **SegmentedControl** uses **`padding-horizontal-s`** on the root container for track interior, not page gutter.
+
+| `data-testid` | Component / notes |
+|--------|-------------------|
+| **`card`** | **Card** — inner content inset (**§11**, **`padding-horizontal-3xl` / `vertical-3xl`**) is not a duplicate page gutter. |
+| **`search-container`** | **Search** — horizontal padding is **inside** the field shell (icon and input), not an extra page gutter. |
+| **`alerts-container`** | **Alerts** — inner horizontal padding on the root for **inline** and **block** (do not strip); **`layout="inline"`** for in-flow / **Card**, **`layout="block"`** for sticky full-bleed banners (break out with negative horizontal margin so the background reaches the device edge while text stays inset). In a guttered column next to **Card**s, cancel **`inline`**’s outer width/margins so the bar matches the **content column** (see §9 prose above). |
+| **`segmented-container`** | **SegmentedControl** — horizontal padding on the root is **track interior** (**`padding-horizontal-s`**), not a duplicate **page** gutter; stripping it flattens the control against the pill edge. |
+
+| `data-testid` (root to zero horizontally under shell) | Component / notes |
+|--------|-------------------|
+| **`header-default`** | **HeaderDefault** (large / compound layouts) |
+| **`header-regular-avatar`** | **HeaderDefault** medium, **HeaderRegularAvatar** |
+| **`header-small-avatar`** | **HeaderSmallAvatar** |
+| **`header-logo`** | **HeaderLogo** |
+| **`header-search`** | **HeaderSearch** |
+| **`section-header-container`** | **SectionHeader** |
+| **`tabs-container`** | **Tabs** |
+| **`dropdown`** | **Dropdown** |
+| **`otp-container`** | **OTP** |
+| **`passcode-container`** | **Passcode** |
+| **`slider-container`** | **Slider** |
+| **`activity-timeline-container`** | **ActivityTimeline** |
+| **`bottom-nav-bar-container`** | **BottomNavBar** — §9 strip removes duplicate **root** horizontal padding only; the bar still lives inside the shell content column, so without a consumer breakout it stays inset by the shell gutter. When the nav sits inside the scrolling shell, use **`position: sticky; bottom: 0`** plus negative horizontal margin equal to the shell gutter and matching width so the bar is flush to the device edge and docks to the bottom of the scroll viewport. **When a primary CTA row sits directly above the nav:** wrap the CTA and **BottomNavBar** in a single sticky breakout region instead of docking the nav alone. Omit the breakout when the shell scroll column has no horizontal padding. |
+| **`text-field-container`** | **TextField** (page or sheet: sheet panel / **Card** still owns outer inset) |
+| **`grid-*-container`** | **Grid** — match **`[data-testid^="grid-"][data-testid$="-container"]`** |
+
+**Extension rule:** Apply the same logic to similar components even if they are not named above. If a root wrapper adds page-like horizontal padding, strip it under a shell-owned gutter. If a root wrapper paints a field or surface, keep its interior padding and only cancel any extra outer margins. If a component can render both **in-flow** and **viewport-edge** variants, map those to **inline surface** vs **full-bleed breakout** semantics rather than treating them as unrelated layouts.
+
+**Consumer strip completeness + no “second gutter” on body wrappers:** Screen-level CSS that zeroes horizontal padding on PODS roots next to a shell-owned gutter (e.g. **`rootPaddingReset`** beside **`scrollGutter`** / **`mobile-preview-shell`**) must target **every** strip-table **`data-testid`** that appears **anywhere** in that scroll column for that screen — including **`header-search`** when **Header Search** is used, and **all** **Header Default** layout roots: **`header-default`** (**`size="large"`**), **`header-regular-avatar`** (**`size="medium"`**), **`header-small-avatar`** (**`size="small"`**). Stripping only **`header-default`** leaves **double inset** on medium/small headers. **Missing** an entry **re-applies** a second horizontal inset on that row. **Body regions** nested inside an already-guttered scroll column (search results, lists, form columns) must **not** add another **`margin.horizontal-m`** / page-gutter padding on their **outer** wrapper; use **vertical** padding / **`gap.4xl`** between section clusters only (see **§11**).
+
+**Sheets and cards:** **BottomSheet** **`bottomSheetContent`** is the horizontal inset owner for the sheet; still zero **TextField** / **SectionHeader** / **Tabs** / etc. under the shell when those nodes appear **inside** the sheet so their root padding does **not** add to the sheet’s padding. **List** / **ListItem** horizontal rules remain per §11 (e.g. strip **ListItem** row padding under sheet when the sheet owns inset). **Chips** use a **dynamic** `data-testid` (`type` prop) — use **`customClass`** or a scoped wrapper to avoid double inset until a stable test id exists.
+
+---
+
+## 10. Agent prompt guide (token-native)
+
+### 10.1 Quick reference (names only)
+
+- **Backgrounds / surfaces:** `var(--surface-level-1)` … `var(--surface-level-4)`, `var(--background-neutral-inverse)`
+- **Primary text:** `var(--text-neutral-strong)`; **secondary body / helper lines:** `var(--text-neutral-moderate)`; **tertiary / placeholder:** `var(--text-neutral-medium)`; **weaker:** `var(--text-neutral-weak)`
+- **Links / primary accent:** `var(--text-primary-medium)` or `var(--text-primary-strong)`
+- **Status text:** `var(--text-negative-strong)`, `var(--text-notice-strong)`, `var(--text-positive-strong)`
+- **Scrim:** `var(--overlay-strong)`
+- **Spacing / radius:** refer to `number-semantics.padding.*`, `gap.*`, `radius.*` (or SCSS variables from `Number.mdx`)
+- **Typography:** `typography.scale.title2` + `typography.weight.semibold`, etc.
+
+### 10.2 Example prompts (no literals)
+
+- “Build a summary card: background `var(--surface-level-1)`, text title with `typography.scale.title3` at `typography.weight.bold` and colour `var(--text-neutral-strong)`; supporting line with `typography.scale.body` and `var(--text-neutral-medium)`; corner radius from `number-semantics.radius.l`; use **PODS Components/Card** so inner padding is **`number-semantics.padding.horizontal-3xl` / `vertical-3xl`**.”
+- “Primary CTA: use **PODS Components/Button** from Storybook; colours must resolve to semantic primary/background tokens, not custom hex.”
+- “Modal sheet: use **PODS Components/BottomSheet**; scrim `var(--overlay-strong)`; content surface `var(--surface-level-1)`.”
+
+### 10.3 Iteration checklist
+
+1. Open **PODS Colors** and **PODS Typography** in Storybook to confirm the latest token output.
+2. Cross-check `configs/design-tokens.json` if a variable or scale key is ambiguous.
+3. Implement spacing and radius only from **number-semantics** / SCSS exports.
+4. Validate light and dark using the Storybook **css-user-preferences** toolbar control.
+
+---
+
+## 11. Screen layout composition — card sections (updated 6 Apr 2026)
+
+Paytm-style product screens are usually built from **page chrome + stacked sections**. Anchor implementation to **PODS Components** in Storybook and **`number-semantics`** / **`color-semantics`** in `design-tokens.json` (surfacing as CSS variables from `variables.css`).
+
+| Rule | Token / component reference |
+|------|-----------------------------|
+| **Page top** | Start with **PODS Components/Header/Header Default** (not **SectionHeader**). Use **`HeaderWrapper`** + status-bar reservation as in the Header stories. |
+| **Header density by step** | **First screen of a flow (landing / entry):** **`HeaderDefault`** with **`size="large"`** — tall layout, `data-testid="header-default"`. The primary page title on the **second row** uses **`typography.scale.display3`** + **`typography.weight.bold`** + **`var(--text-neutral-strong)`** (Gen AI Header reference: Figma file `e58GKvGTgkVs6jputDoINS`, node **`118:4466`**). **Do not** repeat that same title in a following **SectionHeader** — **SectionHeader** labels *sections below* the hero, not the screen H1. **Later steps in the same flow:** **`size="medium"`** — compact single-row title chrome, `data-testid="header-regular-avatar"` (layout class `headerRegularAvatarContainer` in CSS modules). Use **`size="small"`** only when you need the denser variant from the **Header Default** story. **Long scroll columns with sticky top chrome:** **`position: sticky`**, **`top: 0`**, **inside** the shell content column (**retain** the shell gutter and component horizontal padding — **not** the same full-bleed breakout as docked bottom **BottomNavBar** unless the spec calls for edge-to-edge header). Prefer **surface** that matches the page wash (e.g. **`--surface-level-4`** on a level-4 wash); **no** bottom hairline on the sticky header unless the pattern specifies one. When product asks for **large → medium** on scroll, crossfade or transition so **`large`** eases into **`medium`**. |
+| **Section titles** | **PODS Components/SectionHeader** marks a content group. Keep it **outside** **Card** so the label is not on the elevated surface. Put **Card** (or the section body) **next** in the tree with **no** **`margin-top`** between — see **Section header → Card** row below. **Default `size`:** **`extra-large`** — matches **`SectionHeader`**’s component default (**`title1-bold`**). Omit **`size`** in code unless you need a different density: use **`large`** or **`medium`** for a step down, **`small`** for dense secondary groupings. On typings that still require **`size`**, pass **`size="extra-large"`** for the default. **Dropdown** bottom-sheet header falls back to **`medium`** when **`bottomSheetHeaderProps.size`** is omitted (sheet chrome, not page **SectionHeader**). |
+| **Page horizontal inset (376px artboard)** | Left and right inset on the flow root (**`mobile-preview-shell`** or equivalent scroll column) comes from **`number-semantics.margin.horizontal-m`** (**`number-primitives.unit-5`**). On the **376px** preview shell, this yields a **352px** content column. Apply **only here**, not again on an inner wrapper. |
+| **Shell vs component horizontal padding** | If the shell owns the outer gutter, **remove horizontal padding** on PODS **roots** listed in **§9** (strip table). **Do not** strip roots in the **§9 exceptions** table: **`card`**, **`search-container`**, **`alerts-container`**, **`segmented-container`** — their horizontal padding is **interior** inset inside the surface/control, not a second page gutter (see **§9**). **Alerts:** map **`layout="inline"`** / **`layout="block"`** to **in-flow vs sticky banner**; cancel **inline**’s outer margins when the shell already gutters. |
+| **SectionHeader — no side padding when outside Card** | The library wraps **SectionHeader** in **`padding-horizontal-3xl`**. With **§9** shell gutter, **zero horizontal padding** on **`section-header-container`** under **`mobile-preview-shell`** (see §9 table) so the title row aligns with **Card** edges. Do **not** add a **second** padded wrapper only for the header. |
+| **SectionHeader — side padding when nested** | When **SectionHeader** is placed **inside** a **Card** or another container that already insets its children, **then** add horizontal inset (or rely on that parent) so the title aligns with inner content. |
+| **Section header → Card — no extra margin** | When **SectionHeader** is **immediately** followed by **Card** (or the section’s main body block), **do not** add **`margin-top`** on **Card**, a spacer **`div`**, or a flex **`gap`** between header and card. Vertical space comes **only** from **SectionHeader**’s root **`padding-vertical-xl`** (**`number-semantics.padding.vertical-xl`**). Extra **`margin-top`** or **`gap.3xl` / `gap.4xl`** here **stacks** on that padding and over-separates the title from the card. If product needs a larger step, adjust **SectionHeader** tokens or variants in the library — not ad-hoc screen margins. |
+| **Section header → Card — Fragment / flex pitfall** | **`<>...</>`** (**React Fragment**) does **not** produce a DOM node. If **SectionHeader** and **Card** are adjacent in JSX but the **DOM parent** is **`display: flex; flex-direction: column`** with a non-zero **`gap`** (e.g. **`gap.4xl`** between “sections”), flex sees **two** items (header, card) and applies **`gap` between them** — the same bug as an explicit spacer. **Pattern:** wrap **SectionHeader + its Card / body** in one real wrapper (**`div`** / **`section`** / styled block) with **`flex-direction: column`** and **`gap: 0`** (or plain block flow); use **`gap.4xl`** (or **`gap.5xl`**) **only between** those wrappers when separating major blocks. |
+| **Section body on wash — stacked action rows** | When **SectionHeader** is followed by **two or more** sibling blocks **on the page wash** (**not** inside **Card**) — e.g. a **wrap** row of **Button**s, then a **full-width** **Button** below — **Button** does **not** add **margin-block** for the next sibling; without a wrapper the rows read as **vertically glued**. Wrap those **body** siblings (**only** the content **after** the header) in one **`flex`** column with **`number-semantics.gap.3xl`** (SCSS **`$gap-3xl`**) between **direct** children. **Do not** put **`gap.3xl`** between **SectionHeader** and the **first** body row — spacing from the title to the first block still comes **only** from **SectionHeader**’s **`padding-vertical-xl`** (see **Section header → Card — no extra margin**). **Example:** a **Documents**-style section on the wash — tonal **Button** row + **stroke** **Add e-card**. Same idea as **Card — vertical gap between stacked body blocks**, but for **wash-level** sections without a **Card** shell. |
+| **Search → Tabs under shell gutter** | **Search** keeps **`padding-horizontal-2xl`** on **`search-container`** (field interior only). After the §9 strip, **`tabs-container`** must stay **0** horizontal on the root so **tab labels** align with **SectionHeader** titles and other **section body** type (**do not** re-add **`padding-horizontal-2xl`** on **`tabs-container`** — that would double inset the copy). Put **Search** and **Tabs** in one **`flex`** column and separate them with **`number-semantics.gap.3xl`**. When **Tabs** sit **immediately under** **Header** (no **SectionHeader** / body block between), use **`number-primitives.unit-2`** **`margin-top`** on **Tabs** instead of the larger section gap. |
+| **Tabs → section body below** | **Tabs** do **not** ship **`margin-bottom`** on **`tabs-container`** for the **next** block (**Alerts**, **Card**, primary section content, etc.). After **SectionHeader** (or **Search** + **Tabs** cluster), add **`number-semantics.gap.3xl`** between **Tabs** and that following body. |
+| **SegmentedControl inside Card — vertical order** | **`SegmentedControl`** must be the **first** block inside **Card**, or **second** when **SectionHeader** is the **first** child **inside** that **Card** (page-level **SectionHeader** for the section stays **outside** the card per **Section titles** row). Do **not** place **SegmentedControl** after **List** / **TextField** / **Chips** / other mid-card body — use another **Card** if you need that pattern. When **SegmentedControl** pairs with **`TextField`** at the **top** of the same card, order **segment** then **field** and separate with **`number-semantics.gap.3xl`**. **`§9`** root strips are **horizontal** only — use a **section-local** vertical **`gap`** inside the card for that step. **Top inset when first:** if the **Card** uses the compact top/bottom variant intended for padded row stacks, but **SegmentedControl** is the **first** child, restore the top inset to **`number-semantics.gap.2xl`** so the control does not sit too tight to the card edge. |
+| **Header (large) cluster → first section block** | After **`HeaderDefault`** **`size="large"`** (back row + title block + any immediate header children), separate the **next** section’s chrome/body with **`number-semantics.gap.xl`** (`number-primitives.unit-4`, SCSS **`$gap-xl`**) — **except** when the **immediate** next block is **`Search`** (see **Search immediately under Header (large)**): **do not** insert extra vertical gap between **Header** and **`Search`**. |
+| **Search immediately under Header (large)** | When **`Search`** is the **first** control **directly after** **`HeaderDefault`** **`size="large"`** (no **SectionHeader** or other body block between **`HeaderWrapper`** and **`search-container`**), **do not** add **`margin-top`**, **`padding-top`**, or flex **`gap`** between **Header** and **Search** (**`0`** extra — header chrome / title block supplies spacing above the field). **`gap.xl`** still applies **before the first true section cluster** **after** this **Search** (e.g. **SectionHeader** + **Card**) when the pattern calls for that step; it **does not** sit between **Header** and **Search**. **Similar density** to **Tabs** immediately under **Header** (**`unit-2`** **`margin-top`** on **Tabs** when that row needs a hairline step — **Search** defaults to **no** added margin). |
+| **Between sections** | Separate stacked **section** blocks (after the first post-header block) with **`number-semantics.gap.4xl`** (`number-primitives.unit-8`) unless a product spec standardises on **`gap.5xl`**. |
+| **Quick-action icon row** | Space adjacent circular actions with **`number-semantics.gap.3xl`**. Circular hit targets in that row use **`number-primitives.unit-13`** (56px; SCSS **`$unit-13`**) — do **not** invent intermediate sizes (e.g. 52px) when this spec applies. |
+| **Primary content surface** | Put **List** / **ListItem** groups and grouped actions inside **PODS Components/Card** on a page wash such as **`--surface-level-4`**. Prefer the **Card** story defaults for fill. **Card inner padding** is **16px** on all sides — **`number-semantics.padding.horizontal-3xl` / `vertical-3xl`** (`number-primitives.unit-6`), applied in **`Card.module.scss`**. |
+| **ProgressBar — full width of card / section body** | **PODS Components/ProgressBar** must **span the full inner width** of its parent (**`width: 100%`**, **`box-sizing: border-box`**) with **no** horizontal **`margin`** on **`progress-bar-container`** — the parent (**Card**, **BottomSheet** body, etc.) already applies content inset; margin on the bar **narrows** the track (**~32px** loss with **16px** sides) and misaligns with sibling copy. Use the **parent** vertical **`gap.*`** for space above/below the bar. **Storybook:** **PODS Components/ProgressBar**; full-page composition examples live in **`docs/layout-references/layouts.md`**. |
+| **List row dividers — no line on last row** | In a stacked list (**List** / **ListItem**, manual rows in a **Card**, etc.), dividers belong **between** items only. The **final row** must **not** have a **bottom** rule (**`border-bottom`**, **ListItem `separator`** line, or equivalent). For **PODS ListItem**, set **`separator={false}`** on the last item (or **`separator={index < length - 1}`** when mapping). Use **`border-top`** / leading dividers on **2nd+** rows if building custom stacks. Divider colour: **`--border-neutral-weak`** (or **Separator** from Storybook where used). **Row height** is driven by content, line count, and tokenised padding — **do not** fix a pixel row height in prompts or specs. |
+| **ListItem — leading Avatar raster** | **`leading.type="avatar"`** uses **`Avatar`** logo/profile rasters inside a fixed-diameter chip. **Do not** stretch those **`img`** nodes with consumer CSS; rely on **`Avatar.module.scss`** (**`object-fit: cover`**, etc.) per **§5.4**. |
+| **Card padding** | **Intent:** the card shell should add **comfortable vertical inset** whenever the inner content does **not** already bring its own “row” padding at the top and bottom edges. Default **PODS Card** content inset is **`number-semantics.padding.horizontal-3xl`** and **`vertical-3xl`**. **When to tighten top/bottom (compact):** use the same horizontal inset but reduce the card’s **top/bottom** to **`number-primitives.unit-2`** **only** when the card is **mostly a stack of padded rows** — e.g. **ListItem** rows, in-card **SectionHeader**-style rows — so you do **not** double vertical padding with the row chrome. **Do not** treat “any card” as compact because a **List** appears elsewhere on the screen: **per-card** choice. **Non-row interiors** (plain typography, **Chips** + helper copy, promo blocks, mixed copy + controls without row wrappers) should keep **default vertical-3xl**; use a **section-local** **`gap`** (e.g. **`gap.3xl`**) between inner blocks for rhythm inside the padded shell. **Sub-exception — segment first in a compact list card:** **`SegmentedControl`** as the **first** child is **not** a heavy row; if the rest of the card is a compact list stack, restore **Card** **top** to **`number-semantics.gap.2xl`**. Do not rely on ad-hoc `px` in consumers unless **`customClass`** intentionally overrides. |
+| **Card vertical compact — row stacks only** | The **compact** top/bottom ( **`unit-2`**) is for **list / row-stack** cards where **first and last** visible blocks are row components that already add vertical padding. **Do not** use it when the main body is **only** **TextField**(s), **Chips**, free-form copy, or other blocks **without** that row padding — the surface looks **pinched** and helpers sit too close to the rounded corners. **Do not** use it for “marketing” or **summary copy** cards even if they sit next to list cards on the same page. Reserve **compact** for **List**-heavy cards (and **§11** segment-first top exception when applicable). |
+| **Card — do not shrink padding for multi-line + CTA tiles** | Do **not** set **`Card`** **`customClass`** padding to **`padding-vertical-m`** (**`number-semantics.padding.vertical-m`**, 4px) for cards whose interior is **several lines** (title, meta, status) **plus** a **Button** or other block actions — that **removes** visible card inset and content hugs the rounded corners. Keep **default** **`padding-vertical-3xl` / `padding-horizontal-3xl`** from **`Card.module.scss`** for **claim summaries**, **order / transaction detail** tiles, **notification**-style blocks, and similar. Reserve **`padding-vertical-m`** **only** for **true single-row** tiles that mirror **List** row density (e.g. **recent-spend** list row cards). **Claims**-style summary cards follow the **default** **Card** inset. |
+| **TextField internal stack (PODS common)** | **PODS Components/TextField** sets **`colGap`** **`number-semantics.gap.m`** on **`data-testid="text-field-container"`** between the **input row** and **infoSection** (assistive / error). **Align screens with that default** — **do not** override **`gap`** on **`text-field-container`** in consumer CSS unless a **written product spec** asks for extra air (e.g. dense multi-line helper copy); ad-hoc **`gap.xl`** drifts from Storybook and the library. **Between** stacked fields in the same **Card**, spacing comes from the parent stack (**`number-semantics.gap.3xl`**, e.g. **`shellInsetCardBlockStack`**), not from widening the field’s own internal gap. Where flex layouts need it, keep **`width: 100%`** and **`min-width: 0`** on the field root so the control does not **shrink-wrap**. See **§13** for a short TextField / list-avatar reminder. |
+| **Card corner radius** | Screen- and section-level **Card** surfaces on neutral washes use **`number-semantics.radius.3xl`**, backed by **`number-primitives.unit-8`** (24px in `design-tokens.json` / **PODS Number System** radius scale). **`data-testid="card"`** wrappers in product UIs should resolve to this radius (SCSS **`$radius-3xl`** or equivalent from `Number.mdx`). If the **PODS Components/Card** story ships a smaller radius, override via **`customClass`** or shared Card styling so production cards match **`radius.3xl`**. |
+| **Card — borderless section tiles on wash** | **PODS Card** (**`pods-components/Card/Card.module.scss`**) defaults to **`border: 1px solid`** **`--border-neutral-weak`** on **`cardWrapper`** so surfaces read as **boxed** on ambiguous backgrounds. That default is **not** turned off by **`.storybook/`** preview config — product screens must override in **`customClass`** when the pattern calls for borderless tiles. On a **page wash** (e.g. **`--surface-level-4`**), **section** cards that should read as **soft tiles** (category grids, hub shortcuts, grouped content that already separates from the wash via **`surface-level-1`** fill + **`radius.3xl`**) should **not** keep that hairline — it **double-defines** the edge. **Consumer pattern:** set **`border: none`** (or **`0`**) on **`customClass`** for those cards, **keeping** token fill + radius. **Do** keep the default **Card** border when the pattern needs a **strong** control outline on the same plane as neighbours. |
+| **Avoid double padding** | Do **not** combine **Card**’s own padding, a **manual padded `div`**, **and** components that already carry horizontal gutters (**List** / **ListItem** row padding, **TextField**, etc.). That stacks insets (e.g. card inset + **ListItem** **`padding-horizontal-3xl`** on **`data-testid^="list-item-"`**) and narrows content twice. **Inside Card, the Card owns horizontal inset:** suppress **ListItem** left/right padding so row text aligns to the card content box. Same pattern as sheets: when the parent owns inset, strip duplicate row gutters. **Pick one inset owner** if you override **Card** via **`customClass`** — confirm spacing in Storybook for each pair. **OTP inside Card:** **`otp-container`** applies vertical padding from tokenised padding values; when **Card** owns outer inset, remove the OTP root’s extra top/bottom padding so the control does not double the card’s vertical breathing room. |
+| **List row hairlines — inset owner** | **PODS ListItem** draws the **Separator** in a wrapper sized for rows that still have **`padding-horizontal-3xl`**. If you strip row horizontal padding because **Card** (or sheet) owns inset, **re-stretch** the separator wrapper to the **same** horizontal span as the content surface: **inside Card**, hairlines must run to the **Card inner edge**. **On the page wash** (**List** **not** inside **Card**) with the §9 shell gutter, hairlines should extend to the intended screen edge if the pattern calls for full-width dividers. Do **not** leave a separator wrapper sized for the old inset after stripping row padding; the line will sit short of the correct edge. |
+| **Chips — horizontal gap in a row** | When several **PODS Components/Chips** sit **in one row** (**`display: flex`**, **`flex-wrap`** as needed), space **between** chips is **`number-semantics.gap.xl`**. Do **not** reuse **`gap.2xl`** for chip-to-chip spacing — that step is for a different density on the number scale. |
+| **Card — vertical gap between stacked body blocks** | **`TextField`** (and similar controls) do **not** add **block-level** space **below** the field for the **next** sibling. Internal **`colGap`** only separates the input row from assistive copy **inside** the component. When **`TextField`** is followed by **`Chips`**, **`Button`**, another **`TextField`**, or other mid-card blocks **inside** the **same** **Card**, put those siblings in one **section-local** **`flex`** column with **`number-semantics.gap.3xl`**. **Do not** assume the library field will **margin** itself away from the next control. |
+| **Floating primary CTA above BottomNavBar** | On a **page wash** (for example **`--surface-level-4`**) with a shell-owned gutter, use **`Button`** **`type="filled"`** for the main row **above** a **BottomNavBar** when that pattern applies. Wrap the **CTA** and **BottomNavBar** in one **`position: sticky`**, **`bottom: 0`** column so both **dock** together — **CTA** **above** the tab bar. Inside that stack, the **CTA** sits in a full-width **surface-level-1** band with **`padding: number-semantics.gap.xl`** around the control; apply gutter breakout on the stack wrapper when the shell gutters so the plate + nav span the device edges. When there is **no** bottom nav, use only the CTA band + breakout — no empty nav slot wrapper. Pair this with the §9 scroll-height rule so short pages still fill the preview height and the bar sits flush to the bottom edge. |
+| **BottomSheet width + inset** | **PODS Components/BottomSheet** applies **`padding`** on **`bottomSheetContent`** (`data-testid="bottom-sheet"`). Slotted children (`data-testid="children"`) should **span the full inner width** (**`width: 100%`**, **`align-self: stretch`**, **`min-width: 0`** on flex descendants) so lists and forms are not shrink-wrapped. Treat the **sheet panel as the horizontal inset owner** for that region: **do not** add a second horizontal padded wrapper around sheet children, and **suppress built-in row gutters** on **ListItem** (or equivalent) inside the sheet — otherwise text rows stay narrow and insets **double**. Override via scoped CSS (for example zero **`padding-left` / `padding-right`** on **`[data-testid^="list-item-"]`** under the sheet) or **`customClass`** on **List** / **ListItem** where the library supports it. After stripping row horizontal padding on **List** inside a sheet, re-stretch row blocks and **Separator** hairlines so they span the **sheet inner content width** (same §11 **List row hairlines — inset owner** rule as **Card**). **`children`** is a **flex** column with **`gap.3xl`** between **direct** children only; if you wrap several **`TextField`** or body blocks in one inner **`div`**, that outer gap does **not** space the wrapped controls. In that case use an inner **flex** column with **`gap.3xl`** plus matching top/bottom padding so the first and last controls get the same step from the sheet header and action row. **Spacing rule:** use **either** a single parent **`gap.3xl`**, **or** plain block flow with **`margin-block: gap.3xl`** on each control root so vertical margins collapse to one step between neighbours — **do not** put **`margin-block`** on every **`TextField`** **inside** a **flex** column that already has **`gap.3xl`**; **flex** **does not** collapse those margins, and **gap + margins** adds. |
+| **BottomSheet — copy and info bodies (grouping)** | Sheets that are mostly **explanatory or legal copy** (not a spaced **form** stack) should still follow **§8.1 Proximity beats generic gaps**. Wrap each **logical cluster** (e.g. headline + supporting line, or disclaimer + text link) in a **single** inner column: use **`gap.m`**–**`gap.2xl`** **inside** a cluster — tighter between lines that are **one** thought (**`gap.m`** or **`gap.xl`** between title + supporting line is appropriate); use **`gap.2xl`**–**`gap.3xl`** **between** separate clusters only. **Do not** paste the same **form-body** wrapper used for **TextField** stacks (extra **`padding-top` / `padding-bottom`** on the consumer root) onto **copy-only** bodies — **BottomSheet** **`bottomSheetContent`** and **`contentSection`** already set vertical rhythm; **double padding** reads as **over-spaced**. **Component choice:** when the sheet chrome already carries a **title** + **description**, avoid piling **SectionHeader** **`extra-large`** in **`children`** (duplicate hierarchy + **SectionHeader** root **`padding-vertical-xl`**). Prefer a compact **`typography.scale`** stack (e.g. **`title3`** + **`body`**) or **`SectionHeader`** **`medium`** / **`large`** only if the pattern must stay component-pure. **Alignment:** copy clusters should be **left-aligned** (**`text-align: left`**, **`align-items: flex-start`** on the stack). **Inline copy actions** (**`Button`** **`type="link"`**): use **`medium`** (or another non-**large** size) so the control is **not** full-width; align to the **reading edge** (scoped **`padding-left`** reset when needed). If every short line is its **own** direct child of **`children`**, the component’s **`gap.3xl`** will **over-separate** — **group** in wrappers rather than “same gap everywhere.” |
+| **Token-only inset (override Card default)** | **Card** defaults to **`padding.*.3xl`**. If a screen spec needs a different inset, override once via **`customClass`** (or a wrapper) — still avoid stacking with **List** / **ListItem** / **TextField** gutters. |
+
+**Layout check (DOM / React):** preview frame (when used) → shell/root layout with the outer page inset and overlay containing block → **Header Default** (**`size="large"`** on landing: primary title is **`display3`** on the header’s second row — **not** duplicated in **SectionHeader**) → **Search** (when **immediate** next control: **no** extra margin vs header — **Search immediately under Header (large)**) → **`gap.xl`** before the **first** **SectionHeader** / section body cluster **after** that **Search** when the screen uses the large landing step → **SectionHeader** (**`size`** defaults to **`extra-large`**) → **Card** **directly** (**no** **`margin-top`** / spacer after **SectionHeader** — spacing from header **`padding-vertical-xl`** only) → inside **Card**: optional in-card **SectionHeader** first, else **`SegmentedControl`** (if any) **before** **List** / **TextField** / other body — never **SegmentedControl** mid-stack after list/fields unless it lives in a **separate** **Card** → wrap **List** + **TextField** + **Chips** + other stacked body blocks in a single vertical stack with **`number-semantics.gap.3xl`** so each block is separated from the next — **List** / **ListItem** (strip row horizontal padding inside **Card** when **Card** owns inset; **no** bottom divider on the last row) → **BottomSheet** (portal + full-width **`children`**, sheet-owned inset — no duplicate **ListItem** horizontal padding; for multi-field sheet bodies, use one inner vertical stack with matching top/bottom inset as described in **BottomSheet width + inset**; for **copy-heavy** sheet bodies, cluster related lines per **BottomSheet — copy and info bodies** and **§8.1 Proximity**). Further stacked **sections** use **`gap.4xl`** (or **`gap.5xl`** if the spec adopts it globally), never **`gap`** between **SectionHeader** and its **Card**.
+
+---
+
+## 12. Validation and prompts
+
+- **§8–§11** are the source of truth for composition—not any deleted harness or demo app wiring.
+- When generating new screens from prompts, prefer the general ownership model:
+  outer inset owner, interior padding owner, vertical rhythm owner, separator owner, and overlay attachment owner.
+- If a screen does **not** use a framed mobile preview shell, ignore shell-only mechanics and apply the same composition rules to the screen’s real root layout.
+
+---
+
+## 13. Consumer screen patterns (TextField, list avatars)
+
+**Cross-reference:** extends **§8–§11** (composition, responsive shell, agent prompts, card sections).
+
+### 13.1 TextField inside Card
+
+- **Internal rhythm:** **`paytm_common_ui` TextField** uses **`number-semantics.gap.m`** (`colGap`) on **`[data-testid="text-field-container"]`** between the bordered **input** block and **assistive** / **error** copy. Treat that as the source of truth; match Storybook **PODS Components/TextField**.
+- **Do not** override **`gap`** on **`text-field-container`** in consumer CSS unless product spec requires it.
+- **Between fields:** parent stack **`gap.3xl`** (e.g. **`shellInsetCardBlockStack`**), not a wider internal field gap.
+- **Flex safety:** **`width: 100%`** / **`min-width: 0`** on the field root in columns is fine when needed.
+
+### 13.2 ListItem — leading avatar (people / beneficiaries)
+
+Use **one consistent recipe** anywhere a row represents a **person or saved payee** (recent contacts, “Sending to”, “To”, beneficiary summary rows):
+
+| Rule | Detail |
+|------|--------|
+| **Component** | **PODS Components/List** + **ListItem** with **`leading={{ type: "avatar", size: "regular", avatar: … }}`** — see **List** stories (*With leading avatar*, profile vs initials). |
+| **Size** | **`size: "regular"`** on **`leading`** for standard product list density (step up from **`small`** only when spec demands). |
+| **Photo** | **`avatar: { type: "profile", avatarProfile: { imageURL } }`** when the domain model has a URL (e.g. **`RecentContact.avatarUrl`**). |
+| **No photo** | **`avatar: { type: "initials", avatarInitials: { initials } }`** — derive initials from **display name** (words → first letters; single token → up to two letters). Default **`initialsColor`** from the library is fine. |
+| **Same beneficiary everywhere** | Checkout / success / sheets must show the **same** avatar logic as the contact list: **resolve** the row against **saved contacts** (match mobile/UPI), then fall back to initials from number/UPI local-part — do not hand-pick different **`Avatar`** styles per screen. |
+| **Mixed lists (text-only rows + beneficiary)** | When some **`ListItem`** rows have **no** leading chrome and one row shows a person, put the avatar on **`trailing: { type: "avatar", avatar, size }`** so **primary/secondary** text stays left-aligned with other rows. **`leading.avatar`** stays the default for **all-avatar** lists (e.g. recent contacts). Library: **`paytm_common_ui` `ListItem`** trailing **`type: "avatar"`** (since **3.1.0** in this repo). |
+| **Helpers** | Reuse one shared module for **`recentContactListLeading`** / **`recentContactTrailing`**, **`recipientListTrailing`** (and **`recipientListLeading`** when the whole list is avatar rows), with a single **`listLeadingAvatarSize`**. |
+| **Not for every row** | Rows that are **fees**, **metadata**, **payment rails**, or **institution names** keep **icons**, **logos**, or **no** leading — avatars are for **identity**, not generic list chrome. |
+
+When adding a new flow with payees, copy the **helper + types** pattern (`RecentContact` + optional **`avatarUrl`**) rather than inlining different **`Avatar`** props per file.
+
+---
+
+## 14. Enforcement (how these rules actually get followed)
+
+Rules in **§5–§11** only help if reviewers and tooling **reach for them**.
+
+| Lever | What to do |
+|--------|------------|
+| **PR review** | For any new or changed **framed mobile** screen: skim **§9** strip table (all roots present in **`rootPaddingReset`** / equivalent?), **§11** “Section header → Card” + Fragment/flex row, **§11** **Card — borderless section tiles** when **`customClass`** cards sit on a **page wash**, **§5.3** if **`TrailingIcons`** changed, **§5.4** if **`ListItem`** **`leading.avatar`** / logo images changed, and the **Layout check** paragraph at the end of **§11**. **`List` / `ListItem`:** confirm **§11** **List row dividers — no line on last row** — any **`.map`** that renders **`ListItem`** must pass **`separator={index < items.length - 1}`** (or equivalent); the component defaults **`separator={true}`**, which leaves a **bottom hairline** on the final row. |
+| **Agents / Cursor** | Attach **`.cursor/design.mdc`** (or project rule that includes it) for layout and Mall-style screen work; cite **§11** + **`docs/layout-references/layout-pattern-catalog.md`** when picking **`LP-*`** patterns. Optional: set `alwaysApply: true` in this file’s front matter **only** if every task in the repo should weigh PODS shell rules — otherwise keep scoped to UI/layout work. |
+| **Storybook as gate** | Ship a **story** that exercises the real shell path (**`scrollGutter`**, **`rootPaddingReset`**, stacked **SectionHeader** + **Card**). Visual review catches double gutters and oversized header–card gaps faster than grep. |
+| **Automation (later)** | No shared linter enforces Fragment vs flex or **`ListItem`** separators yet. **Future:** optional **ESLint** (e.g. **`ListItem`** inside **`.map`** without a **`separator=`** prop; flex parents that only wrap fragment-wrapped section pairs with large **`gap`**) or **stylelint** heuristics — document any new rule next to this table. |
+
+*This document is generated from the `paytm-common-ui` repo layout and Storybook configuration. When tokens change, regenerate `src/commonStyles/sass-generated/*.css` from the design pipeline and refresh Storybook. This file is intentionally **token-first**: colours should resolve to semantic variables, spacing/radius should resolve to number tokens, and any pixel literals that remain should be treated as explanatory aliases or explicit preview-device geometry rather than new design constants.*

@@ -1,0 +1,36 @@
+@import "../../commonStyles/mixin";
+
+.headerContainer {
+	@include borderBox();
+	width: 100%;
+}
+
+.headerLoader {
+	min-height: 56px;
+	padding: 8px 0;
+	background-color: getColorVariable(--backgrounds-dark-low-emphasis);
+	width: 100%;
+	@include skeletonLoading();
+}
+
+.trailingSection {
+	@include flexBox(flex, center, flex-end, false, row, null, 0px);
+	@include rowGap($gap-2xl);
+	.link {
+		@include getFontStyle(subtext-semibold, getColorVariable(--text-primary-medium));
+		a {
+			@include anchorStyle();
+		}
+	}
+	.icon {
+		@include dimensions(24px, 24px);
+		flex-shrink: 0;
+		svg {
+			color: getColorVariable(--icon-neutral-strong);
+		}
+		& > * {
+			@include dimensions(24px, 24px);
+			@include pointerCursor();
+		}
+	}
+}

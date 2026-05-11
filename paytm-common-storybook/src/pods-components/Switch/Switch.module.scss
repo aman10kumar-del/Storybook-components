@@ -1,0 +1,56 @@
+@import "../../commonStyles/mixin.scss";
+
+.toggle {
+  @include flexBox(flex, center, flex-start, false, row);
+  .label {
+    padding-left: $padding-horizontal-l;
+    word-break: break-word;
+    @include getFontStyle(title4-medium, getColorVariable(--text-neutral-strong));
+  }
+}
+.toggleSwitch {
+  @include pointerCursor();
+  flex-shrink: 0;
+  display: inline-block;
+  border-radius: $radius-xl;
+  position: relative;
+  vertical-align: middle;
+  transition: background 0.25s;
+  background: getColorVariable(--icon-neutral-weak);
+  @include dimensions(52px, 32px);
+  &::before,
+  &::after {
+    content: '';
+  }
+  .roundBox {
+    display: block;
+    border-radius: 50%;
+    background: getColorVariable(--icon-universal-light);
+    transition: left 0.25s;
+    @include position(absolute, 2px, false, false, 2px);
+    @include dimensions(28px, 28px);
+  }
+  &.active {
+    background: getColorVariable(--icon-primary-medium);
+    .roundBox {
+      left: 22px;
+      background: getColorVariable(--icon-universal-light);
+    }
+    &.disabled {
+      background: getColorVariable(--background-offset-2-strong);
+      .roundBox {
+        background: getColorVariable(--icon-universal-light);
+      }
+    }
+  }
+  &.disabled {
+    pointer-events: none;
+    background: getColorVariable(--background-offset-2-medium);
+    .roundBox {
+      background: getColorVariable(--icon-universal-light);
+    }
+    & + .label {
+      color: getColorVariable(--text-neutral-weak)
+    }
+  }
+}

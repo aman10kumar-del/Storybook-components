@@ -1,0 +1,568 @@
+@import "../../commonStyles/mixin";
+
+$portal-z: 30;
+
+/* Device shell: BottomSheet portal + bounded height so inner .scroll owns vertical scroll. */
+.shell {
+  position: relative;
+  transform: translateZ(0);
+  width: 100%;
+  max-width: 430px;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background-color: getColorVariable(--surface-level-4);
+  overflow: hidden;
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+}
+
+.homeHeader {
+  flex-shrink: 0;
+  background-color: getColorVariable(--surface-level-4);
+}
+
+.portalHost {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: $portal-z;
+}
+
+/* --- Home (search) — extends flight home rhythm --- */
+.homeScroll {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-4xl;
+  padding: 0 $margin-horizontal-m $padding-vertical-3xl;
+}
+
+.searchCard {
+  border-radius: $radius-3xl;
+}
+
+.searchCardInner {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+}
+
+/* SegmentedControl root caps at 352px by default; span full Card content width here. */
+.searchCardSegmented {
+  align-self: stretch;
+  width: 100%;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+.routeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $gap-m;
+}
+
+.routeMid {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.routeBlock {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  border-radius: $radius-s;
+
+  &:focus-visible {
+    outline: 2px solid getColorVariable(--border-primary-medium);
+    outline-offset: 2px;
+  }
+}
+
+.routeBlockEnd {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.routeCode {
+  @include getFontStyle(title2-bold, getColorVariable(--text-neutral-strong));
+}
+
+.routeCity {
+  @include getFontStyle(caption-medium, getColorVariable(--text-neutral-medium));
+}
+
+.swapButton {
+  flex-shrink: 0;
+}
+
+/* Tappable row aligned with date cells — avoids orphan <li> outside <ul> (ListItem). */
+.paxRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: $gap-2xl;
+  width: 100%;
+  box-sizing: border-box;
+  padding: $padding-vertical-xl $padding-horizontal-xl;
+  border-radius: $radius-l;
+  background-color: getColorVariable(--surface-level-2);
+  border: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+
+  &:focus-visible {
+    outline: 2px solid getColorVariable(--border-primary-medium);
+    outline-offset: 2px;
+  }
+}
+
+.paxTextCol {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+  min-width: 0;
+}
+
+.paxPrimary {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+}
+
+.paxSecondary {
+  @include getFontStyle(subtext-medium, getColorVariable(--text-neutral-moderate));
+}
+
+.paxChevronWrap {
+  flex-shrink: 0;
+  display: inline-flex;
+  color: getColorVariable(--icon-neutral-strong);
+
+  &,
+  & > svg {
+    @include dimensions(20px, 20px);
+  }
+}
+
+.dateRow {
+  display: flex;
+  gap: $gap-2xl;
+}
+
+.dateCell {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+  padding: $padding-vertical-xl $padding-horizontal-xl;
+  border-radius: $radius-l;
+  background-color: getColorVariable(--surface-level-2);
+  border: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+
+  &:focus-visible {
+    outline: 2px solid getColorVariable(--border-primary-medium);
+    outline-offset: 2px;
+  }
+}
+
+.dateLabel {
+  @include getFontStyle(caption-medium, getColorVariable(--text-neutral-medium));
+}
+
+.dateValue {
+  @include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.promoStrip {
+  display: flex;
+  align-items: center;
+  gap: $gap-2xl;
+  padding: $padding-vertical-xl $padding-horizontal-3xl;
+  border-radius: $radius-l;
+  background-color: getColorVariable(--background-positive-weak);
+}
+
+.promoText {
+  @include getFontStyle(body-medium, getColorVariable(--text-positive-strong));
+  flex: 1;
+  min-width: 0;
+}
+
+.offersBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.offerScroller {
+  display: flex;
+  flex-direction: row;
+  gap: $gap-xl;
+  overflow-x: auto;
+  padding-bottom: $padding-vertical-s;
+}
+
+.offerCard {
+  flex: 0 0 auto;
+  width: 200px;
+  max-width: 72vw;
+  border-radius: $radius-l;
+  padding: $padding-vertical-2xl $padding-horizontal-2xl !important;
+}
+
+.offerTitle {
+  @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+  margin: 0 0 $gap-m;
+}
+
+.offerSub {
+  @include getFontStyle(caption-medium, getColorVariable(--text-neutral-moderate));
+  margin: 0;
+}
+
+.recentBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.recentCard {
+  border-radius: $radius-3xl;
+  padding: 0 !important;
+}
+
+.recentList {
+  padding: 0;
+}
+
+.navDock {
+  flex-shrink: 0;
+  padding: 0;
+  background-color: getColorVariable(--surface-level-4);
+  z-index: 2;
+}
+
+/* --- Results / inner steps --- */
+.stepScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 $margin-horizontal-m $padding-vertical-3xl;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-4xl;
+}
+
+.chipRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: $gap-xl;
+}
+
+.flightCard {
+  border-radius: $radius-l;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus-visible {
+    outline: 2px solid getColorVariable(--border-primary-medium);
+    outline-offset: 2px;
+  }
+}
+
+/* Tighter than default Card (16px) — less vertical dead space */
+.flightCardDense {
+  padding: $padding-vertical-2xl $padding-horizontal-2xl !important;
+}
+
+.flightCardSelected {
+  border-color: getColorVariable(--border-primary-medium);
+  box-shadow: 0 0 0 1px getColorVariable(--border-primary-medium);
+}
+
+/* Layout D — logo rail + stacked column. Flight row copy uses subtext (12px); Badge uses shipped PODS styles only. */
+.flightRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: $gap-xl;
+}
+
+.flightRailLogo {
+  flex-shrink: 0;
+}
+
+.flightRailBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-xl;
+}
+
+/* Single line: horizontal scroll instead of wrap */
+.flightBadgeRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: $gap-s;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  scrollbar-width: thin;
+  padding-bottom: $padding-vertical-s;
+}
+
+/* Layout only — do not style Badge internals; see `.cursor/design.mdc` */
+.badgeSlot {
+  flex-shrink: 0;
+}
+
+.flightAirlineRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: $gap-2xl;
+}
+
+.airline {
+  @include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.flightNo {
+  @include getFontStyle(subtext-medium, getColorVariable(--text-neutral-medium));
+}
+
+.flightScheduleGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax($unit-8, 2fr) minmax(0, 1fr);
+  align-items: center;
+  column-gap: $gap-l;
+  row-gap: $gap-s;
+}
+
+.timeDep {
+  @include getFontStyle(title4-bold, getColorVariable(--text-neutral-strong));
+  justify-self: start;
+}
+
+.timeArr {
+  @include getFontStyle(title4-bold, getColorVariable(--text-neutral-strong));
+  justify-self: end;
+}
+
+.timeTrack {
+  justify-self: stretch;
+  height: 0;
+  border: none;
+  border-top: 1px dashed getColorVariable(--border-neutral-weak);
+  margin: 0;
+  align-self: center;
+}
+
+.airportDep {
+  @include getFontStyle(subtext-medium, getColorVariable(--text-neutral-medium));
+  justify-self: start;
+}
+
+.airportArr {
+  @include getFontStyle(subtext-medium, getColorVariable(--text-neutral-medium));
+  justify-self: end;
+}
+
+.airportSpacer {
+  justify-self: center;
+}
+
+.meta {
+  @include getFontStyle(subtext-medium, getColorVariable(--text-neutral-moderate));
+}
+
+.flightMetaPriceRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: $gap-xl;
+}
+
+.priceGroup {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $gap-s;
+  flex-shrink: 0;
+}
+
+.price {
+  @include getFontStyle(title4-bold, getColorVariable(--text-primary-strong));
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: getColorVariable(--icon-neutral-medium);
+
+  &,
+  & > svg {
+    @include dimensions(20px, 20px);
+  }
+}
+
+.fareOptions {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+}
+
+.fareCard {
+  border-radius: $radius-l;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+
+  &:focus-visible {
+    outline: 2px solid getColorVariable(--border-primary-medium);
+    outline-offset: 2px;
+  }
+}
+
+.fareCardInner {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+}
+
+.fareName {
+  @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.fareDesc {
+  @include getFontStyle(caption-medium, getColorVariable(--text-neutral-moderate));
+}
+
+.farePrice {
+  @include getFontStyle(title3-bold, getColorVariable(--text-primary-strong));
+}
+
+.formStack {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+}
+
+.reviewBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-2xl;
+}
+
+.reviewLine {
+  display: flex;
+  justify-content: space-between;
+  gap: $gap-2xl;
+}
+
+.reviewKey {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+}
+
+.reviewVal {
+  @include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+  text-align: right;
+}
+
+.successPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $gap-4xl;
+  padding: $gap-5xl $margin-horizontal-m;
+  text-align: center;
+}
+
+.successTitle {
+  @include getFontStyle(display3-bold, getColorVariable(--text-positive-strong));
+  margin: 0;
+}
+
+.successSub {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+  margin: 0;
+}
+
+.refPill {
+  @include getFontStyle(title3-bold, getColorVariable(--text-neutral-strong));
+  padding: $padding-vertical-xl $padding-horizontal-3xl;
+  border-radius: $radius-l;
+  background-color: getColorVariable(--surface-level-1);
+  border: 1px solid getColorVariable(--border-neutral-weak);
+}
+
+.sheetList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+  padding: $padding-vertical-m 0;
+}
+
+.paxRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $gap-3xl;
+  padding: $padding-vertical-2xl 0;
+}
+
+.paxLabel {
+  @include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.paxControls {
+  display: flex;
+  align-items: center;
+  gap: $gap-3xl;
+}
+
+.paxCount {
+  @include getFontStyle(title3-bold, getColorVariable(--text-neutral-strong));
+  min-width: $unit-8;
+  text-align: center;
+}
+
+.inlineAlert {
+  margin-bottom: $gap-2xl;
+}

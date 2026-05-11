@@ -1,0 +1,15 @@
+@import "../../commonStyles/mixin";
+
+.brandBandContainer {
+	@include flexBox(flex, center, center, false, column, null, 0px);
+	width: 100%;
+	div {
+		@include dimensions(100%, 8px);
+	}
+	.primaryBand {
+		background: getColorVariable(--brand-primary);
+	}
+	.secondaryBand {
+		background: getColorVariable(--brand-secondary);
+	}
+}

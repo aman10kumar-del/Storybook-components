@@ -1,0 +1,102 @@
+@import "../../commonStyles/mixin";
+
+.passcodeContainer {
+  display: block;
+  padding: 16px;
+  @include flexBox(flex, flex-start, space-between, false, column, null, 0px);
+  @include colGap(12px);
+  @include borderBox();
+  .title {
+    @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+  }
+  .passcodeBoxes {
+    width: 100%;
+    overflow-x: auto;
+    @include flexBox(flex, flex-start, space-between, false, row, null, 0px);
+    @include rowGap(12px);
+    .passcodeBox {
+      position: relative;
+      @include dimensions(false, 48px);
+      max-width: 48px;
+      input {
+        @include dimensions(100%, 100%);
+        @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+        background-color: getColorVariable(--background-neutral-inverse) !important;
+        border: 1px solid getColorVariable(--background-neutral-weak);
+        caret-color: getColorVariable(--border-primary-strong);
+        text-align: center;
+        border-radius: 8px;
+        color: transparent;
+        
+        &:disabled {
+          -webkit-text-fill-color: getColorVariable(--text-neutral-strong) !important;
+          -webkit-opacity: 1 !important;
+          opacity: 1 !important;
+        }
+
+        &:focus {
+          outline: none;
+          border: 1px solid getColorVariable(--border-primary-strong);
+
+          & ~ .placeholder {
+            display: none;
+          }
+
+          & ~ .labelHolder {
+            display: inline;
+            transition: all;
+          }
+        }
+
+        &:not(:placeholder-shown) {
+          & ~ label {
+            top: 3px;
+            @include getFontStyle(subtext-medium, getColorVariable(--text-neutral-medium));
+          }
+
+          & ~ .placeholder {
+            display: none;
+          }
+
+          & ~ .labelHolder {
+            display: inline;
+            transition: all;
+          }
+        }
+
+        &:after {
+          position: absolute;
+          content: "";
+          border-bottom: 1px solid getColorVariable(--background-offset-weak);
+          bottom: -15px;
+        }
+      }
+      s::after {
+        @include flexBox(flex, center, center, false, column, null, 0px);
+        position: absolute;
+        left: calc(50% - 16px/2);
+        top: calc(50% - 24px/2);
+        @include dimensions(16px, 24px);
+        content: '●';
+        text-align: center;
+        @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+      }
+    }
+  }
+  .error {
+    margin-right: auto;
+    @include getFontStyle(subtext-regular, getColorVariable(--text-negative-strong));
+    word-break: break-word;
+  }
+  .actionsDiv {
+    width: 100%;
+    @include flexBox(flex, flex-start, space-between, false, row, null, 0px);
+    @include rowGap(8px);
+    @include getFontStyle(subtext-medium, getColorVariable(--text-primary-strong));
+    .forgotPasscode, .alternativeAction {
+      max-width: 60%;
+      word-break: break-word;
+      @include pointerCursor();
+    }
+  }
+}

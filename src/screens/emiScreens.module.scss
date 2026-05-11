@@ -1,0 +1,102 @@
+@import "../../paytm-common-storybook/src/commonStyles/style-dictionary/number";
+
+.flowRoot {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.flowScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-4xl;
+  padding: 0 $margin-horizontal-m $padding-vertical-3xl;
+  flex: 1;
+  min-height: 0;
+}
+
+.pageTightAfterHeader {
+  padding-top: $gap-xl;
+}
+
+.heroCard {
+  border: none !important;
+  background: var(--background-offset-2-weak) !important;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroCardInner {
+  margin: 0;
+  font-size: var(--pods-body-size);
+  line-height: var(--pods-body-line-height);
+  color: var(--text-neutral-medium);
+  text-align: center;
+}
+
+.ctaStack {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+  width: 100%;
+}
+
+.fieldStack {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+  width: 100%;
+}
+
+.selectScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: $gap-xl $margin-horizontal-m $padding-vertical-3xl;
+}
+
+.cardStack {
+  display: flex;
+  flex-direction: column;
+  gap: $margin-horizontal-m;
+  padding-bottom: $padding-vertical-3xl;
+}
+
+.ctaDock {
+  flex-shrink: 0;
+  padding: $gap-xl $margin-horizontal-m $padding-vertical-3xl;
+  background: var(--surface-level-4);
+  border-top: 1px solid var(--border-neutral-weak);
+}
+
+.fullWidth {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.plannedBody {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+}
+
+.sectionHeaderTight {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}

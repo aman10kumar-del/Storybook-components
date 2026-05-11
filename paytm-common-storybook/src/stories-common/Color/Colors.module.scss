@@ -1,0 +1,51 @@
+@import "../../commonStyles/mixin";
+
+.colorsContainer {
+	section {
+		@include flexBox(flex, flex-start, center, false, column, null, 0px);
+		@include colGap(16px);
+		padding: 0px 16px;
+		margin-bottom: 24px;
+		.sectionHeading {
+			@include fontStyle(24px, getColorVariable(--text-neutral-strong), 700);
+		}
+		.themeHeader {
+			@include flexBox(flex, center, space-between, false, row, null, 0px);
+			@include dimensions(100%, 16px);
+			@include rowGap(16px);
+			@include fontStyle(20px, getColorVariable(--text-neutral-strong), 700);
+			label {
+				width: 50%
+			}
+		}
+		.colorsRow {
+			@include flexBox(flex, center, space-between, false, row, null, 0px);
+			@include rowGap(16px);
+			width: 100%;
+			.colorCard {
+				@include flexBox(flex, flex-start, flex-start, false, column, null, 0px);
+				@include colGap(4px);
+				@include dimensions(50%, 100px);
+				padding: 8px;
+				border-radius: 4px;
+				color: getColorVariable(--text-universal-inverse-strong);
+				border: .5px solid getColorVariable(--border-neutral-weak);
+				.colorName {
+					@include fontStyle(16px, null, 700);
+				}
+				.colorCode {
+					@include fontStyle(18px, null, 400);
+				}
+				.colorDescription {
+					@include fontStyle(12px, null, 400);
+				}
+				&.whiteText {
+					color: getColorVariable(--text-universal-light) !important
+				}
+				&.border {
+					border: 1px solid getColorVariable(--border-neutral-weak)
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,67 @@
+@import "../../commonStyles/mixin";
+
+.searchFieldContainer {
+	border-radius: $radius-max;
+	@include flexBox(flex, center, space-between, false, row, null, 0px);
+	@include rowGap(4px);
+	@include borderBox();
+	padding: $padding-vertical-xl $padding-horizontal-2xl;
+	height: 48px;
+	width: 100%;
+	background: getColorVariable(--background-neutral-inverse);
+	&.stroke {
+		border: 1px solid getColorVariable(--border-neutral-medium);
+		&:focus-within {
+			border: 1px solid getColorVariable(--border-primary-strong);
+		}
+	}
+	input {
+		border: none;
+		outline: none;
+		flex-grow: 1;
+		height: 24px;
+		background: inherit;
+		caret-color: getColorVariable(--icon-primary-strong);
+		overflow: hidden;
+		@include getFontStyle(title4-medium, getColorVariable(--text-neutral-strong));
+		&::placeholder {
+			color: getColorVariable(--text-neutral-medium);
+		}
+		&::-webkit-input-placeholder {
+			color: getColorVariable(--text-neutral-medium);
+		}
+		&:-ms-input-placeholder {
+			color: getColorVariable(--text-neutral-medium);
+		}
+		&:focus ~ .crossIcon {
+			@include dimensions(24px, 24px);
+		}
+		&:focus:not(:placeholder-shown) ~ .crossIcon {
+			svg {
+				color: getColorVariable(--icon-neutral-medium);
+			}
+		}
+	}
+	.icon {
+		flex-shrink: 0;
+		@include dimensions(24px, 24px);
+		svg {
+			@include dimensions(100%, 100%)
+		}
+		&.searchIcon svg {
+			color: getColorVariable(--icon-neutral-strong);
+		}
+		&.crossIcon {
+			@include dimensions(0, 0);
+			svg {
+				color: getColorVariable(--icon-neutral-weak);
+			}
+		}
+		&.trailingIcon {
+			color: getColorVariable(--icon-primary-strong);
+			> * {
+				@include dimensions(100%, 100%)
+			}
+		}
+	}
+}

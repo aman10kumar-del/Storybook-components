@@ -1,0 +1,8 @@
+@import "../../commonStyles/mixin";
+
+.cardWrapper {
+    border: 1px solid getColorVariable(--border-neutral-weak);
+    border-radius: $radius-l;
+    background-color: getColorVariable(--surface-level-1);
+    padding: $padding-vertical-3xl $padding-horizontal-3xl;
+}

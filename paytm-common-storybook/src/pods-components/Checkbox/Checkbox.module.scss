@@ -1,0 +1,63 @@
+@import "../../commonStyles/mixin";
+
+.checkboxContainer {
+	@include flexBox(flex, center, flex-start, false, row, null, 0px);
+	@include borderBox();
+	width: 100%;
+	position: relative;
+	.checkboxInput {
+		display: none;
+	}
+	.label {
+		@include flexBox(flex, center, flex-start, false, row, null, 0px);
+		@include rowGap($gap-m);
+		@include pointerCursor();
+		flex-grow: 1;
+		.statusIcon {
+			&, & > * {
+				@include dimensions(24px, 24px);
+			}
+		}
+		.text {
+			padding: $padding-vertical-s $padding-horizontal-xs;
+			flex-grow: 1;
+			text-align: left;
+			word-break: break-word;
+			@include getFontStyle(title4-medium, getColorVariable(--text-neutral-strong));
+			&.low {
+				padding: $padding-vertical-m $padding-horizontal-xs;
+				@include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+			}
+		}
+	}
+	&.inline {
+		width: max-content;
+		max-width: 100%;
+	}
+	&.checked {
+		.statusIcon svg {
+			color: getColorVariable(--icon-primary-medium)
+		}
+	}
+	&.unchecked {
+		.statusIcon svg {
+			color: getColorVariable(--icon-neutral-medium)
+		}
+	}
+	&.indeterminate {
+		.statusIcon svg {
+			color: getColorVariable(--icon-primary-medium)
+		}
+	}
+	&.disabled {
+		pointer-events: none;
+		.label {
+			.text {
+				color: getColorVariable(--text-neutral-weak);
+			}
+			.statusIcon svg {
+				color: getColorVariable(--icon-neutral-weak)
+			}
+		}
+	}
+}

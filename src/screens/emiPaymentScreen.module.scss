@@ -1,0 +1,116 @@
+@import "../../paytm-common-storybook/src/commonStyles/mixin";
+
+/* EMI cluster: SectionHeader → SegmentedControl uses only SectionHeader bottom padding (§8.1a). */
+.sectionBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+}
+
+/* Page `.inner` already applies `$margin-horizontal-m` — strip SectionHeader’s horizontal padding so titles align with Card/TextField (design.mdc §9). */
+.emiOffersHeader {
+  width: 100%;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.compareLink {
+  flex-shrink: 0;
+  @include getFontStyle(body-semibold, getColorVariable(--text-primary-medium));
+  @include pointerCursor();
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+}
+
+.compareLink:hover,
+.compareLink:focus-visible {
+  text-decoration: underline;
+}
+
+.segmentWrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Tabs → control row below: §8.1a Search → Tabs / Tabs → body rhythm */
+.discountSwitch {
+  width: 100%;
+  margin-top: $gap-3xl;
+  @include flexBox(flex, center, space-between, false, row, null, 0px);
+
+  /* Label is the second child (Switch root + customClass); keep copy on one line vs default word-break. */
+  > span {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    word-break: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.cardListTitle {
+  @include getFontStyle(title4-bold, getColorVariable(--text-neutral-strong));
+  /* Inside Card: cluster → list body (§8.1a inside Card) */
+  margin: 0 0 $gap-3xl;
+  padding: 0;
+}
+
+.productBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Image vs copy clusters: §8.1 proximity */
+  gap: $gap-2xl;
+  width: 100%;
+}
+
+.productCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $gap-m;
+  width: 100%;
+}
+
+.productImage {
+  display: block;
+  width: 120px;
+  height: 120px;
+  border-radius: $radius-l;
+  object-fit: cover;
+  background: var(--surface-level-2);
+}
+
+.metaLine {
+  @include getFontStyle(caption-medium, getColorVariable(--text-neutral-medium));
+  text-align: center;
+  width: 100%;
+}
+
+.productTitle {
+  @include getFontStyle(title4-bold, getColorVariable(--text-neutral-strong));
+  text-align: center;
+  width: 100%;
+  word-break: break-word;
+}
+
+/* PODS List inside Card: negative margin matches Card’s horizontal padding so ListItem padding is the only row gutter (design.mdc §11, “List inside Card”). */
+.bankList {
+  margin-left: -$padding-horizontal-3xl;
+  margin-right: -$padding-horizontal-3xl;
+  width: calc(100% + #{$padding-horizontal-3xl} * 2);
+  box-sizing: border-box;
+}
+
+.emptyState {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+  text-align: center;
+  padding: $padding-vertical-3xl $padding-horizontal-m;
+}

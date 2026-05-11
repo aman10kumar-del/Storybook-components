@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project setup — PODS AI WGMI</title>
+    <!--
+      Standalone guide: open in a browser — no Node or Vite.
+      Layout: .cursor/design.mdc §8–§11. Readable line length: ~65–72ch (not fixed mobile width).
+      Root Vite shell: npm run dev → http://localhost:5173/
+    -->
+    <style>
+      :root {
+        --text-neutral-strong: #282828;
+        --text-primary-medium: #1576db;
+        --text-primary-strong: #004299;
+        --surface-level-1: #ffffff;
+        --surface-level-2: #fafafa;
+        --surface-level-4: #f5f5f5;
+        --border-neutral-weak: #ebebeb;
+        --pods-display3-size: 32px;
+        --pods-display3-line-height: 36px;
+        --pods-title3-size: 18px;
+        --pods-title3-line-height: 24px;
+        --pods-title4-size: 16px;
+        --pods-title4-line-height: 20px;
+        --pods-body-size: 14px;
+        --pods-body-line-height: 20px;
+        --pods-subtext-size: 12px;
+        --pods-subtext-line-height: 16px;
+        --pods-font-bold: 700;
+        --pods-font-semibold: 600;
+        --pods-font-medium: 500;
+        --layout-page-gutter: 12px;
+        --padding-vertical-xl: 8px;
+        --layout-gap-xl: 8px;
+        --layout-gap-2xl: 12px;
+        --layout-gap-3xl: 16px;
+        --layout-gap-4xl: 24px;
+        --layout-gap-5xl: 32px;
+        --layout-radius-3xl: 24px;
+        --layout-card-padding: 16px;
+        /* ~65–72 characters per line for body; comfortable for prose */
+        --readable-max: 72ch;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        background: var(--surface-level-4);
+        color: var(--text-neutral-strong);
+      }
+
+      .shell {
+        display: flex;
+        justify-content: center;
+        background: var(--surface-level-4);
+        min-height: 100vh;
+        padding: 0 var(--layout-page-gutter);
+      }
+
+      .frame {
+        width: 100%;
+        max-width: var(--readable-max);
+        min-height: 100vh;
+        min-width: 0;
+        background: var(--surface-level-4);
+      }
+
+      .page-header {
+        padding: var(--layout-gap-3xl) 0 var(--layout-gap-5xl);
+      }
+
+      .page-title {
+        margin: 0;
+        font-size: var(--pods-display3-size);
+        line-height: var(--pods-display3-line-height);
+        font-weight: var(--pods-font-bold);
+        color: var(--text-neutral-strong);
+      }
+
+      .page-sub {
+        margin: var(--layout-gap-xl) 0 0;
+        font-size: var(--pods-body-size);
+        line-height: var(--pods-body-line-height);
+        font-weight: var(--pods-font-medium);
+        max-width: 65ch;
+      }
+
+      .content {
+        padding: 0 0 var(--layout-gap-5xl);
+        display: flex;
+        flex-direction: column;
+        gap: var(--layout-gap-4xl);
+      }
+
+      .section {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: var(--layout-gap-3xl);
+        padding: var(--padding-vertical-xl) 0;
+      }
+
+      .section-title {
+        margin: 0;
+        flex: 1;
+        min-width: 0;
+        font-size: var(--pods-title3-size);
+        line-height: var(--pods-title3-line-height);
+        font-weight: var(--pods-font-bold);
+        color: var(--text-neutral-strong);
+      }
+
+      /* Title without toolbar row (prose sections — no copy) */
+      .section > .section-title:first-child {
+        padding: var(--padding-vertical-xl) 0;
+      }
+
+      .card {
+        background: var(--surface-level-1);
+        border: none;
+        border-radius: var(--layout-radius-3xl);
+        padding: var(--layout-card-padding);
+        display: flex;
+        flex-direction: column;
+        gap: var(--layout-gap-3xl);
+        width: 100%;
+        min-width: 0;
+      }
+
+      .body {
+        margin: 0;
+        font-size: var(--pods-body-size);
+        line-height: var(--pods-body-line-height);
+        font-weight: var(--pods-font-medium);
+      }
+
+      .muted {
+        color: var(--text-primary-medium);
+      }
+
+      a.inline-link {
+        color: var(--text-primary-strong);
+        font-weight: var(--pods-font-semibold);
+      }
+
+      /* Code-block copy areas: monospace, pre-wrap */
+      .code-block {
+        margin: 0;
+        padding: var(--layout-gap-3xl);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          monospace;
+        font-size: 13px;
+        line-height: 1.55;
+        color: var(--text-neutral-strong);
+        background: var(--surface-level-2);
+        border: 1px solid var(--border-neutral-weak);
+        border-radius: var(--layout-radius-3xl);
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .code-block code {
+        font-family: inherit;
+        font-size: inherit;
+      }
+
+      .copy-btn {
+        flex-shrink: 0;
+        cursor: pointer;
+        border: 1px solid var(--border-neutral-weak);
+        background: var(--surface-level-1);
+        color: var(--text-primary-strong);
+        font-size: var(--pods-subtext-size);
+        font-weight: var(--pods-font-semibold);
+        padding: var(--layout-gap-xl) var(--layout-gap-2xl);
+        border-radius: 999px;
+        line-height: 1;
+      }
+
+      .copy-btn:hover {
+        background: var(--surface-level-2);
+      }
+
+      .copy-btn:focus-visible {
+        outline: 2px solid var(--text-primary-medium);
+        outline-offset: 2px;
+      }
+
+      .prompt-intro {
+        margin: 0;
+        font-size: var(--pods-body-size);
+        line-height: var(--pods-body-line-height);
+        font-weight: var(--pods-font-medium);
+      }
+
+      .prompt-stack {
+        display: flex;
+        flex-direction: column;
+        gap: var(--layout-gap-4xl);
+      }
+
+      .prompt-row {
+        display: flex;
+        flex-direction: column;
+        gap: var(--layout-gap-3xl);
+      }
+
+      .prompt-row-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--layout-gap-3xl);
+      }
+
+      .prompt-title {
+        margin: 0;
+        font-size: var(--pods-title4-size);
+        line-height: var(--pods-title4-line-height);
+        font-weight: var(--pods-font-semibold);
+        flex: 1;
+        min-width: 0;
+      }
+
+      .prompt-row .copy-btn {
+        padding: 6px var(--layout-gap-2xl);
+      }
+
+      .doc-path {
+        margin: 0;
+        font-size: var(--pods-subtext-size);
+        line-height: var(--pods-subtext-line-height);
+        color: var(--text-primary-medium);
+        word-break: break-word;
+      }
+
+      .note-footer {
+        margin-top: var(--layout-gap-4xl);
+        padding-bottom: var(--layout-gap-5xl);
+        font-size: var(--pods-subtext-size);
+        line-height: var(--pods-subtext-line-height);
+        opacity: 0.75;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="frame">
+        <header class="page-header">
+          <h1 class="page-title">Project setup</h1>
+          <p class="page-sub">
+            If you got a <span class="muted">.zip</span>, it leaves out
+            <span class="muted">node_modules</span> and git history so the file
+            stays small — unzip, then follow these steps in order.
+          </p>
+        </header>
+
+        <div class="content">
+          <section class="section" aria-labelledby="sec-unzip">
+            <h2 class="section-title" id="sec-unzip">Unzip the project</h2>
+            <div class="card">
+              <p class="body">
+                Double-click the zip (or use your OS extract tool). You should
+                get one folder named
+                <span class="muted">PODS AI WGMI</span> — keep that name or
+                rename it; either is fine. Move it somewhere easy to find
+                (Desktop or Documents).
+              </p>
+              <p class="body">
+                This page lives at
+                <span class="muted">docs/setup-guide.html</span> inside that
+                folder — you can open it in a browser anytime; it does not need
+                Node or any install step.
+              </p>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="sec-open">
+            <h2 class="section-title" id="sec-open">Open in Cursor</h2>
+            <div class="card">
+              <p class="body">
+                Use <span class="muted">File → Open Folder (or Open…)</span>
+                and choose the unzipped project — the folder whose top level
+                includes <span class="muted">package.json</span>.
+              </p>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="sec-install">
+            <div class="section-head">
+              <h2 class="section-title" id="sec-install">Install dependencies</h2>
+              <button type="button" class="copy-btn" data-copy-target="copy-install">
+                Copy
+              </button>
+            </div>
+            <div class="card">
+              <pre class="code-block" id="copy-install"><code>Ask Cursor to install dependencies. Approve the terminal when it runs the install step.
+
+Node.js must be installed (current LTS is fine). If install fails on a private Paytm package, open paytm-common-storybook/README.md in this repo and follow registry notes there.</code></pre>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="sec-sb">
+            <div class="section-head">
+              <h2 class="section-title" id="sec-sb">Run Storybook</h2>
+              <button type="button" class="copy-btn" data-copy-target="copy-sb">
+                Copy
+              </button>
+            </div>
+            <div class="card">
+              <pre class="code-block" id="copy-sb"><code>Ask Cursor to start Storybook. When it is running, open the local address it prints — usually port 6010. That is the main Storybook with PODS stories.
+
+Quick link (if Storybook is already running): http://localhost:6010
+
+Optional: the older library-only Storybook often uses port 6006 — ask Cursor to run the paytm Storybook script from this project if you need that.</code></pre>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="sec-demo">
+            <div class="section-head">
+              <h2 class="section-title" id="sec-demo">Try a demo prompt</h2>
+              <button type="button" class="copy-btn" data-copy-target="copy-demo-intro">
+                Copy intro
+              </button>
+            </div>
+            <div class="card">
+              <p class="prompt-intro" id="copy-demo-intro">
+                With the repo open in Cursor, paste <span class="muted">one</span>
+                of the blocks below (all use the same file:
+                <span class="doc-path">prompts/hi-pods.md</span>). Fill in
+                brackets; <span class="muted">MODE</span> tells the assistant
+                which workflow to run.
+              </p>
+              <div class="prompt-stack">
+                <div class="prompt-row">
+                  <div class="prompt-row-head">
+                    <p class="prompt-title">Build UI from Figma</p>
+                    <button
+                      type="button"
+                      class="copy-btn"
+                      data-copy-target="copy-p1"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                  <pre class="code-block" id="copy-p1"><code>Follow prompts/hi-pods.md (Hi PODS).
+
+MODE: C
+FIGMA_URL: [paste Figma link with node-id]
+COMPONENT_NAME: [PascalCase name]
+SCOPE: component
+PIXEL_FIDELITY: best-effort</code></pre>
+                </div>
+                <div class="prompt-row">
+                  <div class="prompt-row-head">
+                    <p class="prompt-title">Layout from a screenshot</p>
+                    <button
+                      type="button"
+                      class="copy-btn"
+                      data-copy-target="copy-p2"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                  <pre class="code-block" id="copy-p2"><code>Follow prompts/hi-pods.md (Hi PODS).
+
+MODE: A
+SOURCE: screenshot
+[Attach a screenshot in the chat. Optional: describe scope in SCOPE / NOTES.]</code></pre>
+                </div>
+                <div class="prompt-row">
+                  <div class="prompt-row-head">
+                    <p class="prompt-title">Layout docs from Figma</p>
+                    <button
+                      type="button"
+                      class="copy-btn"
+                      data-copy-target="copy-p3"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                  <pre class="code-block" id="copy-p3"><code>Follow prompts/hi-pods.md (Hi PODS).
+
+MODE: B
+OUTPUT_PATH: docs/layout-references/layouts.md
+FIGMA_URLS:
+[paste one Figma URL per line]</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="sec-more">
+            <h2 class="section-title" id="sec-more">More detail</h2>
+            <div class="card">
+              <p class="body">
+                For a full repo orientation, open in the editor:
+              </p>
+              <p class="doc-path">docs/agents/ai-agent-project-brief.md</p>
+            </div>
+          </section>
+        </div>
+
+        <p class="note-footer">
+          More detail: <strong>docs/agents/ai-agent-project-brief.md</strong>. Root app after install:
+          <strong>npm run dev</strong> → <strong>http://localhost:5173/</strong>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        function textFromTarget(id) {
+          var el = document.getElementById(id);
+          if (!el) return "";
+          if (el.tagName === "PRE") {
+            var code = el.querySelector("code");
+            return code ? code.textContent : el.textContent;
+          }
+          return el.textContent.trim();
+        }
+
+        document.addEventListener("click", function (e) {
+          var btn = e.target.closest(".copy-btn");
+          if (!btn || !btn.dataset.copyTarget) return;
+          e.preventDefault();
+          var id = btn.dataset.copyTarget;
+          var text = textFromTarget(id);
+          if (!text) return;
+
+          function done() {
+            var prev = btn.textContent;
+            btn.textContent = "Copied";
+            btn.disabled = true;
+            window.setTimeout(function () {
+              btn.textContent = prev;
+              btn.disabled = false;
+            }, 2000);
+          }
+
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done).catch(function () {
+              fallbackCopy(text, done);
+            });
+          } else {
+            fallbackCopy(text, done);
+          }
+        });
+
+        function fallbackCopy(text, cb) {
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.left = "-9999px";
+          document.body.appendChild(ta);
+          ta.select();
+          try {
+            document.execCommand("copy");
+          } catch (err) {}
+          document.body.removeChild(ta);
+          cb();
+        }
+      })();
+    </script>
+  </body>
+</html>

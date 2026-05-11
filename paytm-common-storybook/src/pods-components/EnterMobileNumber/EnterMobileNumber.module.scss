@@ -1,0 +1,157 @@
+@import "../../commonStyles/mixin";
+
+.root {
+  width: 100%;
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $gap-m);
+  @include borderBox();
+}
+
+.row {
+  width: 100%;
+  @include flexBox(flex, center, flex-start, false, row, null, $gap-xl);
+}
+
+.pill {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: $unit-13;
+  box-sizing: border-box;
+  padding: $padding-vertical-xl $padding-horizontal-3xl;
+  border-radius: $radius-max;
+  background: getColorVariable(--background-neutral-inverse);
+  border: 1px solid transparent;
+  @include flexBox(flex, center, flex-start, false, row, null, $gap-xl);
+
+  &:focus-within {
+    outline: 2px solid getColorVariable(--border-primary-strong);
+    outline-offset: 2px;
+  }
+
+  &.error {
+    border-color: getColorVariable(--border-negative-strong);
+    &:focus-within {
+      outline-color: getColorVariable(--border-negative-strong);
+    }
+  }
+
+  &.disabled {
+    opacity: 0.6;
+  }
+
+  &.loading {
+    pointer-events: none;
+  }
+}
+
+.prefix {
+  flex-shrink: 0;
+  @include getFontStyle(body-bold, getColorVariable(--text-neutral-strong));
+}
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 0;
+  height: 24px;
+  background: transparent;
+  caret-color: getColorVariable(--icon-primary-strong);
+  @include getFontStyle(body-bold, getColorVariable(--text-neutral-strong));
+
+  &::placeholder {
+    color: getColorVariable(--text-neutral-medium);
+  }
+  &::-webkit-input-placeholder {
+    color: getColorVariable(--text-neutral-medium);
+  }
+  &:-ms-input-placeholder {
+    color: getColorVariable(--text-neutral-medium);
+  }
+
+  &:disabled {
+    color: getColorVariable(--text-neutral-medium);
+  }
+}
+
+.divider {
+  flex-shrink: 0;
+  width: 1px;
+  height: 20px;
+  background-color: getColorVariable(--border-neutral-medium);
+}
+
+/* Figma variant: single label (123 vs ABC) toggles keyboard mode on tap. */
+.modeToggle {
+  flex-shrink: 0;
+  margin: 0;
+  padding: $padding-vertical-m $padding-horizontal-l;
+  border: none;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+  @include getFontStyle(body-semibold, getColorVariable(--text-primary-strong));
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid getColorVariable(--border-primary-strong);
+    outline-offset: 2px;
+    border-radius: $radius-s;
+  }
+}
+
+.loaderWrap {
+  flex: 1 1 auto;
+  min-height: 24px;
+  @include flexBox(flex, center, center, false, row, null, 0px);
+}
+
+.contacts {
+  flex-shrink: 0;
+  width: 52px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  @include flexBox(flex, center, center, false, column, null, $gap-m);
+  color: getColorVariable(--icon-primary-strong);
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .contactsIcon {
+    @include dimensions(24px, 24px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      @include dimensions(100%, 100%);
+    }
+  }
+
+  .contactsLabel {
+    @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+    text-align: center;
+    white-space: nowrap;
+  }
+}
+
+.infoSection {
+  width: 100%;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-moderate));
+}
+
+.errorText {
+  color: getColorVariable(--text-negative-strong);
+}

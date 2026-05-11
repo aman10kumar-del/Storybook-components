@@ -1,0 +1,229 @@
+@import "../../commonStyles/mixin";
+
+/* —— Account tile (Passbook linked account, ~160px) —— */
+
+.accountRoot {
+  flex-shrink: 0;
+  width: 160px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-2xl;
+  padding: $gap-4xl $padding-horizontal-3xl $padding-vertical-3xl;
+  border-radius: $radius-2xl;
+  background-color: getColorVariable(--surface-level-1);
+  @include borderBox();
+}
+
+.accountHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $gap-m;
+  min-width: 0;
+}
+
+.leadingSlot {
+  flex-shrink: 0;
+  @include dimensions(22px, 22px);
+  @include flexBox(flex, center, center, false, row, null, 0);
+  overflow: hidden;
+  border-radius: 50%;
+
+  img,
+  svg {
+    display: block;
+    @include dimensions(100%, 100%);
+    object-fit: contain;
+  }
+}
+
+.title {
+  margin: 0;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  @include getFontStyle(title3-medium, getColorVariable(--text-neutral-strong));
+}
+
+.subtitle {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  @include getFontStyle(body-regular, getColorVariable(--text-neutral-moderate));
+}
+
+.cta {
+  width: 100%;
+  margin: 0;
+  border: none;
+  border-radius: $radius-max;
+  min-height: 28px;
+  padding: $padding-vertical-l $padding-horizontal-2xl;
+  box-sizing: border-box;
+  background-color: getColorVariable(--background-offset-2-medium);
+  @include getFontStyle(body-regular, getColorVariable(--text-primary-medium));
+  @include pointerCursor();
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid getColorVariable(--border-primary-strong);
+    outline-offset: 2px;
+  }
+}
+
+.actionSlot {
+  width: 100%;
+  min-height: 28px;
+  @include flexBox(flex, center, stretch, false, row, null, 0);
+}
+
+/* Full-width **PODS Button** in loading state (uses Button’s built-in dot loader). */
+.ctaButtonStretch {
+  width: 100%;
+  min-height: 28px;
+  height: 28px;
+  max-height: 28px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.balanceSlot {
+  width: 100%;
+  min-height: 28px;
+  box-sizing: border-box;
+  text-align: left;
+  @include flexBox(flex, center, flex-start, false, row, null, 0);
+  @include getFontStyle(title3-medium, getColorVariable(--text-neutral-strong));
+}
+
+/* —— Graphic tile (~121×132) —— */
+
+.graphicRoot {
+  position: relative;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 121px;
+  min-height: 132px;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  background-color: getColorVariable(--surface-level-1);
+  padding: 0;
+  display: block;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 38px;
+    pointer-events: none;
+    z-index: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(149, 217, 253, 0) 3%,
+      rgba(151, 208, 255, 0.45) 100%
+    );
+  }
+
+  &:where(button) {
+    border: none;
+    text-align: left;
+    font: inherit;
+    @include pointerCursor();
+    color: inherit;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid getColorVariable(--border-primary-strong);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.graphicMain {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $gap-m;
+  min-height: 72px;
+  padding: $gap-2xl $gap-m $gap-3xl;
+  box-sizing: border-box;
+}
+
+.graphicLeading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.graphicLabel {
+  margin: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.graphicLabelLine {
+  margin: 0;
+  @include getFontStyle(subtext-semibold, getColorVariable(--text-neutral-strong));
+
+  & + & {
+    margin-top: 0;
+  }
+}
+
+.graphicFooter {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  box-sizing: border-box;
+
+  :global(img) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    vertical-align: bottom;
+  }
+}
+
+/* —— Horizontal strip —— */
+
+.tileRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: $gap-2xl;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @include borderBox();
+}

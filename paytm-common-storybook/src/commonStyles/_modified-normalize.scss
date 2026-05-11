@@ -1,0 +1,59 @@
+@font-face {
+  font-family: inter-subset;
+  src: url("https://pwebassets.paytm.com/commonwebassets/paytmapp/fonts/inter-bold.woff2") format("woff2"), 
+       url("https://pwebassets.paytm.com/commonwebassets/paytmapp/fonts/Inter-Bold.ttf") format("ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: inter-subset;
+  src: url("https://pwebassets.paytm.com/commonwebassets/paytmapp/fonts/inter-semibold.woff2") format("woff2"), 
+       url("https://pwebassets.paytm.com/commonwebassets/paytmapp/fonts/Inter-SemiBold.ttf") format("ttf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: inter-subset;
+  src: url("https://pwebassets.paytm.com/commonwebassets/paytmapp/fonts/inter-medium.woff2") format("woff2"), 
+       url("https://pwebassets.paytm.com/commonwebassets/paytmapp/fonts/Inter-Medium.ttf") format("ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: inter-subset;
+  src: url("https://pwebassets.paytm.com/commonwebassets/paytmapp/fonts/inter-regular.woff2") format("woff2"), 
+       url("https://pwebassets.paytm.com/commonwebassets/paytmapp/fonts/Inter-Regular.ttf") format("ttf");
+  font-weight: 400;
+}
+
+html {
+  font-family: "inter-subset", "-apple-system", "system-ui", "BlinkMacSystemFont", "Helvetica Neue", "Segoe UI", "sans-serif",
+    "Open Sans";
+  -ms-text-size-adjust: 100%; /* 3 */
+  -webkit-text-size-adjust: 100%; /* 3 */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--surface-level-1);
+  font-family: "inter-subset", "-apple-system", "system-ui", "BlinkMacSystemFont", "Helvetica Neue", "Segoe UI", "sans-serif",
+  "Open Sans";
+}
+
+/* Forms
+ ========================================================================== */
+
+/**
+* 1. Change font properties to `inherit` in all browsers (opinionated).
+* 2. Remove the margin in Firefox and Safari.
+*/
+
+button,
+input,
+optgroup,
+select,
+textarea,
+::-webkit-file-upload-button {
+  font: inherit;
+}

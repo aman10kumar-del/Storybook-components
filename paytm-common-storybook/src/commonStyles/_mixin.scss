@@ -1,0 +1,425 @@
+@import "./style-dictionary/typography";
+@import "./style-dictionary/number";
+
+@mixin setFontStyle ($placeholder) {
+  %#{$placeholder} {
+    @content;
+  }
+}
+
+:root {
+  @each $groupName, $propertyMap in map-get(map-get($typography, "typography"), "scale") {
+    @include setFontStyle(#{$groupName}) {
+      font-size: map-get($propertyMap, "font-size");
+      line-height: map-get($propertyMap, "line-height");
+      letter-spacing: map-get($propertyMap, "letter-spacing");
+    }
+    @each $weightGroup, $weightValue in map-get(map-get($typography, "typography"), "weight") {
+      @include setFontStyle(#{$groupName}-#{$weightGroup}) {
+        @extend %#{$groupName} !optional;
+        font-weight: $weightValue;
+      }
+    }
+  }
+}
+
+$Black: #000;
+$White: #fff;
+$Blue: #00b8f5;
+$DBlue: #002e6e;
+$DDBlue:#2D57AA;
+$Red: #fd5154;
+$Yellow: #FF9D00;
+$Green: #21C179;
+$TextCol: #101010;
+$subTextCol: rgba(16, 16, 16, 0.54);
+$subDisable:rgba(16, 16, 16, 0.22);
+$disableCol:rgba(16, 16, 16, 0.13);
+$tabBackground:#F2F2F7;
+$DBlack:#1D2F54;
+$LBlack: #8ba6c1;
+$bgCol: #ebf3fd;
+$borderCol: #F5F9FE;
+$Grey:#DDE5ED;
+$Seperator: rgba(16, 16, 16, 0.07);
+$LightGreen:#E3F6EC;
+$LightYellow:#FFF8E1;
+$LightRed:#FFEBEF;
+$OffWhite: #f4f4f4;
+$LBlue: #ccf1fd;
+$dotBorder: #dde3ed;
+$darkBlue : #012A72;
+$BlueBg:#ECF4FF;
+$BGBlueShade:#E0F5FD;
+$lowDisableCol:#F7F7F7;
+$warning: #E5C97C;
+$BlackShade100: rgba(0, 0, 0, 0.1);
+$BlackShade300: rgba(16, 16, 16, 0.13);
+$BlackShade400: rgba(0, 0, 0, 0.075);
+$BlackShade600: rgba(16, 16, 16, 0.7);
+$BlackShade800: rgba(0, 0, 0, 0.54);
+$YellowShade300: rgba(229, 201, 124, .3);
+$RedShade300: rgba(255, 235, 239, 1);
+$WhiteShade300: rgba(255,255,255,.25);
+$BlueShade300: rgba(0, 184, 245, 1);
+
+$IOSBackgroundColor: #fafafa;
+$IOSBoxHeaderColor:#333333;
+
+
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* eslint-disable at-rule-no-unknown */
+/* stylelint-disable */
+@mixin fontStyle($size: false,
+  $color: false,
+  $weight: false,
+  $lh: false,
+  $style: false,
+  $textDecoration: false) {
+  @if $size {
+    font-size: $size;
+  }
+
+  @if $color {
+    color: $color;
+  }
+
+  @if $weight {
+    font-weight: $weight;
+  }
+
+  @if $lh {
+    line-height: $lh;
+  }
+
+  @if $style {
+    font-style: $style;
+  }
+
+  @if $textDecoration {
+    text-decoration: $textDecoration;
+  }
+}
+
+// mixin to add ellipsis
+@mixin ellipsis($maxWidth: false) {
+  @if $maxWidth {
+    max-width: $maxWidth;
+  }
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Mixin for multiline ellipsis support on web
+// this will provide support only for -webkit- browser for till date
+@mixin ellipsisMulti($maxLine, $maxHeight: false) {
+  @if $maxHeight {
+    max-height: $maxHeight;
+  }
+
+  display: -webkit-box;
+  -webkit-line-clamp: $maxLine;
+  -webkit-box-orient: vertical;
+  overflow: hidden; // fallback for non supported browsers
+  white-space: normal;
+}
+
+// mixin for position
+@mixin position($position,
+  $top: false,
+  $right: false,
+  $bottom: false,
+  $left: false,
+  $zIndex: false) {
+  @if $top {
+    top: $top;
+  }
+
+  @if $right {
+    right: $right;
+  }
+
+  @if $bottom {
+    bottom: $bottom;
+  }
+
+  @if $left {
+    left: $left;
+  }
+
+  @if $zIndex {
+    z-index: $zIndex;
+  }
+
+  position: $position;
+}
+
+// mixin for width, height, max-width & max-height
+@mixin dimensions($width: false,
+  $height: false,
+  $maxWidth: false,
+  $maxHeight: false,
+  $minWidth: false,
+  $minHeight: false) {
+  @if $width {
+    width: $width;
+  }
+
+  @if $height {
+    height: $height;
+  }
+
+  @if $maxWidth {
+    max-width: $maxWidth;
+  }
+
+  @if $maxHeight {
+    max-height: $maxHeight;
+  }
+
+  @if $minWidth {
+    min-width: $minWidth;
+  }
+
+  @if $minHeight {
+    min-height: $minHeight;
+  }
+}
+
+// mixin for display flex with all property
+@mixin flexBox($display: false,
+  $item: false,
+  $content: false,
+  $flexWrap: false,
+  $flexDirection: false,
+  $flex: false,
+  $gap:false) {
+  @if $display {
+    display: $display;
+  }
+
+  @if $item {
+    align-items: $item;
+  }
+
+  @if $content {
+    justify-content: $content;
+  }
+
+  @if $flexWrap {
+    flex-wrap: $flexWrap;
+  }
+
+  @if $flexDirection {
+    flex-direction: $flexDirection;
+  }
+
+  @if $flex {
+    flex: $flex;
+  }
+
+  @if $gap {
+    gap: $gap;
+  }
+}
+
+@mixin secondaryButton($bcol, $color, $font, $height, $width, $br, $fontWeight, $border) {
+  background: $bcol;
+  color: $color;
+  font-size: $font;
+  height: $height;
+  width: $width;
+  border-radius: $br;
+  font-weight: $fontWeight;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $border;
+  @include pointerCursor();
+}
+
+@mixin primaryButton($font, $fontWeight, $height, $width, $br) {
+  background: $Blue;
+  color: $White;
+  font-size: $font;
+  height: $height;
+  width: $width;
+  border-radius: $br;
+  font-weight: $fontWeight;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  @include pointerCursor();
+}
+
+@mixin linkButton($font, $fontWeight, $height, $width, $br) {
+  background: $White;
+  color: $Blue;
+  font-size: $font;
+  height: $height;
+  width: $width;
+  border-radius: $br;
+  font-weight: $fontWeight;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+}
+
+
+
+@mixin arrow($direction, $color, $size, $borderWidth, $position: false) {
+  padding: $size;
+  border: solid $color;
+  border-width: 0 $borderWidth $borderWidth 0;
+  display: inline-block;
+  transition: all 0.3s ease;
+
+  @if $direction=="top" {
+    transform: rotate(-135deg);
+  }
+
+  @else if $direction=="bottom" {
+    transform: rotate(45deg);
+  }
+
+  @else if $direction=="left" {
+    transform: rotate(135deg);
+  }
+
+  @else if $direction=="right" {
+    transform: rotate(-45deg);
+  }
+}
+
+
+@mixin popupFull($position,
+  $top: false,
+  $right: false,
+  $bottom: false,
+  $left: false,
+  $zIndex: false) {
+  position: $position;
+
+  @if $top {
+    top: $top;
+  }
+
+  @if $right {
+    right: $right;
+  }
+
+  @if $bottom {
+    bottom: $bottom;
+  }
+
+  @if $left {
+    left: $left;
+  }
+
+  @if $zIndex {
+    z-index: $zIndex;
+  }
+}
+
+@mixin rowGap($gap) {
+  @if $gap {
+    & > * + *  {
+      margin-left: $gap;
+    }
+  }
+}
+
+@mixin colGap($gap) {
+  @if $gap {
+    & > * + *  {
+      margin-top: $gap;
+    }
+  }
+}
+
+@mixin getFontStyle($placeholder, $color: false, $weight: false) {
+  @extend %#{$placeholder} !optional;
+  @if $color {
+    color: $color;
+  }
+  @if $weight {
+    font-weight: $weight;
+  }
+}
+
+@mixin skeletonLoading() {
+	display: inline-block;
+	height: 16px;
+	position: relative;
+	overflow: hidden;
+	background-color: getColorVariable(--backgrounds-dark-low-emphasis);
+
+	&::after {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		transform: translateX(-100%);
+		background-image: linear-gradient(
+			90deg,
+			getColorVariable(--border-light-low-emphasis) 0,
+			getColorVariable(--border-light-medium-emphasis) 20%,
+			getColorVariable(--border-light-medium-emphasis) 60%,
+			getColorVariable(--border-light-low-emphasis)
+		);
+		animation: shimmer 3s infinite;
+		content: "";
+	}
+
+	@keyframes shimmer {
+		100% {
+			transform: translateX(100%);
+		}
+	}
+}
+
+@mixin borderBox($onlySelf: false) {
+  @if $onlySelf {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  &, & * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+}
+
+@mixin anchorStyle() {
+  color: getColorVariable(--text-primary-medium);
+  text-decoration: none;
+  @include pointerCursor();
+}
+
+@mixin pointerCursor() {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent
+}
+
+@function getColorVariable($variableName) {
+  @return var(#{$variableName});
+}

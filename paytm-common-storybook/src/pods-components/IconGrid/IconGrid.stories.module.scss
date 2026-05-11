@@ -1,0 +1,40 @@
+@import "../../commonStyles/mixin";
+
+.contentArea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 120px;
+  padding: $padding-vertical-3xl $padding-horizontal-3xl;
+  background-color: getColorVariable(--surface-level-4);
+  border-radius: $radius-m;
+}
+
+/*
+ * In-card demos: one outer gutter only (§9). Default contentArea + Card both used
+ * padding-3xl — double inset. Card keeps interior padding; shell uses a thin frame.
+ * §11 section tiles: radius-3xl + borderless on wash (matches Card “Section tile” story).
+ */
+.shellInCardDemo {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 160px;
+  padding: $unit-5;
+  background-color: getColorVariable(--surface-level-4);
+  border-radius: $radius-m;
+}
+
+.sectionTileCard {
+  border-radius: $radius-3xl !important;
+  border: none !important;
+}
+
+/* Dark well + white icon: `--icon-universal-light` is the PODS icon token for #fff on primary/saturated fills (design.mdc §5.3a — same as Button filled / FAB). */
+.darkWellsInCardVars {
+  --icon-grid-well-bg: #{getColorVariable(--background-primary-strong)};
+  --icon-grid-icon-on-well: #{getColorVariable(--icon-universal-light)};
+}
+
+.lightWellsInCardVars {
+  --icon-grid-well-bg: #{getColorVariable(--background-notice-weak)};
+  --icon-grid-icon-on-well: #{getColorVariable(--icon-universal-dark)};
+}

@@ -1,0 +1,220 @@
+---
+alwaysApply: true
+---
+
+### Role of this file
+
+**What this file is for:** **How much** — the numeric ladder (`$gap-*`, `$padding-*`, `$radius-*`, type scale tables, `SectionHeader` sizing). **What this file is *not*:** composition rules (insets, sheets, card/list ownership) — those live in **`.cursor/design.mdc`**.
+
+**If something disagrees with the pipeline:** **`paytm-common-storybook/configs/design-tokens.json`** and the **generated** Sass/CSS under `commonStyles/sass-generated/` and `style-dictionary/` are authoritative. Update tokens and regenerate; do not “fix” spacing only inside this doc and leave JSON stale.
+
+## Token source files (quick map)
+
+| File | Contents |
+|------|----------|
+| `design-tokens.json` | `color-primitives`, `color-semantics`, `typography`, `number-primitives`, `number-semantics` |
+| `_number.scss` | `$unit-*`, `$gap-*`, `$padding-*`, `$margin-*`, `$radius-*` |
+| `_typography.scss` | Scale sizes/line-heights, `$typography-weight-*` |
+| `_colors.scss` | Semantic colour map consumed by build (do not edit by hand — generated) |
+| `variables.css` | `:root` and `@media (prefers-color-scheme: dark)` semantic **`--*`** variables |
+
+**In components:** SCSS modules import `mixin` / `commonStyles` and use **`$unit-*`**, **`$gap-*`**, **`$padding-*`**, **`$margin-*`**, **`$radius-*`**, plus **`getFontStyle(...)`** and **`getColorVariable(--token-name)`**.
+
+---
+
+## Unit grid (`_number.scss`)
+
+Base steps (all layout should resolve to these or the semantic wrappers below):
+
+| Variable | Value |
+|----------|--------|
+| `$unit-0` | 0px |
+| `$unit-1` | 2px |
+| `$unit-2` | 4px |
+| `$unit-3` | 6px |
+| `$unit-4` | 8px |
+| `$unit-5` | 12px |
+| `$unit-6` | 16px |
+| `$unit-7` | 20px |
+| `$unit-8` | 24px |
+| `$unit-9` | 32px |
+| `$unit-10` | 36px |
+| `$unit-11` | 40px |
+| `$unit-12` | 48px |
+| `$unit-13` | 56px |
+| `$unit-14` | 64px |
+
+---
+
+## Semantic spacing (gap, padding, margin)
+
+Use **`$gap-*`**, **`$padding-horizontal-*` / `$padding-vertical-*`**, **`$margin-horizontal-*` / `$margin-vertical-*`** from `_number.scss` instead of raw `px` in new or heavily edited SCSS.
+
+### Gap scale
+
+For **which gap to use where**, see the vertical rhythm quick-reference table in **`design.mdc` §8.1a**.
+
+| Variable | Value | When to use |
+|----------|--------|-------------|
+| `$gap-xs` | 0px | Flush stacks; SectionHeader → Card (no extra gap) |
+| `$gap-s` | 2px | Tight decorative steps |
+| `$gap-m` | 4px | Within a text cluster: title → supporting line, label → icon |
+| `$gap-l` | 6px | Slightly looser cluster interior |
+| `$gap-xl` | 8px | Chip → Chip in a row; comfortable inline gaps; **Header (large) → first section cluster**; tighter end of cluster spacing |
+| `$gap-2xl` | 12px | Between separate clusters on the same surface; SectionHeader trailing cluster |
+| `$gap-3xl` | 16px | Inside Card body stacks (TextField → TextField, Search → Tabs, Tabs → body); between clusters in sheets |
+| `$gap-4xl` | 24px | **Between sections** on the page (separate Card **groups** / section blocks). **Not** for dense **stacked** plan/tile **Card** lists — use **`$margin-horizontal-m` (12px)** vertical gap there so rhythm matches the page gutter (**`design.mdc` §8.1a**). |
+| `$gap-5xl` | 32px | Optional larger break between sections when a product spec asks (not the default after **Header** **large**) |
+
+### Padding / margin semantics (selected)
+
+| Variable | Value | Notes |
+|----------|--------|--------|
+| `$padding-horizontal-3xl` / `$padding-vertical-3xl` | 16px | Common **component horizontal inset** (e.g. `SectionHeader`, list rows, OTP container) |
+| `$padding-horizontal-2xl` / `$padding-vertical-2xl` | 12px | Medium horizontal / vertical steps |
+| `$margin-horizontal-m` | 12px | Common **page gutter** in framed mobile previews (**`.cursor/design.mdc` §9**) |
+
+**Root Vite app** (`src/index.css`): keeps **typography** CSS variables for global header tweaks only—compose spacing with **library SCSS tokens** (`$gap-*`, `$padding-*`) or **`var(--…)`** from `variables.css`.
+
+---
+
+## Radius (`_number.scss`)
+
+| Variable | Value | Typical use |
+|----------|--------|-------------|
+| `$radius-xs` | 0px | Square |
+| `$radius-s` | 4px | Small controls |
+| `$radius-m` | 8px | |
+| `$radius-l` | 12px | |
+| `$radius-xl` | 16px | |
+| `$radius-2xl` | 20px | |
+| `$radius-3xl` | 24px | **Card** corner radius in product specs |
+| `$radius-max` | 64px | Pills / max rounding |
+
+---
+
+## Typography (`_typography.scss` + mixins)
+
+**Font stack:** `inter-subset` with system UI fallbacks — defined in `sass-generated/index.css`.
+
+**Weights:** `$typography-weight-regular` (400), `$typography-weight-medium` (500), `$typography-weight-semibold` (600), `$typography-weight-bold` (700).
+
+### Type scale (size / line-height)
+
+| Step | Font size | Line height |
+|------|-----------|---------------|
+| display1 | 42px | 48px |
+| display2 | 36px | 40px |
+| display3 | 32px | 36px |
+| title1 | 22px | 28px |
+| title2 | 20px | 24px |
+| title3 | 18px | 24px |
+| title4 | 16px | 20px |
+| body | 14px | 20px |
+| subtext | 12px | 16px |
+| caption | 10px | 12px |
+
+**In code:** use **`@include getFontStyle(<scale>-<weight>, <color>);`** (see `paytm-common-storybook/src/commonStyles/_mixin.scss` and existing `*.module.scss` files).
+
+### Section titles (`SectionHeader`)
+
+Use the **`SectionHeader`** component; do not recreate the same hierarchy with ad-hoc classes.
+
+**Default `size`:** **`extra-large`** (component default in `SectionHeader.tsx` — **`title1-bold`**). Pass **`medium`**, **`large`**, or **`small`** only when the screen needs a smaller section title.
+
+Rough mapping (`SectionHeader.module.scss`):
+
+| `size` prop | Title style |
+|-------------|-------------|
+| `small` | `body-bold` |
+| `medium` | `title3-bold` |
+| `large` | `title2-bold` |
+| `extra-large` | `title1-bold` |
+
+Padding on the container: **`$padding-vertical-xl $padding-horizontal-3xl`** (8px vertical, 16px horizontal).
+
+### Large `HeaderDefault` second-row title
+
+Per **`.cursor/design.mdc` §3.4:** the primary screen title on **`HeaderDefault`** `size="large"` uses **display3 + bold** and **`var(--text-neutral-strong)`** — do not duplicate that headline with a `SectionHeader` for the same string.
+
+---
+
+## Semantic colours (`variables.css`)
+
+Use **`var(--…)`** names from `variables.css` in UI (not hard-coded hex), except in token source files.
+
+**Theme:** default light in `:root`; **dark** swaps values under **`@media (prefers-color-scheme: dark)`** (same variable names).
+
+### Surfaces (example)
+
+| Token | Role |
+|--------|------|
+| `--surface-level-1` … `--surface-level-4` | Page / layer surfaces |
+| `--background-neutral-*` | Strong / medium / weak / inverse fills |
+
+### Text (common)
+
+| Token | Role |
+|--------|------|
+| `--text-neutral-strong` | Primary headings / strongest body |
+| `--text-neutral-moderate` | Secondary body |
+| `--text-neutral-medium` | Tertiary / de-emphasis |
+| `--text-primary-strong` / `--text-primary-medium` | Brand / links |
+| `--text-positive-strong` / `--text-negative-strong` / `--text-notice-strong` | Status |
+
+### Borders (common)
+
+| Token | Role |
+|--------|------|
+| `--border-neutral-weak` | Hairlines, dividers |
+| `--border-neutral-strong` / `--border-primary-medium` | Stronger strokes when needed |
+
+**Full set:** `variables.css` (light block + dark media query). **Role tables:** `.cursor/design.mdc` §2.
+
+---
+
+## Component spacing notes (reference implementations)
+
+Values below reflect current **`*.module.scss`**; when extending, match these patterns.
+
+### Button (`Button.module.scss`)
+
+| Topic | Value / pattern |
+|--------|------------------|
+| Label ↔ icon | `$gap-m` (4px) in `.titleSection` |
+| Heights | Large **52px**, medium **32px**, small **24px** (fixed, not gap tokens) |
+| Medium horizontal padding | `$padding-vertical-xs $padding-horizontal-2xl` |
+
+### Section header (`SectionHeader.module.scss`)
+
+| Topic | Value / pattern |
+|--------|------------------|
+| Container padding | `$padding-vertical-xl $padding-horizontal-3xl` |
+| First row gap (title ↔ trailing) | `$gap-3xl` (16px) |
+| Trailing cluster | `$gap-2xl` (12px) |
+
+### Lists (`List.module.scss` patterns)
+
+List rows use **`$padding-horizontal-3xl`** for horizontal inset; hairline/offset math is component-specific — see `.cursor/design.mdc` for full-bleed and card-composition rules.
+
+---
+
+## Layout conventions (token-backed)
+
+| Topic | Rule |
+|--------|------|
+| Page gutter (framed preview / app shell) | **`$margin-horizontal-m`** (**12px**) — see **`.cursor/design.mdc` §9**; adjust only with design agreement |
+| Semantic colours | Always **`var(--text-*)`**, **`var(--surface-*)`**, **`var(--border-*)`**, etc., from `variables.css` |
+| Library spacing | Prefer **`$gap-*` / `$padding-*` / `$unit-*`** over literals in `paytm-common-storybook` SCSS |
+| Cards + lists | Card owns content inset; avoid **double horizontal inset** when nesting `ListItem` — see **`.cursor/design.mdc` §9 / §11** (strip duplicate row padding in the owning surface when needed) |
+| Dark mode | Rely on **`prefers-color-scheme`** in `variables.css`; do not hand-pick separate dark hex in app code |
+
+---
+
+## Related paths
+
+| Purpose | Path |
+|---------|------|
+| Full design rules & composition | `.cursor/design.mdc` |
+| Root app global CSS (typography tweaks) | `src/index.css` |
+| Published UI package (consumers) | `@paytm-h5-common/paytm_common_ui` (see Storybook Welcome / Introduction) |

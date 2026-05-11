@@ -1,0 +1,200 @@
+@import "../../paytm-common-storybook/src/commonStyles/mixin";
+
+.storeSectionHeader {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100%;
+}
+
+/* Stays pinned while scrolling filters + results (same scroll context as `.scroll`) */
+.searchSticky {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+  padding-bottom: $gap-m;
+  margin-bottom: 0;
+  background: var(--surface-level-4);
+  box-sizing: border-box;
+}
+
+.searchBlock {
+  width: 100%;
+}
+
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.filterChipRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: $gap-xl;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: $gap-m;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+
+  > * {
+    flex-shrink: 0;
+  }
+}
+
+.filterBottomSheet {
+  /* Scroll long checkbox lists inside the device preview */
+  max-height: min(360px, 70vh);
+}
+
+/* Sheet body: shared horizontal gutter so toolbar + list share one column */
+.sheetBody {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* Match list content inset (scrollbars sit inside this edge) */
+  padding-right: $gap-m;
+  box-sizing: border-box;
+}
+
+.sheetToolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-bottom: $gap-3xl;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* Link “Clear all” must not stretch full width — stays flush right with checkbox column */
+.sheetClearLink {
+  flex: 0 0 auto;
+  width: fit-content !important;
+  max-width: 100%;
+  margin-left: auto;
+  align-self: flex-end;
+}
+
+.sheetCheckboxList {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+  width: 100%;
+  max-height: 220px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.chipRowScroll {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: $gap-xl;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: $gap-m;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+}
+
+.productList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $margin-horizontal-m;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.productListItem {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.productTile {
+  width: 100%;
+  border: none !important;
+  border-radius: $radius-3xl !important;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 0 !important;
+  cursor: pointer;
+}
+
+/* Horizontal row: thumbnail left, copy right — Card interior = §6 / §8.1a ($padding-*-3xl) */
+.productCardInner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  min-height: 56px;
+  box-sizing: border-box;
+  padding: $padding-vertical-3xl $padding-horizontal-3xl;
+  gap: $gap-3xl;
+}
+
+.productImageWrap {
+  width: 56px;
+  flex-shrink: 0;
+  height: 56px;
+  background: var(--background-neutral-medium);
+  overflow: hidden;
+  border-radius: $radius-l;
+}
+
+.productImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.productCardBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.productTitle {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+}
+
+.productType {
+  margin: 0;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+}
+
+.productPrice {
+  margin: 0;
+  @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.emptyState {
+  margin: 0;
+  padding: $gap-4xl 0;
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-medium));
+  text-align: center;
+}

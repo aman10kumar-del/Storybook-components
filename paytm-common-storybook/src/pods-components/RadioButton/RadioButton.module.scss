@@ -1,0 +1,90 @@
+@import "../../commonStyles/mixin";
+
+$radio-checked-color: getColorVariable(--icon-primary-medium);
+$radio-border-color: getColorVariable(--icon-neutral-medium);
+$radio-disabled-color: getColorVariable(--text-neutral-weak);
+$radio-icon-disabled-color: getColorVariable(--icon-neutral-weak);
+$radio-size: 20px;
+$radio-checked-size: 10px;
+$radio-ripple-size: 5px;
+
+.radioButtonContainer {
+  @include flexBox(flex, center, flex-start, false, row);
+  width: 100%;
+  max-width: 352px;
+  min-height: 24px;
+  &.inline {
+    width: max-content;
+    max-width: 100%;
+  }
+  input[type="radio"] {
+    display: none;
+
+    &:checked + label::before {
+      border-color: $radio-checked-color;
+      animation: ripple 0.2s linear forwards;
+    }
+
+    &:checked + label::after {
+      transform: scale(1);
+    }
+
+    &:disabled + label {
+      cursor: not-allowed;
+      pointer-events: none;
+      color: $radio-disabled-color;
+    }
+
+    &:disabled + label::before {
+      border-color: $radio-icon-disabled-color;
+      cursor: not-allowed;
+    }
+
+    &:disabled + label::after {
+      background: $radio-icon-disabled-color;
+    }
+  }
+
+  label {
+    padding: $padding-vertical-s 0px $padding-vertical-s 28px;
+    flex-grow: 1;
+    position: relative;
+    text-align: left;
+    word-break: break-word;
+    height: 24px;
+    box-sizing: border-box;
+    @include getFontStyle(title4-medium, getColorVariable(--text-neutral-strong));
+    @include pointerCursor();
+
+    &.low {
+      padding: $padding-vertical-m 0px $padding-vertical-m 28px;
+      @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+    }
+
+    &::before, &::after {
+      position: absolute;
+      content: '';
+      border-radius: 50%;
+      transition: all .3s ease;
+      transition-property: transform, border-color;
+    }
+
+    &::before {
+      left: 2px;
+      top: 2px;
+      width: $radio-size;
+      height: $radio-size;
+      border: 1.5px solid $radio-border-color;
+      box-sizing: border-box;
+    }
+
+    &::after {
+      top: calc((#{$radio-size} / 2) - (#{$radio-checked-size} / 2) + 2px);
+      left: calc((#{$radio-size} / 2) - (#{$radio-checked-size} / 2) + 2px);
+      width:$radio-checked-size;
+      height:$radio-checked-size;
+      transform: scale(0);
+      background:$radio-checked-color;
+    }
+  }
+}

@@ -1,0 +1,127 @@
+
+# Typography 
+
+#### Figma: <a target="_blank" href="https://www.figma.com/design/AbqiH2M4TIrtrGCpjscVZ4/Styles?node-id=1923-40&t=gkQFqB8Pofa9yqud-0">Click here</a>
+
+## How to use Typography ?
+You can either refer the typography from the canvas tab and create your own css / s(a|c)ss files
+or you can use the exported `_typography.scss` file from `paytm_common_ui` with the below approach
+
+### NPM
+You can import the `_typography.scss` file from `paytm_common_ui` to any of your `scss` file like below
+```css
+@import "~@paytm-h5-common/paytm_common_ui/styles/typography";
+```
+And then you can use all the variables defined in `_typography.scss` in your app
+
+### Variables defined in `_typography.scss`
+
+Please note that the variable names follow the below scheme
+`typography-groupName-typeName-property`
+
+```css
+
+/**
+ * Do not edit directly
+ * Generated on Thu, 27 Jun 2024 09:56:32 GMT
+ */
+
+$typography-scale-display1-font-size: 42px !default;
+$typography-scale-display1-line-height: 48px !default;
+$typography-scale-display1-letter-spacing: 0px !default;
+$typography-scale-display2-font-size: 36px !default;
+$typography-scale-display2-line-height: 40px !default;
+$typography-scale-display2-letter-spacing: 0px !default;
+$typography-scale-display3-font-size: 32px !default;
+$typography-scale-display3-line-height: 36px !default;
+$typography-scale-display3-letter-spacing: 0 !default;
+$typography-scale-title1-font-size: 24px !default;
+$typography-scale-title1-line-height: 28px !default;
+$typography-scale-title1-letter-spacing: 0px !default;
+$typography-scale-title2-font-size: 20px !default;
+$typography-scale-title2-line-height: 24px !default;
+$typography-scale-title2-letter-spacing: 0px !default;
+$typography-scale-title3-font-size: 18px !default;
+$typography-scale-title3-line-height: 24px !default;
+$typography-scale-title3-letter-spacing: 0px !default;
+$typography-scale-title4-font-size: 16px !default;
+$typography-scale-title4-line-height: 20px !default;
+$typography-scale-title4-letter-spacing: 0px !default;
+$typography-scale-body-font-size: 14px !default;
+$typography-scale-body-line-height: 20px !default;
+$typography-scale-body-letter-spacing: 0px !default;
+$typography-scale-subtext-font-size: 12px !default;
+$typography-scale-subtext-line-height: 16px !default;
+$typography-scale-subtext-letter-spacing: 0px !default;
+$typography-scale-caption-font-size: 10px !default;
+$typography-scale-caption-line-height: 12px !default;
+$typography-scale-caption-letter-spacing: 0px !default;
+$typography-weight-bold: 700 !default;
+$typography-weight-semibold: 600 !default;
+$typography-weight-medium: 500 !default;
+$typography-weight-regular: 400 !default;
+
+$typography: (
+  'typography': (
+    'scale': (
+      'display1': (
+        'font-size': $typography-scale-display1-font-size,
+        'line-height': $typography-scale-display1-line-height,
+        'letter-spacing': $typography-scale-display1-letter-spacing
+      ),
+      'display2': (
+        'font-size': $typography-scale-display2-font-size,
+        'line-height': $typography-scale-display2-line-height,
+        'letter-spacing': $typography-scale-display2-letter-spacing
+      ),
+      'display3': (
+        'font-size': $typography-scale-display3-font-size,
+        'line-height': $typography-scale-display3-line-height,
+        'letter-spacing': $typography-scale-display3-letter-spacing
+      ),
+      'title1': (
+        'font-size': $typography-scale-title1-font-size,
+        'line-height': $typography-scale-title1-line-height,
+        'letter-spacing': $typography-scale-title1-letter-spacing
+      ),
+      'title2': (
+        'font-size': $typography-scale-title2-font-size,
+        'line-height': $typography-scale-title2-line-height,
+        'letter-spacing': $typography-scale-title2-letter-spacing
+      ),
+      'title3': (
+        'font-size': $typography-scale-title3-font-size,
+        'line-height': $typography-scale-title3-line-height,
+        'letter-spacing': $typography-scale-title3-letter-spacing
+      ),
+      'title4': (
+        'font-size': $typography-scale-title4-font-size,
+        'line-height': $typography-scale-title4-line-height,
+        'letter-spacing': $typography-scale-title4-letter-spacing
+      ),
+      'body': (
+        'font-size': $typography-scale-body-font-size,
+        'line-height': $typography-scale-body-line-height,
+        'letter-spacing': $typography-scale-body-letter-spacing
+      ),
+      'subtext': (
+        'font-size': $typography-scale-subtext-font-size,
+        'line-height': $typography-scale-subtext-line-height,
+        'letter-spacing': $typography-scale-subtext-letter-spacing
+      ),
+      'caption': (
+        'font-size': $typography-scale-caption-font-size,
+        'line-height': $typography-scale-caption-line-height,
+        'letter-spacing': $typography-scale-caption-letter-spacing
+      )
+    ),
+    'weight': (
+      'bold': $typography-weight-bold,
+      'semibold': $typography-weight-semibold,
+      'medium': $typography-weight-medium,
+      'regular': $typography-weight-regular
+    )
+  )
+);
+
+```

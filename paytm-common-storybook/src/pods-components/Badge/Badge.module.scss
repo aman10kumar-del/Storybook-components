@@ -1,0 +1,206 @@
+@import "../../commonStyles/mixin";
+
+/* Default shape token for tests / selectors; no extra styles vs base `.badge`. */
+.normal {
+}
+
+.badge {
+	@include getFontStyle(caption-semibold, getColorVariable(--text-universal-strong));
+	@include flexBox(inline-flex, center, center, false, row, null, $gap-s);
+	@include borderBox();
+	height: $unit-6;
+	padding: $padding-vertical-s $padding-horizontal-m;
+	border-radius: $radius-max;
+	max-width: 100%;
+	
+	.label {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.leadingIcon + .label {
+		gap: $gap-s;
+	}
+
+	.label + .trailingIcon {
+		gap: $gap-s;
+	}
+
+	.leadingIcon, .trailingIcon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		@include dimensions(12px, 12px);
+		> * {
+			@include dimensions(100%, 100%);
+		}
+	}
+
+	&.primary {
+		background: getColorVariable(--background-primary-medium);
+		@include getFontStyle(caption-semibold, getColorVariable(--text-universal-light));
+
+		.leadingIcon svg, .trailingIcon svg {
+			color: getColorVariable(--icon-universal-light);
+		}
+		&.muted {
+			background: getColorVariable(--background-offset-2-medium);
+			@include getFontStyle(caption-semibold, getColorVariable(--text-primary-medium));
+			.leadingIcon svg, .trailingIcon svg {
+				color: getColorVariable(--icon-primary-medium);
+			}
+		}
+	}
+	&.notice {
+		background: getColorVariable(--background-notice-strong);
+		@include getFontStyle(caption-semibold, getColorVariable(--text-universal-light));
+		.leadingIcon svg, .trailingIcon svg {
+			color: getColorVariable(--icon-universal-light);
+		}
+		&.muted {
+			background: getColorVariable(--background-notice-weak);
+			@include getFontStyle(caption-semibold, getColorVariable(--text-notice-strong));
+			.leadingIcon svg, .trailingIcon svg {
+				color: getColorVariable(--icon-notice-strong);
+			}
+		}
+	}
+	&.negative {
+		background: getColorVariable(--background-negative-strong);
+		@include getFontStyle(caption-semibold, getColorVariable(--text-universal-light));
+		.leadingIcon svg, .trailingIcon svg {
+			color: getColorVariable(--icon-universal-light);
+		}
+		&.muted {
+			background: getColorVariable(--background-negative-weak);
+			@include getFontStyle(caption-semibold, getColorVariable(--text-negative-strong));
+			.leadingIcon svg, .trailingIcon svg {
+				color: getColorVariable(--icon-negative-strong);
+			}
+		}
+	}
+	&.positive {
+		background: getColorVariable(--background-positive-strong);
+		@include getFontStyle(caption-semibold, getColorVariable(--text-universal-light));
+		.leadingIcon svg, .trailingIcon svg {
+			color: getColorVariable(--icon-universal-light);
+		}
+		&.muted {
+			background: getColorVariable(--background-positive-weak);
+			@include getFontStyle(caption-semibold, getColorVariable(--text-positive-strong));
+			.leadingIcon svg, .trailingIcon svg {
+				color: getColorVariable(--icon-positive-strong);
+			}
+		}
+	}
+	&.highlight {
+		background: getColorVariable(--badge-background-highlight);
+		@include getFontStyle(caption-semibold, getColorVariable(--badge-text-highlight));
+		.leadingIcon svg, .trailingIcon svg {
+			color: getColorVariable(--icon-universal-light);
+		}
+		&.muted {
+			@include getFontStyle(caption-semibold, getColorVariable(--badge-text-highlight));
+			background: getColorVariable(--background-notice-weak);
+			.leadingIcon svg, .trailingIcon svg {
+				color: getColorVariable(--icon-universal-light);
+			}
+		}
+	}
+	&.count {
+		min-width: $unit-6;
+		padding: $padding-vertical-s $padding-horizontal-m;
+		aspect-ratio: 1 / 1;
+		border-radius: $radius-max;
+
+		&.primary {
+			background: getColorVariable(--background-primary-medium);
+			@include getFontStyle(caption-semibold, getColorVariable(--text-universal-light));
+			&.muted {
+				background: getColorVariable(--background-offset-2-medium);
+				@include getFontStyle(caption-semibold, getColorVariable(--text-primary-medium));
+			}
+		}
+		&.notice {
+			background: getColorVariable(--background-notice-strong);
+			@include getFontStyle(caption-semibold, getColorVariable(--text-universal-light));
+			&.muted {
+				background: getColorVariable(--background-notice-weak);
+				@include getFontStyle(caption-semibold, getColorVariable(--text-notice-strong));
+			}
+		}
+		&.negative {
+			background: getColorVariable(--background-negative-strong);
+			@include getFontStyle(caption-semibold, getColorVariable(--text-universal-light));
+			&.muted {
+				background: getColorVariable(--background-negative-weak);
+				@include getFontStyle(caption-semibold, getColorVariable(--text-negative-strong));
+			}
+		}
+		&.positive {
+			background: getColorVariable(--background-positive-strong);
+			@include getFontStyle(caption-semibold, getColorVariable(--text-universal-light));
+			&.muted {
+				background: getColorVariable(--background-positive-weak);
+				@include getFontStyle(caption-semibold, getColorVariable(--text-positive-strong));
+			}
+		}
+		&.highlight {
+			background: getColorVariable(--badge-background-highlight);
+			@include getFontStyle(caption-semibold, getColorVariable(--badge-text-highlight));
+			&.muted {
+				background: getColorVariable(--background-notice-weak);
+				@include getFontStyle(caption-semibold, getColorVariable(--badge-text-highlight));
+			}
+		}
+	}
+	&.dot {
+		height: $unit-3;
+		width: $unit-3;
+		padding: $padding-vertical-xs $padding-horizontal-xs;
+		border-radius: $radius-max;
+		aspect-ratio: 1 / 1;
+		&.primary {
+			background: getColorVariable(--background-primary-medium);
+			@include getFontStyle(caption-semibold, getColorVariable(--text-universal-light));
+			&.muted {
+				background: getColorVariable(--background-offset-2-medium);
+				@include getFontStyle(caption-semibold, getColorVariable(--text-primary-medium));
+			}
+		}
+		&.notice {
+			background: getColorVariable(--background-notice-strong);
+			@include getFontStyle(caption-semibold, getColorVariable(--text-universal-light));
+			&.muted {
+				background: getColorVariable(--background-notice-weak);
+				@include getFontStyle(caption-semibold, getColorVariable(--text-notice-strong));
+			}
+		}
+		&.negative {
+			background: getColorVariable(--background-negative-strong);
+			@include getFontStyle(caption-semibold, getColorVariable(--text-universal-light));
+			&.muted {
+				background: getColorVariable(--background-negative-weak);
+				@include getFontStyle(caption-semibold, getColorVariable(--text-negative-strong));
+			}
+		}
+		&.positive {
+			background: getColorVariable(--background-positive-strong);
+			@include getFontStyle(caption-semibold, getColorVariable(--text-universal-light));
+			&.muted {
+				background: getColorVariable(--background-positive-weak);
+				@include getFontStyle(caption-semibold, getColorVariable(--text-positive-strong));
+			}
+		}
+		&.highlight {
+			background: getColorVariable(--badge-background-highlight);
+			@include getFontStyle(caption-semibold, getColorVariable(--badge-text-highlight));
+			&.muted {
+				background: getColorVariable(--background-notice-weak);
+				@include getFontStyle(caption-semibold, getColorVariable(--badge-text-highlight));
+			}
+		}
+	}
+}

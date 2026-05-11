@@ -1,0 +1,33 @@
+@import '../../commonStyles/mixin';
+
+.switchContainer {
+  background-color: getColorVariable(--background-offset-2-medium);
+  border-radius: $radius-max;
+  border: 1px solid getColorVariable(--border-offset-2-strong);
+  padding: $padding-vertical-m $padding-horizontal-m;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.switchContent {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $gap-xs;
+}
+
+.option {
+  height: 100%;
+  padding: $padding-vertical-xs $padding-horizontal-l;
+  border-radius: $radius-max;
+  @include flexBox(flex, center, center, false, row, null, 0px);
+  cursor: pointer;
+  @include getFontStyle(caption-regular, getColorVariable(--text-neutral-strong));
+
+  &.active {
+    background-color: getColorVariable(--background-primary-strong);
+    @include getFontStyle(caption-semibold, getColorVariable(--text-neutral-inverse));
+  }
+} 

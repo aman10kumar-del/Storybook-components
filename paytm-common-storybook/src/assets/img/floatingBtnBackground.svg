@@ -1,0 +1,21 @@
+<svg width="195" height="72" viewBox="0 0 195 72" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g filter="url(#filter0_d)">
+<rect x="10" y="8" width="175" height="52" rx="26" fill="#2D57AA"/>
+<rect x="10" y="8" width="175" height="52" rx="26" fill="url(#pattern0)"/>
+</g>
+<defs>
+<filter id="filter0_d" x="0" y="0" width="195" height="72" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="2"/>
+<feGaussianBlur stdDeviation="5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0.47451 0 0 0 0 0.745098 0 0 0 0.56 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<pattern id="pattern0" patternContentUnits="objectBoundingBox" width="0.0571429" height="0.0769231">
+<use xlink:href="#image0" transform="scale(0.00285714 0.00961538)"/>
+</pattern>
+<image id="image0" width="20" height="8" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBnZGLDoAgCEW52eP//7byFWy4mGa23JANuYeHyDmvRJTYIoBMPw4zwM6xTTNfs3kI7PxXsIIWywAHndJLUGD7CKqwTbpSTRTDS0IXWuXKuo6Si0FVT2a3ZleLapvC6FRfVVhOUj+ZmIx41lM0QAMue3XVU9Suw5OuC6w6vgWDz7oAKthIEG2aToAAAAAASUVORK5CYII="/>
+</defs>
+</svg>

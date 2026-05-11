@@ -1,0 +1,60 @@
+@import "../../commonStyles/mixin";
+
+.accordionContainer {
+  @include flexBox(flex, stretch, flex-start, false, column, null, 0px);
+	@include borderBox();
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+	.itemContainer {
+		position: relative;
+		@include colGap(4px);
+		@include flexBox(flex, stretch, flex-start, false, column, null, 0px);
+		padding: 14px 12px;
+		min-height: 48px;
+		transition: min-height .3s;
+		@include pointerCursor();
+
+		.titleContainer {
+			@include flexBox(flex, center, center, false, row, null, 0px);
+			@include rowGap(16px);
+			.title {
+				@include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+				flex-grow: 1;
+				@include ellipsis();
+				text-align: left;
+			}
+			.arrowIcon {
+				svg {
+					color: getColorVariable(--icon-neutral-strong);
+				}
+				&, & > * {
+					@include dimensions(20px, 20px);
+				}
+			}
+		}
+		.descriptionContainer {
+			@include flexBox(flex, stretch, center, false, column, null, 0px);
+			.description {
+				@include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+				word-break: break-word;
+				text-align: left;
+				margin: 0;
+			}
+		}
+		.separator {
+			position: absolute;
+			bottom: 0;
+			width: calc(100% - 24px);
+			left: 12px;
+		}
+		&.expanded {
+			min-height: 72px;
+			.titleContainer {
+				.title {
+					@include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+				}
+			}
+		}
+	}
+}

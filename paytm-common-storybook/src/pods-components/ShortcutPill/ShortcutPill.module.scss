@@ -1,0 +1,126 @@
+@import "../../commonStyles/mixin";
+
+/* Figma row uses ~42px; closest token is 40 ($unit-11). */
+$well-md: 42px;
+
+.pill {
+  flex-shrink: 0;
+  margin: 0;
+  padding: $padding-vertical-2xl $gap-4xl $padding-vertical-2xl $padding-horizontal-2xl;
+  border: 1px solid getColorVariable(--border-neutral-weak);
+  border-radius: $radius-max;
+  background-color: getColorVariable(--surface-level-1);
+  cursor: pointer;
+  text-align: left;
+  @include flexBox(flex, center, flex-start, false, row, null, 0px);
+  @include borderBox();
+  max-width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid getColorVariable(--border-primary-strong);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.pillBrand {
+  @include rowGap($gap-xl);
+}
+
+.pillGraphic {
+  @include rowGap($gap-2xl);
+}
+
+.iconWell {
+  flex-shrink: 0;
+  border-radius: $radius-max;
+  background-color: getColorVariable(--background-offset-2-weak);
+  overflow: hidden;
+  @include flexBox(flex, center, center, false, row, null, 0px);
+  position: relative;
+
+  &.wellLg {
+    @include dimensions($unit-12, $unit-12);
+  }
+
+  &.wellMd {
+    @include dimensions($well-md, $well-md);
+  }
+}
+
+.graphicInner {
+  @include flexBox(flex, center, center, false, row, null, 0px);
+  width: 100%;
+  height: 100%;
+}
+
+/* Default brand / logo slot: 20×20 centered (Figma). */
+.brandGraphicInner {
+  @include dimensions(20px, 20px);
+  svg,
+  img {
+    @include dimensions(100%, 100%);
+    display: block;
+    object-fit: contain;
+  }
+}
+
+/* Graphic variant: allow larger art; well clips (Figma coin art). */
+.graphicVariantInner {
+  width: 100%;
+  height: 100%;
+  @include flexBox(flex, center, center, false, row, null, 0px);
+  svg,
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.textStack {
+  flex: 1 1 auto;
+  min-width: 0;
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $gap-s);
+}
+
+.titleDefault {
+  @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-moderate));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.subtitleDefault {
+  @include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.titleCompact {
+  @include getFontStyle(body-semibold, getColorVariable(--text-neutral-moderate));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.subtitleCompact {
+  @include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}

@@ -1,0 +1,95 @@
+@import "../../commonStyles/mixin";
+
+.bottomSheetContainer {
+	@include borderBox();
+  	@include position(fixed, 0, 0, 0, 0);
+  	z-index: 9999;
+  	background: transparent;
+	pointer-events: none;
+  	.backDrop {
+	background: transparent;
+    height: 100%;
+    width: 100%;
+    transition: background 0.3s;
+  	}
+  .bottomSheetContent {
+	@include flexBox(flex, flex-start, flex-start, false, column, null, 0px);
+	@include colGap($gap-3xl);
+    max-height: 85vh;
+    padding: $padding-vertical-3xl $padding-horizontal-3xl;
+    bottom: 0;
+	transform: translateY(100%);
+    position: absolute;
+    background: getColorVariable(--surface-level-2);
+    width: 100%;
+    border-radius: $radius-xl $radius-xl 0px 0px;
+    -webkit-transition: 0.15s linear;
+    -moz-transition: 0.15s linear;
+    -o-transition: 0.15s linear;
+    transition: 0.15s linear;
+		overflow-y: auto;
+		.grabber {
+			@include position(absolute, 8px, null, null, 50%);
+			@include dimensions(32px, 4px);
+			background: getColorVariable(--border-neutral-weak);
+			transform: translateX(-50%);
+			border-radius: 2px;
+			margin-top: 0px;
+		}
+		.contentSection {
+			width: 100%;
+			@include colGap($gap-xl);
+		}
+		.actionSection {
+			width: 100%;
+			@include colGap($gap-xl);
+		}
+		.bottomSheetHeader {
+			width: 100%;
+			@include flexBox(flex, flex-start, flex-end, false, row);
+			@include rowGap($gap-xl);
+			.label {
+				flex-grow: 1;
+				text-align: left;
+				@include getFontStyle(title2-bold, getColorVariable(--text-neutral-strong));
+				overflow-wrap: break-word;
+                min-width: 0;
+			}
+			.crossIcon {
+				flex-shrink: 0;
+				svg {
+					color: getColorVariable(--icon-neutral-medium);
+				}
+				@include pointerCursor();
+				&, & > svg {
+					@include dimensions(24px, 24px)
+				}
+			}
+		}
+		.description {
+			@include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+			align-self: stretch;
+			word-break: break-word;
+			margin-bottom: $margin-vertical-xs;
+		}
+		.children {
+			width: 100%;
+			max-width: 100%;
+			word-break: break-word;
+			@include flexBox(flex, flex-start, flex-start, false, column, null, 0px);
+			@include colGap($gap-3xl);
+		}
+		&.extraBottomPadding {
+			padding-bottom: calc(24px + 34px);
+		}
+  }
+  &.active {
+		pointer-events: auto;
+		.backDrop {
+			background: getColorVariable(--overlay-strong);
+		}
+    .bottomSheetContent {
+			transform: translateY(0);
+    }
+  }
+}

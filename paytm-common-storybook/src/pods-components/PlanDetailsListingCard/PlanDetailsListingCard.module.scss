@@ -1,0 +1,167 @@
+@import "../../commonStyles/mixin";
+
+/* Figma 252:6682 — RU / Plan Details Listing Card */
+
+.root {
+  width: 100%;
+  @include borderBox();
+}
+
+.card {
+  padding: $padding-vertical-3xl $padding-horizontal-3xl !important;
+  border: none !important;
+  border-radius: $radius-3xl !important;
+  background-color: getColorVariable(--surface-level-1) !important;
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $gap-2xl);
+}
+
+.badgeWrap {
+  flex-shrink: 0;
+}
+
+.mainRow {
+  width: 100%;
+  @include flexBox(flex, flex-start, flex-start, false, row, null, $gap-3xl);
+}
+
+.priceCol {
+  flex-shrink: 0;
+  width: 64px;
+  @include flexBox(flex, flex-start, flex-start, false, column, null, 0);
+}
+
+.headlinePrice {
+  margin: 0;
+  @include getFontStyle(title3-bold, getColorVariable(--text-neutral-strong));
+}
+
+.priceSubtitle {
+  margin: 0;
+  width: 100%;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+}
+
+.detailCol {
+  flex: 1 1 auto;
+  min-width: 0;
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $gap-2xl);
+}
+
+.specHit {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  @include pointerCursor();
+  @include flexBox(flex, flex-start, flex-start, false, row, null, $gap-xl);
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: $unit-1 solid getColorVariable(--border-primary-strong);
+    outline-offset: $unit-1;
+    border-radius: $radius-s;
+  }
+}
+
+.specRowReadOnly {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  @include flexBox(flex, flex-start, flex-start, false, row, null, $gap-xl);
+}
+
+.specsCluster {
+  flex: 1 1 auto;
+  min-width: 0;
+  @include flexBox(flex, flex-start, flex-start, false, row, null, $unit-6);
+}
+
+.specPair {
+  flex-shrink: 0;
+  max-width: 120px;
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $gap-s);
+}
+
+.specPairWide {
+  max-width: 140px;
+}
+
+.specLabel {
+  margin: 0;
+  width: 100%;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+}
+
+.specValue {
+  margin: 0;
+  min-height: 40px;
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+  white-space: pre-wrap;
+}
+
+.chevron {
+  flex-shrink: 0;
+  margin-top: 0;
+  color: getColorVariable(--icon-neutral-strong);
+  line-height: 0;
+
+  &,
+  & svg {
+    @include dimensions($unit-8, $unit-8);
+  }
+}
+
+.planDetailsLink {
+  align-self: flex-start;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-family: inherit;
+  @include pointerCursor();
+  @include getFontStyle(title4-medium, getColorVariable(--text-primary-medium));
+
+  &:focus-visible {
+    outline: $unit-1 solid getColorVariable(--border-primary-strong);
+    outline-offset: $unit-1;
+    border-radius: $radius-s;
+  }
+}
+
+.planDetailsStatic {
+  align-self: flex-start;
+  @include getFontStyle(title4-medium, getColorVariable(--text-primary-medium));
+}
+
+.footerIcons {
+  @include flexBox(flex, center, flex-start, false, row, null, $gap-s);
+  flex-wrap: wrap;
+}
+
+/* Bitmaps are already round @3×; no extra circular clip (avoids fighting bad exports). */
+.footerIconSlot {
+  flex-shrink: 0;
+  @include dimensions($unit-8, $unit-8);
+  line-height: 0;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .specHit:focus-visible,
+  .planDetailsLink:focus-visible {
+    transition: none;
+  }
+}

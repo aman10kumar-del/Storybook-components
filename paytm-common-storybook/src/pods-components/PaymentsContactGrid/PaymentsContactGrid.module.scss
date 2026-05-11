@@ -1,0 +1,76 @@
+@import "../../commonStyles/mixin";
+
+/* Figma 252:6710 — Payments / Contact Grid */
+
+.root {
+  width: 100%;
+  max-width: none;
+}
+
+.card {
+  padding: $padding-vertical-3xl $padding-horizontal-xl !important;
+  border-radius: $radius-3xl !important;
+  background-color: getColorVariable(--surface-level-1) !important;
+}
+
+.inner {
+  @include borderBox();
+  display: grid;
+  row-gap: $unit-7;
+  column-gap: 0;
+  width: 100%;
+  align-items: start;
+}
+
+.cell {
+  @include flexBox(flex, center, center, false, column, null, $gap-xl);
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  text-align: center;
+
+  &:is(button) {
+    @include pointerCursor();
+  }
+
+  &:is(button):focus-visible {
+    outline: $unit-1 solid getColorVariable(--border-primary-strong);
+    outline-offset: $unit-1;
+  }
+}
+
+.avatarWrap {
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+/* Figma initials: 18px / 24px (title3-bold); Avatar large defaults to title4. */
+.initialsAvatar {
+  :global([data-testid="profile-initials"]) {
+    @include getFontStyle(title3-bold, false);
+  }
+}
+
+.label {
+  width: 100%;
+  margin: 0;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+  text-align: center;
+  word-wrap: break-word;
+}
+
+/* View-all chevron: 24×24 inside 64 circle (Avatar large icon slot is 36×36). */
+.cell .avatarWrap :global([data-testid="icon"]) {
+  &,
+  & > * {
+    @include dimensions($unit-8, $unit-8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell:is(button):focus-visible {
+    transition: none;
+  }
+}

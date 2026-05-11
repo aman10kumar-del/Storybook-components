@@ -1,0 +1,116 @@
+@import "../../commonStyles/mixin";
+
+.sheetContainer {
+  overflow: hidden;
+  margin-bottom: $margin-vertical-m;
+  width: 100%;
+  border-radius: $radius-l;
+  background: getColorVariable(--background-neutral-inverse);
+  @include borderBox();
+
+  .sheetList {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    position: relative;
+    overflow-y: scroll;
+    max-height: calc(85vh - 164px);
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .dynamiceHeight {
+    max-height: calc(85vh - 198px);
+  }
+
+  .sheetItem {
+    @include flexBox(flex, center, space-between, false, row, null, 0px);
+    @include pointerCursor();
+    @include rowGap($gap-2xl);
+    padding-left: $padding-horizontal-xl;
+
+    .leadingSection {
+      @include flexBox(flex, flex-start, center, false, row, null, 0px);
+
+      .leadingIcon {
+        display: inline-block;
+        color: getColorVariable(--icon-neutral-strong);
+        flex-shrink: 0;
+
+        &,
+        &>* {
+          @include dimensions(24px, 24px);
+        }
+      }
+    }
+
+    .mainSection {
+      flex-grow: 1;
+      @include dimensions(false, 56px);
+      @include flexBox(flex, flex-start, center, false, column, null, 0px);
+
+      .labelContainer {
+        padding: $padding-vertical-3xl $padding-horizontal-3xl $padding-vertical-3xl $padding-horizontal-xs;
+        @include getFontStyle(title4-regular, getColorVariable(--text-neutral-strong));
+
+        .label {
+          @include ellipsisMulti(1, 24px);
+        }
+      }
+
+      .separator {
+        @include dimensions(100%);
+      }
+    }
+
+    &.disabledItem {
+      pointer-events: none;
+      .leadingIcon {
+        &,
+        &>* {
+          color: getColorVariable(--icon-neutral-weak);
+        }
+      }
+
+      .label {
+        color: getColorVariable(--text-neutral-weak);
+      }
+    }
+
+    &.destructiveItem {
+      .leadingIcon {
+        &,
+        &>* {
+          color: getColorVariable(--icon-negative-strong);
+        }
+      }
+
+      .label {
+        color: getColorVariable(--text-negative-strong);
+      }
+    }
+  }
+}
+
+.closeSheet {
+  background: getColorVariable(--surface-level-2);
+  border-radius: $radius-l;
+  margin-top: $margin-vertical-xs !important;
+  @include dimensions(100%, 56px);
+
+  .closeButton {
+    padding: $padding-vertical-3xl $padding-horizontal-2xl;
+    @include dimensions(100%, 100%);
+    text-align: center;
+    @include getFontStyle(title4-bold, getColorVariable(--text-neutral-strong));
+    @include pointerCursor();
+    @include ellipsis();
+  }
+}
+
+.bottomSheet {
+  padding-left: $padding-horizontal-xl !important;
+  padding-right: $padding-horizontal-xl !important;
+  background-color: transparent !important;
+}

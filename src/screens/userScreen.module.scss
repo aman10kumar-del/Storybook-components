@@ -1,0 +1,92 @@
+@import "../../paytm-common-storybook/src/commonStyles/mixin";
+
+/* §9: clip + vertical scroll helps sticky chrome inside the device frame */
+.userScreenScroll {
+  overflow-x: clip;
+}
+
+.userStickyChrome {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+  width: 100%;
+  padding-top: 0;
+  box-sizing: border-box;
+  background: var(--surface-level-4);
+  /* Hairline under sticky chrome when store list scrolls beneath */
+  box-shadow: 0 1px 0 var(--border-neutral-weak);
+}
+
+.searchBlock {
+  width: 100%;
+}
+
+.storeList {
+  display: flex;
+  flex-direction: column;
+  /* §11 stacked cards on wash: vertical step matches page gutter (12px), not gap-4xl */
+  gap: $margin-horizontal-m;
+  width: 100%;
+}
+
+/*
+ * PODS Card defaults to a 1px border in Card.module.scss (not controlled by Storybook preview).
+ * On --surface-level-4 wash, use borderless soft tiles — design.mdc §11 “Card — borderless section tiles on wash”.
+ */
+.storeCard {
+  width: 100%;
+  border: none !important;
+  border-radius: $radius-3xl !important;
+  box-sizing: border-box;
+}
+
+.storeCardRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: $gap-3xl;
+  width: 100%;
+}
+
+/* §11: text cluster vs primary action — gap.3xl before CTA; 8px ($gap-xl) inside cluster */
+.storeCardBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+  align-items: flex-start;
+}
+
+/* 8px vertical rhythm between text lines (token $gap-xl) */
+.storeTextCluster {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-xl;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.storeName {
+  margin: 0;
+  @include getFontStyle(title3-semibold, getColorVariable(--text-neutral-strong));
+}
+
+/* MID + address: 8px between lines */
+.storeMetaStack {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-xl;
+  width: 100%;
+  align-items: flex-start;
+}
+
+/* 12px regular (PODS subtext-regular) */
+.storeMid,
+.storeAddress {
+  margin: 0;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+}

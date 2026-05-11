@@ -1,0 +1,85 @@
+@import "../../commonStyles/mixin";
+
+
+.alertsContainer {
+  @include dimensions(100%);
+  @include borderBox();
+  @include flexBox(flex, center, flex-start, false, row);
+  @include rowGap($gap-xl);
+  &.block {
+    width: 100%;
+    padding: $padding-vertical-xl $padding-horizontal-2xl;
+  }
+  &.inline {
+    width: calc(100% - 24px);
+    margin: 0 12px;
+    border-radius: $radius-3xl;
+    padding: $padding-vertical-xl $padding-horizontal-xl;
+  }
+  &.primary {
+    background-color: getColorVariable(--background-primary-weak);
+  }
+  &.negative {
+    background-color: getColorVariable(--background-negative-weak);
+  }
+  &.notice {
+    background-color: getColorVariable(--background-notice-weak);
+  }
+  &.positive {
+    background-color: getColorVariable(--background-positive-weak);
+  }
+  .contentSection {
+    flex-grow: 1;
+    @include flexBox(flex, flex-start, flex-start, false, row);
+    @include rowGap($gap-m);
+    &.verticalPadding {
+      padding: $padding-vertical-m 0px;
+    }
+    .leadingIcon {
+      flex-shrink: 0;
+      svg {
+        color: getColorVariable(--icon-neutral-strong);
+      }
+      @include dimensions(16px, 16px);
+      &, & > * {
+        @include dimensions(16px, 16px);
+      }
+      &.large {
+        padding: $padding-vertical-m $padding-horizontal-m;
+        box-sizing: content-box;
+        @include dimensions(24px, 24px);
+        &, & > * {
+          @include dimensions(24px, 24px);
+        }
+      }
+    }
+    .headings {
+      flex-grow: 1;
+      .title {
+        @include getFontStyle(subtext-bold, getColorVariable(--text-neutral-strong));
+        margin: 0px;
+      }
+      .subTitle {
+        @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+        margin: 0px;
+      }
+    }
+  }
+  .actionSection {
+    @include flexBox(flex, center, flex-start, false, row);
+    height: 100%;
+    @include rowGap($gap-xl);
+    .actionCta {
+      margin-left: 16px;
+      flex-shrink: 0;
+      @include pointerCursor();
+    }
+    .crossIcon {
+      cursor: pointer;
+      flex-shrink: 0;
+      &, & > * {
+        @include dimensions(16px, 16px);
+      }
+    }
+  }
+}

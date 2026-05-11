@@ -1,0 +1,72 @@
+@import "../../commonStyles/mixin";
+
+.root {
+  width: 100%;
+  min-width: 0;
+  padding: $padding-vertical-s 0 $padding-vertical-m;
+}
+
+.monthNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $gap-m;
+  margin-bottom: $gap-2xl;
+}
+
+.monthTitle {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  @include getFontStyle(title3-bold, getColorVariable(--text-neutral-strong));
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: $gap-xs;
+  margin-bottom: $gap-m;
+}
+
+.weekday {
+  text-align: center;
+  @include getFontStyle(caption-medium, getColorVariable(--text-neutral-moderate));
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: $gap-xs;
+}
+
+.cellPad {
+  min-height: $unit-11;
+}
+
+.day {
+  @include borderBox();
+  min-height: $unit-11;
+  border: none;
+  border-radius: $radius-l;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+
+  &:focus-visible {
+    outline: 2px solid getColorVariable(--border-primary-medium);
+    outline-offset: 2px;
+  }
+}
+
+.daySelected {
+  background-color: getColorVariable(--background-primary-weak);
+  color: getColorVariable(--text-primary-strong);
+  font-weight: 600;
+}
+
+.dayDisabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  color: getColorVariable(--text-neutral-moderate);
+}

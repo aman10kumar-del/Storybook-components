@@ -1,0 +1,12 @@
+@import "../../../commonStyles/mixin";
+
+.headerSearchContainer {
+  padding: $padding-vertical-m $padding-horizontal-xl;
+  @include flexBox(flex, center, space-between, false, row, null, 0px);
+  @include rowGap(12px !important);
+  width: 100%;
+  .search {
+    min-width: 0;
+    margin-right: 0 !important;
+  }
+}

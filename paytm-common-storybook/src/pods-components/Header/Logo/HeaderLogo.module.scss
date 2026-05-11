@@ -1,0 +1,28 @@
+@import "../../../commonStyles/mixin";
+
+.headerLogoContainer {
+  height: 56px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  padding: 0 $padding-horizontal-2xl;
+  .icon {
+    @include dimensions(24px, 24px);
+    flex-shrink: 0;
+    svg {
+      color: getColorVariable(--icon-neutral-strong);
+    }
+    &.backArrow svg {
+      @include dimensions(24px, 24px);
+      @include pointerCursor();
+    }
+  }
+  .logo {
+    @include flexBox(flex, center, center, false, row);
+    height: 56px;
+    img {
+      max-width: 80px;
+      max-height: 100%;
+    }
+  }
+}

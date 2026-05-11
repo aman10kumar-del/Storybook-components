@@ -1,0 +1,204 @@
+@import "../../commonStyles/mixin";
+
+/* Figma 252:6678 — RU. / Current Plan Card */
+
+.root {
+  width: 100%;
+  @include borderBox();
+}
+
+.card {
+  padding: $padding-vertical-xs !important;
+  border: none !important;
+  border-radius: $radius-3xl !important;
+  background-color: getColorVariable(--surface-level-1) !important;
+  overflow: hidden;
+}
+
+.column {
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $unit-4);
+  width: 100%;
+}
+
+.topBlock {
+  width: 100%;
+}
+
+/* —— Header (same rhythm as Recent Recharge list row) —— */
+.headerRow {
+  @include flexBox(flex, center, flex-start, false, row, null, $gap-3xl);
+  width: 100%;
+  min-height: 72px;
+  padding: $padding-vertical-xs $padding-horizontal-3xl;
+  @include borderBox();
+}
+
+.headerLeading {
+  flex-shrink: 0;
+  align-self: stretch;
+  padding: $padding-vertical-2xl $padding-horizontal-xs;
+  @include flexBox(flex, center, center, false, row, null, 0);
+}
+
+.headerMain {
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: stretch;
+  padding: $padding-vertical-2xl $padding-horizontal-xs;
+  @include flexBox(flex, flex-start, space-between, false, row, null, $gap-2xl);
+}
+
+.headerTexts {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 42px;
+  @include flexBox(flex, flex-start, center, false, column, null, 0);
+  @include colGap($gap-m);
+}
+
+.headerName {
+  width: 100%;
+  margin: 0;
+  @include getFontStyle(title4-medium, getColorVariable(--text-neutral-strong));
+}
+
+.headerPhone {
+  width: 100%;
+  margin: 0;
+  @include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+}
+
+.changeWrap {
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.changeBtn {
+  height: auto !important;
+  min-height: 0;
+  padding: $padding-vertical-xs $padding-horizontal-xs !important;
+}
+
+/* —— Plan —— */
+.planSection {
+  width: 100%;
+  padding: $padding-vertical-3xl $padding-horizontal-3xl;
+  border-top: 1px solid getColorVariable(--border-neutral-weak);
+  @include borderBox();
+}
+
+.planTopRow {
+  @include flexBox(flex, flex-end, space-between, false, row, null, $gap-2xl);
+  width: 100%;
+}
+
+.planLabelStack {
+  flex: 0 1 auto;
+  min-width: 0;
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $gap-m);
+}
+
+.currentPlanLabel {
+  margin: 0;
+  @include getFontStyle(subtext-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.planPrice {
+  margin: 0;
+  @include getFontStyle(title1-bold, getColorVariable(--text-neutral-strong));
+}
+
+.rechargeWrap {
+  flex-shrink: 0;
+}
+
+.planMeta {
+  margin-top: $unit-6;
+  width: 100%;
+  max-width: 100%;
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $gap-s);
+}
+
+.planDesc {
+  margin: 0;
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+}
+
+.planDescText {
+  display: inline;
+}
+
+.planDetailsBtn {
+  display: inline-flex !important;
+  vertical-align: baseline;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 0 0 $gap-s !important;
+}
+
+.planExpiry {
+  margin: 0;
+  @include getFontStyle(body-regular, getColorVariable(--text-neutral-moderate));
+}
+
+/* —— Data pack tray (Figma footer wash — cool grey, not same as card white) —— */
+.dataPackSection {
+  width: 100%;
+  padding: $padding-vertical-2xl $padding-horizontal-3xl;
+  background-color: getColorVariable(--background-offset-2-weak);
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $gap-2xl);
+  @include borderBox();
+}
+
+.dataPackHead {
+  @include flexBox(flex, center, flex-start, false, row, null, $gap-xl);
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.dataPackTitle {
+  margin: 0;
+  @include getFontStyle(subtext-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.badgeWrap {
+  flex-shrink: 0;
+}
+
+.chipRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $unit-4;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: $gap-s;
+  @include borderBox();
+}
+
+.chip {
+  flex-shrink: 0;
+  height: 32px;
+  padding: 0 $padding-horizontal-2xl;
+  border-radius: $radius-3xl;
+  background: getColorVariable(--background-neutral-inverse);
+  @include flexBox(inline-flex, center, center, false, row, null, $gap-m);
+  @include borderBox();
+}
+
+.chipPrice {
+  @include getFontStyle(subtext-semibold, getColorVariable(--text-neutral-strong));
+  white-space: nowrap;
+}
+
+.chipMid {
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+  flex-shrink: 0;
+}
+
+.chipDetail {
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+  white-space: nowrap;
+}

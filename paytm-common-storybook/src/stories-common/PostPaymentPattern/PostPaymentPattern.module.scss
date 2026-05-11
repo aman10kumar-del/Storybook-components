@@ -1,0 +1,569 @@
+@import "../../commonStyles/mixin";
+
+$post-payment-fade-ms: 280ms;
+$post-payment-fade-ease: cubic-bezier(0.4, 0, 0.2, 1);
+$post-payment-footer-sync: $post-payment-fade-ms;
+
+/* Full width of parent (same as default Card); internal blocks keep their own max-widths where needed. */
+.root {
+  width: 100%;
+  max-width: none;
+}
+
+.card {
+  padding: 0 !important;
+  border-radius: $radius-3xl;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 $unit-4 $unit-8 var(--overlay-weak);
+  transition: box-shadow $post-payment-fade-ms $post-payment-fade-ease;
+}
+
+.body {
+  position: relative;
+  @include borderBox();
+  padding: $padding-vertical-3xl $padding-horizontal-3xl 0;
+}
+
+/* Crossfade: in-flow panel sets height; hidden panel is absolutely stacked. */
+.contentShell {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+}
+
+.swapPanel {
+  width: 100%;
+}
+
+.swapPanelShown {
+  position: relative;
+  z-index: 1;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity $post-payment-fade-ms $post-payment-fade-ease,
+    visibility 0ms linear 0ms;
+}
+
+.swapPanelHidden {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity $post-payment-fade-ms $post-payment-fade-ease,
+    visibility 0ms linear $post-payment-fade-ms;
+}
+
+/* Top-right — tonal Button medium; label collapses to icon-only after a delay. */
+.expandCornerBtn {
+  position: absolute;
+  top: $padding-vertical-3xl;
+  right: $padding-horizontal-3xl;
+  /* Above .contentShell so the panel does not steal clicks (same z-index + later DOM wins). */
+  z-index: 2;
+  width: auto !important;
+  transition: opacity 0.22s ease;
+
+  [data-testid="label"] {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: middle;
+    max-width: $unit-6 * 12;
+    opacity: 1;
+    transition: max-width 0.32s ease, opacity 0.26s ease,
+      margin-inline 0.32s ease;
+  }
+}
+
+.expandCornerBtn.expandCornerCollapsing [data-testid="label"] {
+  max-width: 0;
+  opacity: 0;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+/* ─── Mini (collapsed) — centered hero per design reference ─── */
+.mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $gap-4xl;
+  padding: $padding-vertical-m 0 $padding-vertical-3xl;
+  text-align: center;
+}
+
+.miniAvatar {
+  width: $unit-13 !important;
+  height: $unit-13 !important;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.miniNameRow {
+  @include flexBox(flex, center, center, false, row, null, $gap-l);
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.miniName {
+  @include getFontStyle(title1-bold, getColorVariable(--text-neutral-strong));
+}
+
+.verifiedBadge {
+  display: inline-flex;
+  flex-shrink: 0;
+  @include dimensions($unit-7, $unit-7);
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* select_themed defaults to --icon-primary-strong; design uses brighter blue. */
+  svg path:first-of-type {
+    fill: getColorVariable(--icon-primary-medium);
+  }
+}
+
+/* Expanded hero verified mark ≈22px (($unit-7 + $unit-8) * 0.5). */
+.verifiedBadgeExpanded {
+  @include dimensions(($unit-7 + $unit-8) * 0.5, ($unit-7 + $unit-8) * 0.5);
+}
+
+.miniAmountRow {
+  @include flexBox(flex, center, center, false, row, null, $unit-0);
+  width: 100%;
+}
+
+.miniAmountInline {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $gap-2xl;
+}
+
+.miniAmountFigures {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: $padding-horizontal-s;
+}
+
+/* Subordinate rupee (design: lighter + smaller than amount figure, shared baseline). */
+.miniRupee {
+  @include getFontStyle(title2-medium, getColorVariable(--text-neutral-strong));
+  flex-shrink: 0;
+  line-height: 1;
+  transform: translateY(-0.12em);
+}
+
+/* Amount figures: $unit-13 (56) / $unit-13 + $unit-2 (60). */
+.miniAmountDigits {
+  font-weight: $typography-weight-bold;
+  font-size: $unit-13;
+  line-height: $unit-13 + $unit-2;
+  letter-spacing: -0.02em;
+  color: getColorVariable(--text-neutral-strong);
+}
+
+.txnSuccessIcon {
+  flex-shrink: 0;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.txnSuccessMini {
+  @include dimensions($unit-12, $unit-12);
+}
+
+.txnSuccessLg {
+  @include dimensions($unit-12 + $unit-3, $unit-12 + $unit-3);
+}
+
+/* ─── Expanded — Figma 252:6497 (rg24 tokens) ─── */
+.expandedMain {
+  padding-bottom: 0;
+}
+
+.expandedRecipientAvatar {
+  width: $unit-12 + $unit-2 !important;
+  height: $unit-12 + $unit-2 !important;
+}
+
+.expandedHero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $gap-3xl;
+  padding: $padding-vertical-m 0 $padding-vertical-2xl;
+  text-align: center;
+}
+
+.expandedIdentity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $gap-l;
+  width: 100%;
+  max-width: $unit-9 * 7;
+}
+
+.expandedNameRow {
+  @include flexBox(flex, center, center, false, row, null, $gap-m);
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.expandedUpiHandleRow {
+  @include flexBox(flex, center, center, false, row, null, $gap-xl);
+  max-width: 100%;
+}
+
+.expandedUpiHandle {
+  @include getFontStyle(title3-medium, getColorVariable(--text-neutral-strong));
+}
+
+.expandedUpiBankLogo {
+  flex-shrink: 0;
+  width: $unit-7 !important;
+  height: $unit-7 !important;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.expandedAmountBlock {
+  @include flexBox(flex, center, center, false, row, null, $unit-0);
+  width: 100%;
+}
+
+.expandedAmountInline {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: $gap-xs;
+  width: 100%;
+  max-width: $unit-9 * 8 - $unit-4;
+}
+
+.expandedAmountFigures {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: $gap-xs;
+  flex-shrink: 0;
+}
+
+/* Rupee ≈$unit-11 + $unit-2 + $unit-1 (46); lh = display2 token (40). Weight 300: no light token in scale. */
+.expandedRupee {
+  flex-shrink: 0;
+  font-weight: 300;
+  font-size: $unit-11 + $unit-2 + $unit-1;
+  line-height: $typography-scale-display2-line-height;
+  color: getColorVariable(--text-neutral-strong);
+}
+
+/* Digits ≈75px: $unit-12 + $unit-8 + $unit-1 (74); lh $unit-12 + $unit-8 - $unit-1 (70). */
+.expandedAmountDigits {
+  font-weight: $typography-weight-bold;
+  font-size: $unit-12 + $unit-8 + $unit-1;
+  line-height: $unit-12 + $unit-8 - $unit-1;
+  letter-spacing: -0.02em;
+  color: getColorVariable(--text-neutral-strong);
+}
+
+.upiReferenceSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $gap-l;
+  width: 100%;
+  max-width: $unit-9 * 7;
+  margin: 0 auto;
+  padding: $gap-3xl 0 $padding-vertical-m;
+  text-align: center;
+}
+
+.upiRefHeading {
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  @include getFontStyle(title3-medium, getColorVariable(--text-neutral-strong));
+}
+
+.upiRefValueRow {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: $gap-m;
+}
+
+.upiRefNumber {
+  flex: 0 1 auto;
+  min-width: 0;
+  text-align: center;
+  @include getFontStyle(title1-bold, getColorVariable(--text-neutral-strong));
+  font-variant-numeric: tabular-nums;
+}
+
+.senderRow {
+  @include flexBox(flex, flex-start, space-between, false, row, null, $gap-2xl);
+  padding: $padding-vertical-3xl 0;
+  align-items: center;
+}
+
+.senderCopy {
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $gap-m);
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.senderCaption {
+  @include getFontStyle(title4-regular, getColorVariable(--text-neutral-moderate));
+}
+
+.senderVpa {
+  @include getFontStyle(title3-medium, getColorVariable(--text-neutral-strong));
+}
+
+.senderBankRow {
+  @include flexBox(inline-flex, center, flex-start, false, row, null, $gap-m);
+  flex-wrap: wrap;
+  margin-top: $unit-1;
+}
+
+.senderBankText {
+  @include getFontStyle(title3-medium, getColorVariable(--text-neutral-strong));
+}
+
+.senderBankMark {
+  width: $unit-7 + $unit-1 / 2;
+  height: $unit-7 + $unit-1 / 2;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: $radius-max;
+}
+
+.senderAvatar {
+  width: $unit-12 !important;
+  height: $unit-12 !important;
+}
+
+.fieldLabel {
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+}
+
+.entityName {
+  @include getFontStyle(subtext-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.bankLine {
+  @include flexBox(flex, center, flex-start, false, row, null, $gap-m);
+  margin-top: $unit-1;
+}
+
+.bankName {
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+}
+
+.bankMark {
+  width: $unit-6;
+  height: $unit-6;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.trailingProfile {
+  flex-shrink: 0;
+  width: $unit-12 + $unit-2 !important;
+  height: $unit-12 + $unit-2 !important;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.dashedRule {
+  border-top: 1px dashed getColorVariable(--border-neutral-weak);
+  margin: 0 0 $padding-vertical-m;
+}
+
+.copyIconBtn {
+  @include flexBox(flex, center, center, false, row, null, $unit-0);
+  flex-shrink: 0;
+  @include dimensions($unit-11, $unit-11);
+  border: none;
+  border-radius: 50%;
+  background: getColorVariable(--background-offset-2-weak);
+  cursor: pointer;
+  @include pointerCursor();
+
+  svg {
+    @include dimensions($unit-7, $unit-7);
+    color: getColorVariable(--icon-neutral-strong);
+  }
+
+  &:focus-visible {
+    outline: $unit-1 solid getColorVariable(--border-primary-strong);
+    outline-offset: $unit-1;
+  }
+}
+
+/* Figma: 24px copy glyph, no filled circle */
+.copyIconBare {
+  background: transparent;
+  @include dimensions($unit-9, $unit-9);
+  border-radius: $radius-s;
+
+  svg {
+    @include dimensions($unit-8, $unit-8);
+    color: getColorVariable(--icon-neutral-moderate);
+  }
+}
+
+.detailBlock {
+  @include flexBox(flex, flex-start, flex-start, false, column, null, $gap-xs);
+  padding: $padding-vertical-2xl 0;
+}
+
+.detailLabel {
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+}
+
+.detailValue {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+}
+
+.detailBlockProminent {
+  row-gap: $gap-m;
+  padding-top: $padding-vertical-3xl;
+  padding-bottom: $padding-vertical-3xl;
+
+  .detailLabel {
+    @include getFontStyle(title4-regular, getColorVariable(--text-neutral-moderate));
+  }
+
+  .detailValue {
+    @include getFontStyle(title3-medium, getColorVariable(--text-neutral-strong));
+  }
+}
+
+.footer {
+  @include flexBox(flex, stretch, flex-start, false, row, null, $gap-3xl);
+  padding-top: $padding-vertical-2xl;
+  padding-bottom: $padding-vertical-3xl;
+  transition: margin $post-payment-footer-sync $post-payment-fade-ease,
+    padding $post-payment-footer-sync $post-payment-fade-ease;
+}
+
+.footerTwo {
+  > .footerBtn {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto !important;
+    height: $unit-10 + $unit-3;
+    max-height: $unit-10 + $unit-3;
+    border-radius: $unit-11;
+  }
+}
+
+.footerThree {
+  /* Expanded only: row reaches card edges; first button aligns with body inset (scroll overflow). */
+  margin-left: -$padding-horizontal-3xl;
+  margin-right: -$padding-horizontal-3xl;
+  padding-left: $padding-horizontal-3xl;
+  padding-right: 0;
+  justify-content: flex-start;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
+  gap: $gap-2xl;
+
+  > .footerBtn {
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+    width: auto !important;
+    max-width: none !important;
+    height: $unit-10 + $unit-3;
+    max-height: $unit-10 + $unit-3;
+    border-radius: $unit-11;
+    overflow: visible !important;
+    padding-inline: $padding-horizontal-3xl;
+
+    [data-testid="label"] {
+      max-width: none;
+      overflow: visible;
+      text-overflow: clip;
+      @include getFontStyle(body-semibold, false);
+    }
+  }
+}
+
+.footerBtn {
+  width: auto !important;
+
+  [data-testid="label"] {
+    @include getFontStyle(body-semibold, false);
+  }
+}
+
+.shareBtn {
+  background: getColorVariable(--background-positive-strong) !important;
+  border: none !important;
+
+  [data-testid="label"] {
+    color: getColorVariable(--text-universal-light) !important;
+  }
+
+  [data-testid="leading-icon"] {
+    @include dimensions($unit-8, $unit-8);
+
+    svg {
+      color: getColorVariable(--icon-universal-light) !important;
+      @include dimensions($unit-8, $unit-8);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition-duration: 0.01ms;
+  }
+
+  .swapPanelShown,
+  .swapPanelHidden {
+    transition-duration: 0.01ms;
+    transition-delay: 0ms;
+  }
+
+  .footer {
+    transition-duration: 0.01ms;
+  }
+}

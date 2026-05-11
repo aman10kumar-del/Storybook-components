@@ -1,0 +1,149 @@
+@import "../../commonStyles/mixin";
+
+/* Figma 252:7108 — Payments / Recent Payments */
+
+.root {
+  width: 100%;
+  @include borderBox();
+}
+
+.card {
+  padding: 0 !important;
+  border: none !important;
+  border-radius: $radius-3xl !important;
+  background-color: getColorVariable(--surface-level-1) !important;
+  overflow: hidden;
+}
+
+.list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  @include flexBox(flex, center, flex-start, false, row, null, $gap-3xl);
+  width: 100%;
+  /* Figma row chrome: 72px */
+  min-height: calc(#{$unit-12} + #{$unit-8});
+  padding: 0 $padding-horizontal-3xl;
+  border-bottom: 1px solid getColorVariable(--border-neutral-weak);
+  @include borderBox();
+}
+
+.rowWithCaption {
+  min-height: 76px;
+}
+
+.leading {
+  flex-shrink: 0;
+  align-self: stretch;
+  padding: $padding-vertical-2xl 0;
+  @include flexBox(flex, flex-start, center, false, row, null, 0);
+}
+
+.leadingStack {
+  @include flexBox(flex, center, center, false, column, null, $gap-s);
+}
+
+.avatarWrap {
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.avatarCaption {
+  display: inline-block;
+  margin: 0;
+  padding: $padding-vertical-s $padding-horizontal-l;
+  border-radius: $radius-max;
+  background-color: getColorVariable(--background-offset-2-weak);
+  @include getFontStyle(caption-semibold, getColorVariable(--text-neutral-medium));
+  text-align: center;
+  white-space: nowrap;
+}
+
+.body {
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: stretch;
+  padding: $padding-vertical-3xl 0;
+  @include flexBox(flex, center, space-between, false, row, null, $gap-2xl);
+}
+
+.texts {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 42px;
+  @include flexBox(flex, flex-start, center, false, column, null, $gap-m);
+}
+
+.title {
+  width: 100%;
+  margin: 0;
+  @include getFontStyle(title4-medium, getColorVariable(--text-neutral-strong));
+}
+
+.subtitle {
+  width: 100%;
+  margin: 0;
+  @include getFontStyle(body-regular, getColorVariable(--text-neutral-moderate));
+}
+
+.payWrap {
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding-top: $padding-vertical-xs;
+}
+
+.payButton {
+  height: auto !important;
+  min-height: $unit-6;
+  padding: $padding-vertical-m $padding-horizontal-3xl !important;
+}
+
+.footer {
+  min-height: $unit-12;
+  padding: $padding-vertical-3xl;
+  @include flexBox(flex, center, center, false, row, null, 0);
+  background-color: getColorVariable(--surface-level-1);
+  border-radius: $radius-m $radius-m $radius-3xl $radius-3xl;
+}
+
+.viewAllButton,
+.viewAllStatic {
+  @include flexBox(flex, center, center, false, row, null, $gap-m);
+  margin: 0;
+  padding: 0 $padding-horizontal-2xl;
+  min-height: $unit-8;
+  border: none;
+  background: transparent;
+  line-height: 0;
+}
+
+.viewAllButton {
+  @include pointerCursor();
+
+  &:focus-visible {
+    outline: $unit-1 solid getColorVariable(--border-primary-strong);
+    outline-offset: $unit-1;
+    border-radius: $radius-s;
+  }
+}
+
+.viewAllLabel {
+  margin: 0;
+  @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+  white-space: nowrap;
+}
+
+.viewAllChevron {
+  flex-shrink: 0;
+  color: getColorVariable(--icon-neutral-strong);
+  @include dimensions($unit-4, $unit-4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viewAllButton:focus-visible {
+    transition: none;
+  }
+}

@@ -1,0 +1,48 @@
+@import '../../commonStyles/mixin';
+
+.sliderContainer {
+  @include borderBox();
+  text-align: center;
+  .rangeValue {
+    border-radius: 8px;
+		background: getColorVariable(--background-offset-weak);
+
+    h5 {
+			@include getFontStyle(display3-medium, getColorVariable(--text-neutral-strong));
+      padding-top: 19px;
+      margin-bottom: 8px;
+      margin-top: 0px;
+    }
+    .slider {
+      @include dimensions(100%, 6px);
+      @include pointerCursor();
+      background: linear-gradient(to right,
+      getColorVariable(--background-primary-strong) 0%,
+      getColorVariable(--background-primary-strong) getColorVariable(--slider-width),
+      getColorVariable(--background-neutral-weak) getColorVariable(--slider-width),
+      getColorVariable(--background-neutral-weak) 100%);
+      outline: none;
+      transition: background 450ms ease-in;
+      -webkit-appearance: none;
+      position: relative;
+      bottom: -5px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      @include dimensions(32px, 32px);
+      background-color: getColorVariable(--background-neutral-inverse);
+      border-radius: 96px;
+      border: 2px solid getColorVariable(--border-primary-strong)
+    }
+  }
+  .rangeTexts {
+    margin-top: 16px;
+		@include flexBox(flex, center, space-between, false, row);
+    p {
+			@include getFontStyle(caption-regular, getColorVariable(--text-neutral-medium));
+      margin: 0;
+    }
+  }
+}

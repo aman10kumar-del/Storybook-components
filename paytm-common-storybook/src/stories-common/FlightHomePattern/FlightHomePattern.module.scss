@@ -1,0 +1,221 @@
+@import "../../commonStyles/mixin";
+
+.root {
+  @include borderBox();
+  width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: getColorVariable(--surface-level-4);
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-4xl;
+  padding: 0 $margin-horizontal-m $padding-vertical-3xl;
+}
+
+.searchCard {
+  border-radius: $radius-3xl;
+}
+
+.searchCardInner {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+}
+
+.searchCardSegmented {
+  align-self: stretch;
+  width: 100%;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+.routeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $gap-m;
+}
+
+.routeMid {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.routeBlock {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+}
+
+.routeBlockEnd {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.routeCode {
+  @include getFontStyle(title2-bold, getColorVariable(--text-neutral-strong));
+}
+
+.routeCity {
+  @include getFontStyle(caption-medium, getColorVariable(--text-neutral-medium));
+}
+
+.swapButton {
+  flex-shrink: 0;
+}
+
+.paxRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: $gap-2xl;
+  width: 100%;
+  box-sizing: border-box;
+  padding: $padding-vertical-xl $padding-horizontal-xl;
+  border-radius: $radius-l;
+  background-color: getColorVariable(--surface-level-2);
+  border: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+
+  &:focus-visible {
+    outline: 2px solid getColorVariable(--border-primary-medium);
+    outline-offset: 2px;
+  }
+}
+
+.paxTextCol {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+  min-width: 0;
+}
+
+.paxPrimary {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+}
+
+.paxSecondary {
+  @include getFontStyle(subtext-medium, getColorVariable(--text-neutral-moderate));
+}
+
+.paxChevronWrap {
+  flex-shrink: 0;
+  display: inline-flex;
+  color: getColorVariable(--icon-neutral-strong);
+
+  &,
+  & > svg {
+    @include dimensions(20px, 20px);
+  }
+}
+
+.dateRow {
+  display: flex;
+  gap: $gap-2xl;
+}
+
+.dateCell {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+  padding: $padding-vertical-xl $padding-horizontal-xl;
+  border-radius: $radius-l;
+  background-color: getColorVariable(--surface-level-2);
+}
+
+.dateLabel {
+  @include getFontStyle(caption-medium, getColorVariable(--text-neutral-medium));
+}
+
+.dateValue {
+  @include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.promoStrip {
+  display: flex;
+  align-items: center;
+  gap: $gap-2xl;
+  padding: $padding-vertical-xl $padding-horizontal-3xl;
+  border-radius: $radius-l;
+  background-color: getColorVariable(--background-positive-weak);
+}
+
+.promoText {
+  @include getFontStyle(body-medium, getColorVariable(--text-positive-strong));
+  flex: 1;
+  min-width: 0;
+}
+
+.offersBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.offerScroller {
+  display: flex;
+  flex-direction: row;
+  gap: $gap-xl;
+  overflow-x: auto;
+  padding-bottom: $padding-vertical-s;
+  margin-top: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.offerCard {
+  flex: 0 0 auto;
+  width: 200px;
+  max-width: 72vw;
+  border-radius: $radius-l;
+  padding: $padding-vertical-2xl $padding-horizontal-2xl !important;
+}
+
+.offerTitle {
+  @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+  margin: 0 0 $gap-m;
+}
+
+.offerSub {
+  @include getFontStyle(caption-medium, getColorVariable(--text-neutral-moderate));
+  margin: 0;
+}
+
+.recentBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.recentCard {
+  border-radius: $radius-3xl;
+  padding: 0 !important;
+}
+
+.recentList {
+  padding: 0;
+}
+
+.navDock {
+  flex-shrink: 0;
+  margin-top: auto;
+  padding: 0;
+  background-color: getColorVariable(--surface-level-4);
+}

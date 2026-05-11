@@ -1,0 +1,115 @@
+@import "../../commonStyles/mixin";
+
+.wash {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 480px;
+  padding: $padding-vertical-3xl $padding-horizontal-3xl;
+  background-color: getColorVariable(--surface-level-4);
+  border-radius: $radius-m;
+}
+
+.bankLogo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.graphicAddLeading {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.graphicAddCircleImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.graphicAddIcon {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  color: getColorVariable(--icon-universal-light);
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.graphicFooterAsset {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  margin: 0 auto;
+}
+
+.footerCardComposite {
+  position: relative;
+  width: 100%;
+  height: 56px;
+  pointer-events: none;
+}
+
+.footerCardStand {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 52px;
+  width: auto;
+  max-width: 55%;
+  object-fit: contain;
+}
+
+.footerCardFace {
+  position: absolute;
+  left: 4px;
+  bottom: 2px;
+  height: 44px;
+  width: auto;
+  max-width: 65%;
+  object-fit: contain;
+}
+
+/* UPI Lite footer: Figma phone frame (252:7007) + raster logo (252:7012). */
+.upiLiteFooter {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.upiLitePhone {
+  box-sizing: border-box;
+  width: 48px;
+  height: 63px;
+  border: 2px solid #2e58e5;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px 10px;
+}
+
+.upiLitePhone img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 28px;
+  object-fit: contain;
+}

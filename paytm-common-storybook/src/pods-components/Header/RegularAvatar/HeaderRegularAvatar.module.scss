@@ -1,0 +1,64 @@
+@import "../../../commonStyles/mixin";
+
+.headerRegularAvatarContainer {
+  @include flexBox(flex, center, space-between, false, row, null, 0px);
+  padding: 0 $padding-horizontal-2xl;
+  @include rowGap($gap-2xl);
+  min-height: 56px;
+  .icon {
+    @include dimensions(24px, 24px);
+    flex-shrink: 0;
+    svg {
+      color: getColorVariable(--icon-neutral-strong);
+    }
+    &.backArrow svg, &.trailingIcon > * {
+      @include dimensions(24px, 24px);
+      @include pointerCursor();
+    }
+  }
+  .titlesSection {
+    flex-grow: 1;
+    min-width: 0;
+    overflow: hidden;
+    @include flexBox(flex, center, flex-start, false, row, null, 0px);
+    @include rowGap($gap-xl);
+    padding: $padding-vertical-m 0;
+    .avatarImage {
+      flex-shrink: 0;
+    }
+    .titlesContainer {
+      min-width: 0;
+      @include flexBox(flex, flex-start, center, false, column, null, 0px);
+      @include colGap($gap-m);
+      .titleContainer {
+        max-width: 100%;
+        @include flexBox(flex, center, flex-start, false, row, null, 0px);
+        @include rowGap($gap-m);
+        .title {
+          @include getFontStyle(title3-bold, getColorVariable(--text-neutral-strong));
+          @include ellipsis();
+        }
+        .titleIcon {
+          @include dimensions(16px, 16px);
+          flex-shrink: 0;
+          color: getColorVariable(--icon-neutral-strong);
+          > * {
+            @include dimensions(16px, 16px);
+          }
+        }
+      }
+      .subTitle {
+        max-width: 100%;
+        @include getFontStyle(body-medium, getColorVariable(--text-neutral-medium));
+        @include ellipsis();
+        & , & * {
+          max-height: 20px;
+        }
+      }
+    }
+  }
+  .trailingSection {
+    @include flexBox(flex, center, flex-end, false, row, null, 0px);
+    @include rowGap($gap-2xl);
+  }
+}

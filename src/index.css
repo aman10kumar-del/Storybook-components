@@ -1,0 +1,38 @@
+/*
+ * App-only overrides on top of Storybook-aligned globals
+ * (`paytm-common-storybook/.storybook/preview.js` imports the same index + variables).
+ * PODS aliases: `.cursor/design.mdc`, `.cursor/tokens.mdc`
+ */
+:root {
+  --pods-display3-size: 32px;
+  --pods-display3-line-height: 36px;
+  --pods-title1-size: 22px;
+  --pods-title1-line-height: 28px;
+  --pods-title3-size: 18px;
+  --pods-title3-line-height: 24px;
+  --pods-title4-size: 16px;
+  --pods-title4-line-height: 20px;
+  --pods-body-size: 14px;
+  --pods-body-line-height: 20px;
+  --pods-subtext-size: 12px;
+  --pods-subtext-line-height: 16px;
+  --pods-font-bold: 700;
+  --pods-font-semibold: 600;
+  --pods-font-medium: 500;
+}
+
+/* Match Storybook canvas: sass-generated index.css already sets body background + inter-subset. */
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+/**
+ * Large HeaderDefault — second-row title must match display3-bold.
+ */
+[data-testid="header-default"] [data-testid="title"] {
+  font-size: var(--pods-display3-size) !important;
+  line-height: var(--pods-display3-line-height) !important;
+  font-weight: var(--pods-font-bold) !important;
+  letter-spacing: 0 !important;
+}

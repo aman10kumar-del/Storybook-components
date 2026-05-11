@@ -1,0 +1,84 @@
+@import "../../paytm-common-storybook/src/commonStyles/style-dictionary/number";
+
+/* Design-review device: 376×812 (§9 mobile preview) */
+$device-width: 376px;
+$device-height: 812px;
+
+.frame {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 0;
+  flex: 1;
+  padding: $padding-vertical-3xl $margin-horizontal-m;
+  box-sizing: border-box;
+  align-self: stretch;
+  overflow: auto;
+}
+
+.shell {
+  position: relative;
+  transform: translateZ(0);
+  width: $device-width;
+  min-width: $device-width;
+  max-width: $device-width;
+  height: $device-height;
+  min-height: $device-height;
+  max-height: $device-height;
+  display: flex;
+  flex-direction: column;
+  /* App wash (white/light); avoids grey showing at shellMain padding gutters */
+  background: var(--surface-level-1);
+  border-radius: $radius-3xl;
+  overflow: hidden;
+  box-shadow: 0 8px 32px var(--overlay-weak);
+}
+
+.shellMain {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  /* Transparent: child flows (loginCanvas / appCanvas) paint full 376px wash — no white side bands from padded shell */
+  background: transparent;
+
+  /*
+   * §9: strip duplicate horizontal padding on roots when the shell also applies gutter.
+   * Headers are excluded: PODS Header/* (Storybook) ships horizontal padding (`padding-horizontal-2xl` =
+   * page gutter); stripping it misaligned chrome vs `.inner` — use component defaults only.
+   */
+  :global([data-testid="header-logo"]),
+  :global([data-testid="header-search"]),
+  :global([data-testid="section-header-container"]),
+  :global([data-testid="tabs-container"]),
+  :global([data-testid="text-field-container"]),
+  :global([data-testid="dropdown"]),
+  :global([data-testid="otp-container"]),
+  :global([data-testid="passcode-container"]),
+  :global([data-testid="slider-container"]),
+  :global([data-testid="activity-timeline-container"]),
+  :global([data-testid="bottom-nav-bar-container"]) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* §11 inline Alerts: match content column width when shell already gutters */
+  :global([data-testid="alerts-container"]) {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Overlay for BottomSheet portal; pointer-events restored on the sheet container when active */
+.sheetPortal {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}

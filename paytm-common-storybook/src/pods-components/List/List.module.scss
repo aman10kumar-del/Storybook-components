@@ -1,0 +1,217 @@
+@import "../../commonStyles/mixin";
+
+.listContainer {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  @include borderBox();
+  .listItem {
+    padding: $padding-vertical-xs $padding-horizontal-3xl;
+    @include rowGap($gap-2xl);
+    @include flexBox(flex, center, space-between, false, row, null, 0px);
+    .leadingSection {
+      align-self: stretch;
+      padding: $padding-vertical-2xl $padding-horizontal-xs;
+      @include flexBox(flex, center, center, false, row, null, 0px);
+      &.topAlign {
+        align-items: flex-start;
+      }
+      .leadingIcon {
+        display: inline-block;
+        color: getColorVariable(--icon-neutral-strong);
+        flex-shrink: 0;
+        &,
+        & > * {
+          @include dimensions(32px, 32px);
+        }
+        &.small {
+          &,
+          & > * {
+            @include dimensions(24px, 24px);
+          }
+        }
+      }
+      .leadingAvatarImage {
+        flex-shrink: 0;
+        &.small {
+          @include dimensions(32px, 32px);
+        }
+      }
+      .leadingAvatar {
+        flex-shrink: 0;
+        line-height: 0;
+      }
+    }
+    .mainSection {
+      flex-grow: 1;
+      min-width: 0;
+      padding: $padding-vertical-2xl $padding-horizontal-xs;
+      @include flexBox(flex, flex-start, center, false, column, null, 0px);
+      position: relative;
+      .mainContents {
+        flex-grow: 1;
+        width: 100%;
+        @include flexBox(flex, flex-start, space-between, false, row, null, 0px);
+        @include rowGap($gap-2xl);
+        .texts {
+          flex-grow: 1;
+          min-width: 0;
+          @include flexBox(flex, flex-start, center, false, column, null, 0px);
+          @include colGap($gap-m);
+          min-height: 42px;
+          &.minimalHeight {
+            min-height: 0;
+          }
+          .primary {
+            max-width: 100%;
+            @include flexBox(flex, center, flex-start, false, row, null, 0px);
+            @include rowGap($gap-xl);
+            .primaryText {
+              @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+            }
+            &.withIcon {
+              .primaryText {
+                @include ellipsis();
+              }
+            }
+            .primaryIcon {
+              color: getColorVariable(--icon-neutral-strong);
+              flex-shrink: 0;
+              &,
+              & > * {
+                @include dimensions(20px, 20px);
+              }
+            }
+          }
+          .secondary {
+            max-width: 100%;
+            min-width: 0;
+            @include flexBox(flex, center, flex-start, false, row, null, 0px);
+            .secondaryText {
+              @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+              min-width: 0;
+              overflow-wrap: break-word;
+              word-break: break-word;
+            }
+          }
+          .tertiary {
+            max-width: 100%;
+            min-width: 0;
+            @include flexBox(flex, flex-start, flex-start, false, row, null, 0px);
+            @include rowGap($gap-l);
+            .tertiaryIcon {
+              color: getColorVariable(--icon-neutral-strong);
+              flex-shrink: 0;
+              &,
+              & > * {
+                @include dimensions(16px, 16px);
+              }
+            }
+            .tertiaryText {
+              @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+              min-width: 0;
+              overflow-wrap: break-word;
+              word-break: break-word;
+            }
+          }
+        }
+        .trailingSection {
+          align-self: stretch;
+          max-width: 50%;
+          @include flexBox(flex, center, center, false, row, null, 0px);
+          & * {
+            max-width: 100%;
+          }
+          &.topAlign {
+            align-items: flex-start;
+          }
+          .trailingLink {
+            @include flexBox(flex, center, center, false, row, null, 0px);
+            @include getFontStyle(subtext-medium, getColorVariable(--text-primary-medium));
+            @include ellipsis();
+            @include pointerCursor();
+            @include rowGap($gap-m);
+            .linkText {
+              @include ellipsis();
+            }
+            a {
+              @include anchorStyle();
+            }
+            .linkIcon {
+              @include flexBox(flex, center, center, false, row, null, 0px);
+              & > * {
+                @include dimensions(16px, 16px);
+                color: getColorVariable(--icon-primary-medium)
+              }
+            }
+          }
+          .trailingIcon {
+            color: getColorVariable(--icon-neutral-strong);
+            flex-shrink: 0;
+            &,
+            & > * {
+              @include dimensions(24px, 24px);
+            }
+          }
+          .trailingAvatar {
+            flex-shrink: 0;
+            line-height: 0;
+          }
+          .trailingMeta {
+            @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-moderate));
+            @include ellipsis();
+          }
+          .trailingDetail {
+            @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+            @include ellipsis();
+          }
+          .trailingLegend {
+            @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+            @include ellipsis();
+          }
+          .trailingStatusContainer {
+            @include flexBox(flex, center, center, false, row, null, 0px);
+            @include rowGap($gap-m);
+            .statusIcon {
+              flex-shrink: 0;
+              &,
+              & > * {
+                @include dimensions(16px, 16px);
+              }
+            }
+            .statusText {
+              @include getFontStyle(subtext-semibold);
+              @include ellipsis();
+              &.failiure {
+                color: getColorVariable(--text-negative-strong);
+              }
+              &.warning {
+                color: getColorVariable(--text-notice-strong);
+              }
+              &.success {
+                color: getColorVariable(--text-positive-strong);
+              }
+            }
+          }
+          .metaWithBadge {
+            @include flexBox(flex, flex-end, center, false, column, null, 0px);
+          }
+          .detailWithMeta {
+            @include flexBox(flex, flex-end, center, false, column, null, 0px);
+            @include colGap($gap-s);
+          }
+          .legendWithStatus {
+            @include flexBox(flex, flex-end, center, false, column, null, 0px);
+            @include colGap($gap-s);
+          }
+        }
+      }
+      .separator {
+        width: calc( 100% + 12px);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+    }
+  }
+}

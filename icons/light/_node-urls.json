@@ -1,0 +1,17 @@
+[
+  {"section": "ru", "slug": "mobile-prepaid", "urls": ["https://www.figma.com/api/mcp/asset/c0cf20a9-3bd3-4c9d-be53-c0bb5d0ee59d"]},
+  {"section": "ru", "slug": "mobile-postpaid", "urls": ["https://www.figma.com/api/mcp/asset/f5d0a345-a94a-42bf-bc7e-f31ded9b5725", "https://www.figma.com/api/mcp/asset/0fbb1faa-e42f-4c34-a59c-bf06acace25b"]},
+  {"section": "ru", "slug": "electricity-bill", "urls": ["https://www.figma.com/api/mcp/asset/62becd10-36d8-4458-a5f7-86316dd0c3e1"]},
+  {"section": "ru", "slug": "rent-via-credit-card", "urls": ["https://www.figma.com/api/mcp/asset/1adcb785-4d71-4552-b1ad-5e829b6f2735", "https://www.figma.com/api/mcp/asset/80fa4801-5d65-4e2b-a427-b65084591f8e"]},
+  {"section": "ru", "slug": "dth-recharge", "urls": ["https://www.figma.com/api/mcp/asset/337af90e-0b6a-44fa-9cc1-7f2e161e85b2"]},
+  {"section": "ru", "slug": "credit-card", "urls": ["https://www.figma.com/api/mcp/asset/216c096f-26c2-4344-85f1-3cd21418b57f"]},
+  {"section": "ru", "slug": "fastag-recharge", "urls": ["https://www.figma.com/api/mcp/asset/1ef7d5fd-a422-482d-ae9e-a5f1f50f18ba", "https://www.figma.com/api/mcp/asset/442d99a0-b222-48a7-9096-b29d26c5c0f9"]},
+  {"section": "ru", "slug": "education-fees", "urls": ["https://www.figma.com/api/mcp/asset/4105bdee-9b19-4f8f-a0b6-07768cf45aeb"]},
+  {"section": "ru", "slug": "education", "urls": ["https://www.figma.com/api/mcp/asset/54d83b89-8051-498a-ad24-f63f1aca2d6f"]},
+  {"section": "ru", "slug": "gas-piped", "urls": ["https://www.figma.com/api/mcp/asset/c3f1c153-b76c-450f-a5df-fbe0a4f6759a"]},
+  {"section": "ru", "slug": "landline", "urls": ["https://www.figma.com/api/mcp/asset/3b982c48-07bc-44c3-8577-8dc3c6474310"]},
+  {"section": "ru", "slug": "broadband", "urls": ["https://www.figma.com/api/mcp/asset/cc3cbc7e-a21c-4fdb-b076-4eb98fe3bca1"]},
+  {"section": "ru", "slug": "bill-payment", "urls": ["https://www.figma.com/api/mcp/asset/0e1d7d33-4cfe-4baa-b889-a631cb581715"]},
+  {"section": "ru", "slug": "data-card", "urls": ["https://www.figma.com/api/mcp/asset/e914bffa-655a-44f7-8b70-5ff7b1a07350"]},
+  {"section": "ru", "slug": "cable-tv", "urls": ["https://www.figma.com/api/mcp/asset/1fa7b244-fe80-434a-8f24-ddfe8cbdaaf3"]}
+]

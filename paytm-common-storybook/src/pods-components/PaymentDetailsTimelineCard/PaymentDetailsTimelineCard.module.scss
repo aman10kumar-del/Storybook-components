@@ -1,0 +1,50 @@
+@import "../../commonStyles/mixin";
+
+/* Figma 252:7059 — Global / Card / Timeline */
+
+.root {
+  width: 100%;
+  @include borderBox();
+}
+
+.card {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: $radius-3xl !important;
+  background-color: getColorVariable(--surface-level-1) !important;
+  overflow: hidden;
+}
+
+.sectionHeader {
+  padding: $padding-vertical-3xl $padding-horizontal-3xl $padding-vertical-xl;
+}
+
+.headerChevronButton {
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  @include dimensions(24px, 24px);
+  @include flexBox(flex, center, center, false, row);
+  color: getColorVariable(--icon-neutral-strong);
+  border-radius: $radius-s;
+
+  &:focus-visible {
+    outline: 2px solid getColorVariable(--border-primary-strong);
+    outline-offset: 2px;
+  }
+}
+
+.headerChevronStatic {
+  @include dimensions(24px, 24px);
+  @include flexBox(flex, center, center, false, row);
+  color: getColorVariable(--icon-neutral-strong);
+}
+
+.headerChevronIcon {
+  @include dimensions(24px, 24px);
+  flex-shrink: 0;
+}

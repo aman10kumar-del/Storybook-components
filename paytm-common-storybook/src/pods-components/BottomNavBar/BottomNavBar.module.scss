@@ -1,0 +1,63 @@
+@import "../../commonStyles/mixin";
+
+.bottomNavBarContainer {
+  background-color: getColorVariable(--background-neutral-inverse);
+  @include flexBox(flex, center, space-between, false, row);
+  @include borderBox();
+  margin: 0;
+  padding: $padding-vertical-xl $padding-horizontal-xl;
+  list-style: none;
+  border-top: 1px solid getColorVariable(--border-neutral-weak);
+
+  .navBarItem {
+    position: relative;
+    flex-shrink: 0;
+    flex-grow: 1;
+    @include pointerCursor();
+    @include flexBox(flex, center, center, false, column);
+    @include colGap($gap-m);
+    .iconContainer {
+      @include dimensions(58px, 32px);
+      @include flexBox(flex, center, center, false, row);
+      border-radius: $radius-xl;
+      position: relative;
+      .icon {
+        &, & > * {
+          color: getColorVariable(--icon-neutral-strong);
+          @include dimensions(24px, 24px);
+        }
+      }
+    }
+    .label {
+      margin-bottom: 0;
+      @include getFontStyle(caption-regular, getColorVariable(--text-neutral-strong));
+      @include ellipsis();
+      max-width: 100%;
+    }
+    .badge {
+      padding: 0;    
+      span {
+        overflow: unset;
+      }
+    }
+
+    .badge.count, .badge.normal {
+      @include dimensions(16px, 16px);
+      @include position(absolute, -3px, 5px, null, null);
+    }
+    .badge.dot {
+      @include dimensions(6px, 6px);
+      @include position(absolute, 3px, 14px, null, null);
+      border-radius: $radius-xl;
+    }
+
+    &.active {
+      .iconContainer {
+        background: linear-gradient(181deg, getColorVariable(--background-offset-2-medium) -2.32%, getColorVariable(--background-offset-2-strong) 99.18%);
+      }
+      .label {
+        @include getFontStyle(caption-semibold, getColorVariable(--text-neutral-strong));
+      }
+    }
+  }
+}

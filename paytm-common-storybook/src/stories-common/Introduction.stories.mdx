@@ -1,0 +1,57 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction/Welcome" />
+
+# PODS - V3
+---
+This includes all the common components developed by the core team
+
+## How to contribute ?
+- Create JIRA for the component that you want to add / modify in H5 board
+- Clone the repo https://bitbucket.org/paytmteam/paytm-common-ui/src/master/
+- Checkout new branch from *master*, use JIRA# as branch name
+- npm i
+- Add / Modify the component, storybook & UT
+- npm run storybook - for testing
+- Raise PR to master
+- Add prasad.nayak@paytm.com, kartik.kaushal@paytm.com as reviewers
+
+**How to install?**
+
+Add the below to .npmrc file
+```bash
+@paytm-h5-common:registry=https://nexusartifactory.paytm.com/repository/h5-npm-releases/
+```
+
+and then in the terminal, 
+
+```bash
+npm i @paytm-h5-common/paytm_common_ui@version
+```
+
+**Latest version**
+
+3.0.3 (Released Version)
+
+**How to import any component?**
+```js
+import { Button } from '@paytm-h5-common/paytm_common_ui';
+```
+
+## Theming 
+PODS components follow browsers builtin `prefers-color-scheme` attribute to render components in either dark or light themes.
+You can visualize different themes of a component by toggling this settings either via browser developer tools 
+or by using the plugin from storybook tool bar. (See an icon in the shape of @)
+
+## What changed vs V2
+- Color tokens updated with new semantic system.
+- New Number System introduced for consistent spacing and layout
+- Component props changed for few components. Please see the diff <a target="_blank" href="https://docs.google.com/spreadsheets/d/1eg6b_q6C03MECJlTRXcJSynwd_DFgXwcQyz9C2OMvMU/edit?gid=0#gid=0">here</a>
+
+
+## Node version required
+">= 14.19.0"
+
+## Peer dependencies
+- "react": ">=16.8.0"
+- "react-dom": ">=16.8.0"

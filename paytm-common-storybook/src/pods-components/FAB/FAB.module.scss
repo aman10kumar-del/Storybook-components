@@ -1,0 +1,44 @@
+@import "../../commonStyles/mixin";
+
+.fabContainer {
+  @include flexBox(flex, center, center, false, row);
+  @include position(fixed, null, null, 0, 0);
+  @include borderBox();
+  margin: 0 $margin-horizontal-m $margin-vertical-l $margin-horizontal-m;
+  width: calc(100% - 24px);
+  z-index: 9000;
+  
+  .fabSingle {
+    padding: 14px 16px;
+    background: getColorVariable(--background-primary-strong);
+    border-radius: $radius-max;
+    overflow: hidden;
+    .button {
+      @include flexBox(flex, center, center, false, row, null, 0px);
+      @include rowGap(8px);
+      position: relative;
+      @include pointerCursor();
+      .icon {
+        @include dimensions(24px, 24px);
+        flex-shrink: 0;
+        svg {
+          outline: none;
+          color: getColorVariable(--icon-universal-light)
+        }
+      }
+      .label {
+        @include getFontStyle(title4-bold, getColorVariable(--text-universal-light));
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+    }
+    &.standard {
+      padding: 14px;
+    }
+    &:active {
+      background: getColorVariable(--background-primary-medium);
+    }
+  }
+}

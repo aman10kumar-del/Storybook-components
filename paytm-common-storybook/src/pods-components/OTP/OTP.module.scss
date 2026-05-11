@@ -1,0 +1,109 @@
+@import "../../commonStyles/mixin";
+
+.otpContainer {
+  display: block;
+  padding: $padding-horizontal-3xl 0px;
+  @include flexBox(flex, flex-start, space-between, false, column, null, $unit-0);
+  @include colGap($gap-2xl);
+  @include borderBox();
+  .title {
+    @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-moderate));
+  }
+  .otpBox {
+    width: 100%;
+    overflow-x: auto;
+    @include flexBox(flex, flex-start, space-between, false, row, null, $unit-0);
+    @include rowGap($gap-2xl);
+    input {
+      @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+      @include dimensions(false, $unit-12);
+      min-width: 0;
+      max-width: 47.33px;
+      background-color: getColorVariable(--surface-level-2) !important;
+      border: 1px solid getColorVariable(--border-neutral-weak);
+      caret-color: getColorVariable(--border-primary-strong);
+      text-align: center;
+      border-radius: $radius-m;
+
+      &:disabled {
+        -webkit-text-fill-color: getColorVariable(--text-neutral-strong) !important;
+        -webkit-opacity: 1 !important;
+        opacity: 1 !important;
+      }
+
+      &:focus {
+        outline: none;
+        border: 1px solid getColorVariable(--border-primary-strong);
+
+        & ~ .placeholder {
+          display: none;
+        }
+
+        & ~ .labelHolder {
+          display: inline;
+          transition: all;
+        }
+      }
+
+      &:not(:placeholder-shown) {
+        & ~ label {
+          top: 3px;
+          @include getFontStyle(subtext-medium ,getColorVariable(--text-neutral-medium));
+        }
+
+        & ~ .placeholder {
+          display: none;
+        }
+
+        & ~ .labelHolder {
+          display: inline;
+          transition: all;
+        }
+      }
+
+      &:after {
+        position: absolute;
+        content: "";
+        border-bottom: 1px solid getColorVariable(--background-offset-weak);
+        bottom: -$unit-6;
+      }
+    }
+  }
+  .infoSection {
+    width: 100%;
+    @include flexBox(flex, flex-start, flex-end, false, row, null, $unit-0);
+    @include rowGap($gap-xl);
+    .error {
+      color: getColorVariable(--text-negative-strong);
+    }
+    .warning {
+      color: getColorVariable(--text-notice-strong)
+    }
+    .error, .warning {
+      margin-right: auto;
+      @include getFontStyle(subtext-regular);
+      word-break: break-word;
+    }
+    .resendOTP {
+      @include getFontStyle(subtext-medium, getColorVariable(--text-primary-medium));
+      flex-shrink: 0;
+      max-width: 60%;
+      @include ellipsis();
+      @include pointerCursor();
+      &.countDown {
+        color: getColorVariable(--text-neutral-strong);
+        pointer-events: none;
+      }
+    }
+  }
+  .altAction {
+    width: 100%;
+    @include flexBox(flex, flex-start, flex-end, false, row, null, $unit-0);
+    @include rowGap($gap-xl);
+    @include getFontStyle(subtext-medium, getColorVariable(--text-primary-medium));
+    @include pointerCursor();
+    span {
+      word-break: break-all;
+    }
+  }
+}

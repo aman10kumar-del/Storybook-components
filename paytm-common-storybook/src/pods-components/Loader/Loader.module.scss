@@ -1,0 +1,63 @@
+@import '../../commonStyles/mixin';
+
+.loader {
+    @include flexBox(flex, center, center, false, row, null, 0px);
+    &.large {
+        > span {
+            width: 20px;
+            height: 20px;
+        }
+    }
+    &.medium {
+        > span {
+            width: 6px;
+            height: 6px;
+        }
+    }
+    &.small {
+        > span {
+            width: 6px;
+            height: 6px;
+        }
+    }
+    > span {
+        margin: 0 3px;
+        background: getColorVariable(--brand-primary);
+        border-radius: 100%;
+        display: inline-block;
+        animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    }
+    .bounce1 {
+        animation-delay: -0.9s;
+        background: getColorVariable(--brand-secondary);
+    }
+    .bounce2 {
+        animation-delay: -0.54s;
+        background: getColorVariable(--brand-secondary);
+    }
+    .bounce3 {
+        animation-delay: -0.36s;
+        background: getColorVariable(--brand-secondary);
+    }
+    .bounce4 {
+        animation-delay: -0.18s;
+    }
+    &.monotone {
+        .bounce1, .bounce2, .bounce3, .bounce4, .bounce5 {
+            background: getColorVariable(--icon-universal-light);
+        }
+    }
+}
+
+@keyframes sk-bouncedelay {
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}

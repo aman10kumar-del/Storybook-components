@@ -1,0 +1,21 @@
+@import "../../commonStyles/mixin";
+
+.img {
+  display: block;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: $radius-m;
+  background-color: getColorVariable(--surface-level-2);
+  flex-shrink: 0;
+}
+
+.fallback {
+  @include flexBox(flex, center, center, false, row, null, 0px);
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: $radius-m;
+  background-color: getColorVariable(--background-primary-weak);
+  @include getFontStyle(subtext-semibold, getColorVariable(--text-primary-strong));
+}

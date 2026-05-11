@@ -1,0 +1,48 @@
+@import "../../commonStyles/mixin";
+
+.tabsContainer {
+	padding: $padding-vertical-xs $padding-horizontal-2xl;
+	@include borderBox();
+	@include dimensions(100%, 36px);
+	.navTabs {
+		@include flexBox(flex, center, flex-start, false, row, null, 0px);
+		@include rowGap($gap-3xl);
+		margin: $margin-vertical-xs;
+		padding: $padding-vertical-xs;
+		list-style: none;
+		overflow-x: auto;
+		@include dimensions(100%, 100%);
+		.tab {
+			padding: $padding-vertical-xl $padding-horizontal-xs;
+			height: 100%;
+			@include pointerCursor();
+			@include flexBox(flex, center, center, false, row, null, 0px);
+			@include rowGap($gap-m);
+			@include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+			flex-shrink: 0;
+			&:not(.active) {
+				.badge {
+					background-color: getColorVariable(--background-offset-2-medium);
+					color: getColorVariable(--text-primary-medium);
+				}
+				&.disabled {
+					.badge {
+						background-color: getColorVariable(--background-neutral-weak);
+						color: getColorVariable(--text-universal-light);
+					}
+				}
+			}
+			&.active {
+				border-bottom: 2px solid getColorVariable(--border-primary-medium);
+				@include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+			}
+			&.disabled {
+				@include getFontStyle(body-regular, getColorVariable(--text-neutral-weak));
+				pointer-events: none;
+			}
+		}
+	}
+	&.separator {
+		border-bottom: 1px solid getColorVariable(--border-neutral-weak);
+	}
+}

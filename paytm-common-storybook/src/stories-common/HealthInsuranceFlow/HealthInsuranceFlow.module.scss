@@ -1,0 +1,400 @@
+@import "../../commonStyles/mixin";
+
+.shell {
+  position: relative;
+  transform: translateZ(0);
+  width: 100%;
+  max-width: 430px;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background-color: getColorVariable(--surface-level-4);
+  overflow: hidden;
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-4xl;
+  padding: $padding-vertical-3xl $margin-horizontal-m $padding-vertical-3xl;
+  flex: 1;
+  min-height: 0;
+}
+
+.pageFirstHero {
+  padding-top: $gap-4xl;
+}
+
+.sectionHeaderTight {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sectionHeaderFlushH {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.alertContentFull {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box;
+}
+
+.listBleedInCard {
+  box-sizing: border-box;
+  margin-left: -$padding-horizontal-3xl;
+  margin-right: -$padding-horizontal-3xl;
+  width: calc(100% + 2 * #{$padding-horizontal-3xl});
+}
+
+.planCardStack {
+  display: flex;
+  flex-direction: column;
+  gap: $margin-horizontal-m;
+}
+
+.inCardSectionTitle {
+  @include getFontStyle(title3-bold, getColorVariable(--text-neutral-strong));
+  margin: 0 0 $gap-3xl;
+}
+
+.inCardHelp {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+  margin: 0 0 $gap-3xl;
+}
+
+.cardFieldStack {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+}
+
+.heroBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+}
+
+.heroTitle {
+  @include getFontStyle(display3-bold, getColorVariable(--text-neutral-strong));
+  margin: 0;
+}
+
+.heroSub {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+  margin: 0;
+}
+
+.trustFoot {
+  @include getFontStyle(caption-medium, getColorVariable(--text-neutral-medium));
+  margin: 0;
+}
+
+.segmentWrap {
+  margin-top: $gap-s;
+}
+
+.reviewBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-2xl;
+}
+
+.reviewLine {
+  display: flex;
+  justify-content: space-between;
+  gap: $gap-2xl;
+}
+
+.reviewKey {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+}
+
+.reviewVal {
+  @include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+  text-align: right;
+}
+
+.planCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: $gap-2xl;
+  margin-bottom: 0;
+}
+
+.planTitles {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-s;
+  min-width: 0;
+}
+
+.planName {
+  @include getFontStyle(title1-bold, getColorVariable(--text-neutral-strong));
+  margin: 0;
+}
+
+.planDetailName {
+  @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+  margin: 0;
+}
+
+.planInsurer {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+  margin: 0;
+}
+
+.planSocialLine {
+  @include getFontStyle(subtext-medium, getColorVariable(--text-neutral-moderate));
+  margin: $gap-2xl 0 0;
+}
+
+.planSocialFomo {
+  @include getFontStyle(subtext-medium, getColorVariable(--text-notice-strong));
+  margin: $gap-m 0 0;
+}
+
+.planPremiumRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: $gap-m;
+  margin-top: $gap-3xl;
+}
+
+.planPremiumMain {
+  @include getFontStyle(title3-bold, getColorVariable(--text-primary-strong));
+}
+
+.planFomoMeta {
+  @include getFontStyle(caption-medium, getColorVariable(--text-notice-strong));
+  text-align: right;
+  flex: 1;
+  min-width: 8rem;
+}
+
+.planCompactFacts {
+  @include getFontStyle(subtext-medium, getColorVariable(--text-neutral-moderate));
+  margin: $gap-2xl 0 0;
+}
+
+.planCardCta {
+  margin-top: $gap-3xl;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.planPremium {
+  @include getFontStyle(title3-bold, getColorVariable(--text-primary-strong));
+  margin: 0 0 $gap-s;
+}
+
+.cardActions {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-xl;
+  margin-top: $padding-vertical-2xl;
+}
+
+.compareStrip {
+  display: flex;
+  gap: $gap-m;
+  overflow-x: auto;
+  padding-bottom: $padding-vertical-m;
+  -webkit-overflow-scrolling: touch;
+}
+
+.compareCol {
+  flex: 0 0 200px;
+  min-width: 200px;
+}
+
+.compareHead {
+  @include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+  margin: 0 0 $gap-m;
+}
+
+.compareRows {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+}
+
+.compareRow {
+  @include getFontStyle(caption-medium, getColorVariable(--text-neutral-moderate));
+  margin: 0;
+}
+
+.compareVal {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+  display: block;
+  margin-top: $gap-s;
+}
+
+.compareToolbar {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+}
+
+.fetchingBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $gap-3xl;
+  padding: $gap-5xl $margin-horizontal-m;
+  text-align: center;
+  flex: 1;
+}
+
+.fetchingTitle {
+  @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+  margin: 0;
+}
+
+.fetchingSub {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+  margin: 0;
+}
+
+.successPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $gap-4xl;
+  padding: $gap-5xl $margin-horizontal-m;
+  text-align: center;
+}
+
+.successIcon {
+  @include dimensions(72px, 72px);
+  color: getColorVariable(--icon-positive-strong);
+}
+
+.successTitle {
+  @include getFontStyle(display3-bold, getColorVariable(--text-positive-strong));
+  margin: 0;
+}
+
+.successSub {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+  margin: 0;
+}
+
+.refPill {
+  @include getFontStyle(title3-bold, getColorVariable(--text-neutral-strong));
+  padding: $padding-vertical-xl $padding-horizontal-3xl;
+  border-radius: $radius-l;
+  background-color: getColorVariable(--surface-level-1);
+  border: 1px solid getColorVariable(--border-neutral-weak);
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-2xl;
+  padding: $padding-vertical-xl 0;
+}
+
+.timelineItem {
+  display: flex;
+  gap: $gap-xl;
+  align-items: flex-start;
+}
+
+.timelineDot {
+  @include dimensions(10px, 10px);
+  border-radius: $radius-max;
+  background-color: getColorVariable(--background-primary-medium);
+  margin-top: $gap-s;
+  flex-shrink: 0;
+}
+
+.timelineDotMuted {
+  background-color: getColorVariable(--border-neutral-medium);
+}
+
+.timelineBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.timelineTitle {
+  @include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+  margin: 0 0 $gap-s;
+}
+
+.timelineSub {
+  @include getFontStyle(subtext-medium, getColorVariable(--text-neutral-moderate));
+  margin: 0;
+}
+
+.policyCardTitleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $gap-2xl;
+}
+
+.policyCardTitle {
+  @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.policySiBadge {
+  flex-shrink: 0;
+}
+
+.policyStatusLine {
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-moderate));
+  margin: $gap-m 0 0;
+}
+
+.policyCardFacts {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-2xl;
+  margin-top: $gap-3xl;
+}
+
+.quickActions {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-xl;
+}
+
+.declarationStack {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+}
+
+.footerActions {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-xl;
+  margin-top: auto;
+  padding-top: $padding-vertical-2xl;
+}

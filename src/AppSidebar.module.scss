@@ -1,0 +1,81 @@
+@import "../paytm-common-storybook/src/commonStyles/style-dictionary/number";
+
+.sidebar {
+  flex: 0 0 280px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--surface-level-1);
+  border-right: 1px solid var(--border-neutral-weak);
+  /* Stay at the left when the shell scrolls horizontally on narrow viewports */
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: $padding-vertical-3xl $padding-horizontal-3xl;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-4xl;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+}
+
+.brandTitle {
+  margin: 0;
+  font-size: var(--pods-title3-size);
+  line-height: var(--pods-title3-line-height);
+  font-weight: var(--pods-font-semibold);
+  color: var(--text-neutral-strong);
+}
+
+.brandSub {
+  margin: 0;
+  font-size: var(--pods-body-size);
+  line-height: var(--pods-body-line-height);
+  color: var(--text-neutral-medium);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sectionHeaderTight {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cardBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-3xl;
+}
+
+.themeSegment {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.footer {
+  flex-shrink: 0;
+  padding: $padding-vertical-3xl $padding-horizontal-3xl;
+  border-top: 1px solid var(--border-neutral-weak);
+  background: var(--surface-level-1);
+}
+
+.listItemSelected {
+  background: var(--background-offset-2-weak) !important;
+  border-radius: $radius-l;
+}

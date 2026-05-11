@@ -1,0 +1,38 @@
+/* Landing illustration — 215×160px (80% of 269×200) */
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 160px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: var(--surface-level-1);
+}
+
+.heroImg {
+  display: block;
+  width: 215px;
+  height: 160px;
+  max-width: 100%;
+  object-fit: contain;
+  animation: emi-hero-float-y 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes emi-hero-float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroImg {
+    animation: none;
+    will-change: auto;
+  }
+}

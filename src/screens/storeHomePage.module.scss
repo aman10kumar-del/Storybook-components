@@ -1,0 +1,406 @@
+@import "../../paytm-common-storybook/src/commonStyles/mixin";
+
+/* Align SectionHeader label with page column when `.inner` already applies horizontal gutter */
+.storeSectionHeader {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100%;
+}
+
+.searchBlock {
+  width: 100%;
+}
+
+/* §11: bank-offer strip below Search — height 72px, radius matches `cardOnWash` ($radius-3xl) */
+.bankBannerWrap {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bankBannerViewport {
+  width: 100%;
+  height: 72px;
+  overflow: hidden;
+  border-radius: $radius-3xl;
+  box-sizing: border-box;
+}
+
+.bankBannerTrack {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  box-sizing: border-box;
+
+  &[data-motion="true"] {
+    transition: transform 0.95s ease-out;
+  }
+
+  &[data-skip-transition="true"] {
+    transition: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none !important;
+  }
+}
+
+.bankBannerSlide {
+  position: relative;
+  flex: 0 0 calc(100% / var(--bank-slide-count, 4));
+  width: calc(100% / var(--bank-slide-count, 4));
+  height: 72px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $gap-3xl;
+  box-sizing: border-box;
+  padding: 0 $padding-horizontal-3xl;
+  overflow: hidden;
+}
+
+/* ICICI-inspired warm saffron / rust (marketing-style gradient; not a bank logo) */
+.bankBannerSlideIcici {
+  background:
+    radial-gradient(ellipse 120% 80% at 100% 20%, rgb(255 255 255 / 0.18) 0%, transparent 55%),
+    radial-gradient(circle at 12% 88%, rgb(0 0 0 / 0.12) 0%, transparent 45%),
+    linear-gradient(118deg, #c2410c 0%, #ea580c 42%, #9a3412 100%);
+}
+
+/* HDFC-inspired deep blue banding */
+.bankBannerSlideHdfc {
+  background:
+    radial-gradient(ellipse 100% 90% at 0% 0%, rgb(56 189 248 / 0.35) 0%, transparent 50%),
+    radial-gradient(circle at 92% 75%, rgb(0 0 0 / 0.15) 0%, transparent 40%),
+    linear-gradient(122deg, #0c4a6e 0%, #0369a1 45%, #1e3a5f 100%);
+}
+
+/* Axis-inspired maroon / plum */
+.bankBannerSlideAxis {
+  background:
+    radial-gradient(ellipse 90% 100% at 80% 10%, rgb(251 113 133 / 0.22) 0%, transparent 48%),
+    radial-gradient(circle at 18% 70%, rgb(0 0 0 / 0.14) 0%, transparent 42%),
+    linear-gradient(125deg, #831843 0%, #9f1239 38%, #4c1d4d 100%);
+}
+
+.bankBannerDecor {
+  position: absolute;
+  inset: auto -20% 10% auto;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.08);
+  pointer-events: none;
+}
+
+.bankBannerDecor2 {
+  position: absolute;
+  inset: auto auto -30% -15%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.1);
+  pointer-events: none;
+}
+
+.bankBannerIconWrap {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-max;
+  background: rgb(255 255 255 / 0.22);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+
+  svg {
+    width: 22px;
+    height: 22px;
+    color: var(--text-universal-light);
+  }
+}
+
+.bankBannerText {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  max-width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+  @include getFontStyle(subtext-semibold, getColorVariable(--text-universal-light));
+}
+
+/* §11: dots below 72px strip — proximity to carousel */
+.bankBannerPagination {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: $gap-m;
+  margin-top: $gap-m;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bankBannerDot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: none;
+  border-radius: $radius-max;
+  background: var(--text-neutral-medium);
+  opacity: 0.4;
+  cursor: pointer;
+  box-sizing: border-box;
+  flex-shrink: 0;
+
+  &[data-active="true"] {
+    opacity: 1;
+    background: var(--text-primary-medium);
+    transform: scale(1.2);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--border-primary-medium);
+    outline-offset: 2px;
+  }
+}
+
+/*
+ * PODS Card default: 1px border (`Card.module.scss` / Storybook PODS Components/Card).
+ * On `--surface-level-4` wash, tiles are borderless soft surfaces — design.mdc §11; same as User `.storeCard`.
+ */
+.cardOnWash {
+  width: 100%;
+  border: none !important;
+  border-radius: $radius-3xl !important;
+  box-sizing: border-box;
+}
+
+.categoryGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: $unit-7;
+  row-gap: $unit-7;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.categoryGridItem {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.categoryCellButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $gap-m;
+  width: 100%;
+  max-width: 72px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+  box-sizing: border-box;
+
+  &:focus-visible {
+    outline: 2px solid var(--border-primary-medium);
+    outline-offset: 2px;
+    border-radius: $radius-l;
+  }
+}
+
+.categoryLabel {
+  margin: 0;
+  max-width: 100%;
+  text-align: center;
+  white-space: pre-line;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+}
+
+/* §11: horizontal product rail — scroll inside content column */
+.topSellingScroll {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: $gap-3xl;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: $gap-m;
+  box-sizing: border-box;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+
+  /* Avoid clipping focus rings */
+  padding-top: 2px;
+  margin-top: -2px;
+}
+
+/* Spec: 174×276 vertical product tiles */
+.productCard {
+  flex: 0 0 174px;
+  width: 174px;
+  height: 276px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: $radius-3xl;
+  background: var(--surface-level-1);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  box-sizing: border-box;
+  scroll-snap-align: start;
+  color: inherit;
+
+  &:focus-visible {
+    outline: 2px solid var(--border-primary-medium);
+    outline-offset: 2px;
+  }
+}
+
+.productCardImageWrap {
+  flex-shrink: 0;
+  width: 100%;
+  height: 140px;
+  background: var(--background-neutral-medium);
+  overflow: hidden;
+}
+
+.productCardImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.productCardBody {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+  padding: $gap-3xl $gap-xl $gap-3xl;
+  box-sizing: border-box;
+  justify-content: flex-start;
+}
+
+.productCardTitle {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+}
+
+.productCardVariant {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+}
+
+.productCardPrice {
+  margin: auto 0 0;
+  @include getFontStyle(title4-semibold, getColorVariable(--text-neutral-strong));
+}
+
+/* Promotional strip — semantic notice surface (design.mdc §2 / §5.5 strip pattern) */
+.adBanner {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: $gap-3xl;
+  width: 100%;
+  padding: $padding-vertical-3xl $padding-horizontal-3xl;
+  box-sizing: border-box;
+  border-radius: $radius-3xl;
+  background: var(--background-notice-weak);
+  border: 1px solid var(--border-notice-strong);
+}
+
+.adBannerBadge {
+  flex-shrink: 0;
+  padding: $gap-m $gap-xl;
+  border-radius: $radius-l;
+  background: var(--background-notice-strong);
+  @include getFontStyle(caption-medium, getColorVariable(--text-universal-light));
+}
+
+.adBannerText {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+}
+
+/* §8.1a: chip → chip horizontal gap token */
+.brandsChips {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: $gap-xl;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.emiEntryRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $gap-3xl;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.emiEntryIcon {
+  flex-shrink: 0;
+  display: inline-flex;
+  color: var(--icon-primary-strong);
+
+  svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.emiEntryCopy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-m;
+}
+
+.emiEntryTitle {
+  margin: 0;
+  @include getFontStyle(title3-semibold, getColorVariable(--text-neutral-strong));
+}
+
+.emiEntrySub {
+  margin: 0;
+  @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-medium));
+}

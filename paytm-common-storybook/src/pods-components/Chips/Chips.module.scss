@@ -1,0 +1,228 @@
+@import "../../commonStyles/mixin";
+
+.chips {
+	@include flexBox(inline-flex, center, center, false, row, null, 0px);
+	@include borderBox();
+	max-width: 100%;
+	@include pointerCursor();
+
+	.labelContainer {
+		@include flexBox(inline-flex, center, center, false, row, null, 4px);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.label {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		padding: $padding-vertical-xs;
+	}
+
+	.title {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		padding: $padding-vertical-xs;
+	}
+
+	.leadingIcon, .trailingIcon {
+		flex-shrink: 0;
+	}
+
+	&.regular {
+		height: $unit-10;
+		padding: $padding-vertical-xl $padding-horizontal-2xl;
+		border-radius: $radius-max;
+		@include rowGap($gap-xl);
+		@include getFontStyle(body-regular);
+		.leadingIcon, .trailingIcon {
+			@include dimensions(20px, 20px);
+			> * {
+			  @include dimensions(100%, 100%)
+			}
+		}
+		.badge {
+			@include dimensions(20px, 20px);
+		}
+
+		&.hasLeadingElements {
+			padding-left: $padding-horizontal-xl;
+		}
+		&.hasTrailingElements {
+			padding-right: $padding-horizontal-xl;
+		}
+		&.selected {
+			@include getFontStyle(body-semibold);
+		}
+	}
+
+	&.small {
+		height: $unit-9;
+		padding: $padding-vertical-l $padding-horizontal-xl;
+		border-radius: $radius-max;
+		@include rowGap($gap-m);
+		@include getFontStyle(subtext-medium);
+		.leadingIcon, .trailingIcon {
+			@include dimensions(18px, 18px);
+			> * {
+			  @include dimensions(100%, 100%)
+			}
+		}
+
+		.badge {
+			@include dimensions(18px, 18px);
+		}
+
+		&.hasLeadingElements {
+			padding-left: $padding-horizontal-l;
+		}
+		&.hasTrailingElements {
+			padding-right: $padding-horizontal-l;
+		}
+		&.selected {
+			@include getFontStyle(subtext-semibold);
+		}
+	}
+
+	&.normal {
+		background: getColorVariable(--background-neutral-inverse);
+		border: 1px solid getColorVariable(--border-offset-1-strong);
+		@include getFontStyle(body-regular, getColorVariable(--text-neutral-moderate));
+		
+		.leadingIcon svg, .trailingIcon svg {
+			color: getColorVariable(--icon-neutral-moderate);
+		}
+		
+		.badge {
+			background-color: getColorVariable(--background-offset-2-medium) !important;
+			color: getColorVariable(--text-primary-medium) !important;
+		}
+
+		&.disabled {
+			background: getColorVariable(--background-neutral-inverse);
+			border: 1px solid getColorVariable(--border-neutral-weak);
+			@include getFontStyle(body-regular, getColorVariable(--text-neutral-weak));
+			.leadingIcon svg, .trailingIcon svg {
+				color: getColorVariable(--icon-neutral-weak);
+			}
+			.badge {
+				background: getColorVariable(--background-neutral-weak);
+				color: getColorVariable(--chips-text-disabled-weak);
+			}
+			&.dotted {
+				border: 1px dashed getColorVariable(--border-neutral-weak);
+			}
+		}
+
+		&.selected {
+			background: getColorVariable(--background-primary-strong);
+			border: none;
+			@include getFontStyle(body-regular, getColorVariable(--text-universal-light));
+			
+			.leadingIcon svg, .trailingIcon svg {
+				color: getColorVariable(--icon-universal-strong);
+			}
+			
+			.badge {
+				background-color: getColorVariable(--background-universal-light) !important;
+				color: getColorVariable(--text-primary-strong) !important;
+			}
+
+			&.disabled {
+				background: getColorVariable(--background-neutral-weak);
+				@include getFontStyle(body-regular, getColorVariable(--chips-text-disabled-weak));
+				.leadingIcon svg, .trailingIcon svg {
+					color: getColorVariable(--icon-neutral-weak);
+				}
+				.badge {
+					background: getColorVariable(--background-neutral-inverse);
+					color: getColorVariable(--text-neutral-weak);
+				}
+			}
+			&.dotted {
+				border: none;
+				@include getFontStyle(body-regular, getColorVariable(--text-universal-light));
+			}
+		}
+
+		&.dotted {
+			border: 1px dashed getColorVariable(--border-neutral-medium);
+			@include getFontStyle(body-regular, getColorVariable(--text-neutral-medium));
+		}
+	}
+
+	&.offset {
+		background: getColorVariable(--chips-background-offset-weak);
+		border: none;
+		@include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+		
+		.leadingIcon svg, .trailingIcon svg {
+			color: getColorVariable(--icon-neutral-strong);
+		}
+		
+		.badge {
+			background-color: getColorVariable(--background-primary-medium) !important;
+			color: getColorVariable(--text-universal-light) !important;
+		}
+
+		&.disabled {
+			background: getColorVariable(--background-neutral-inverse);
+			border: 1px solid getColorVariable(--border-neutral-weak);
+			@include getFontStyle(body-regular, getColorVariable(--text-neutral-weak));
+			.leadingIcon svg, .trailingIcon svg {
+				color: getColorVariable(--icon-neutral-weak);
+			}
+			.badge {
+				background: getColorVariable(--background-neutral-weak);
+				color: getColorVariable(--chips-text-disabled-weak);
+			}
+			&.dotted {
+				border: 1px dashed getColorVariable(--border-neutral-weak);
+			}
+		}
+
+		&.selected {
+			background: getColorVariable(--background-offset-2-medium);
+			border: 1px solid getColorVariable(--border-offset-2-strong);
+			@include getFontStyle(body-regular, getColorVariable(--text-primary-medium));
+			
+			.leadingIcon svg, .trailingIcon svg {
+				color: getColorVariable(--icon-primary-medium);
+			}
+			
+			&.disabled {
+				background: getColorVariable(--background-neutral-inverse);
+				border: 1px solid getColorVariable(--border-neutral-weak);
+				@include getFontStyle(body-regular, getColorVariable(--text-neutral-weak));
+				.leadingIcon svg, .trailingIcon svg {
+					color: getColorVariable(--icon-neutral-weak);
+				}
+				.badge {
+					background: getColorVariable(--background-neutral-weak);
+					color: getColorVariable(--chips-text-disabled-weak);
+				}
+				&.dotted {
+					background: getColorVariable(--background-neutral-inverse);
+					border: 1px dashed getColorVariable(--border-neutral-weak);
+				}
+			}
+
+			&.dotted {
+				border: 1px dashed getColorVariable(--border-primary-medium);
+				@include getFontStyle(body-regular, getColorVariable(--text-primary-medium));
+			}
+		}
+
+		&.dotted {
+			border: 1px dashed getColorVariable(--chips-stroke-offset-weak);
+			@include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+		}
+	}
+
+	&.disabled {
+		pointer-events: none;
+		opacity: getColorVariable(--opacity-disabled);
+	}
+}

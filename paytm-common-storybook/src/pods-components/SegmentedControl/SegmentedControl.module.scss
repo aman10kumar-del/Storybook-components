@@ -1,0 +1,61 @@
+@import '../../commonStyles/mixin';
+
+.segmentedContainer {
+	@include borderBox();
+	border-radius: $radius-3xl;
+	width: 100%;
+	max-width: 352px;
+	padding: $padding-vertical-s $padding-horizontal-s;
+	background-color: getColorVariable(--segmented-control-background-surface);
+	.navTabs {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		@include flexBox(flex, center, center, false, row, null, 0px);
+		position: relative;
+		height: 36px;
+		.tab {
+			@include flexBox(flex, center, center, false, row, null, 0px);
+			@include rowGap($gap-m);
+			@include pointerCursor();
+			padding: $padding-vertical-xl $padding-horizontal-3xl;
+			flex-grow: 1;
+			flex-basis: 0;
+			text-align: center;
+			@include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+			z-index: 1;
+			// Maintain pill shape consistent with container
+			border-radius: $radius-3xl;
+			@include ellipsis();
+			&.active {
+				@include getFontStyle(body-semibold, getColorVariable(--text-neutral-strong));
+			}
+			&:not(.active) {
+				.badge {
+					background: getColorVariable(--background-neutral-weak);
+					color: getColorVariable(--text-neutral-strong)
+				}
+			}
+			&.disabled {
+				pointer-events: none;
+				color: getColorVariable(--text-neutral-weak);
+				.badge {
+					background: getColorVariable(--background-neutral-weak);
+					color: getColorVariable(--text-neutral-medium)
+				}
+			}
+			.tabTitle {
+				@include ellipsis();
+			}
+		}
+		.slider {
+			background: getColorVariable(--segmented-control-background-active);
+			box-shadow: 0px 1px 4px -2px rgba(16, 16, 16, 0.13);
+			@include dimensions(100%, 100%);
+			@include position(absolute, null, null, null, 0px);
+			z-index: 0;
+			border-radius: $radius-3xl;
+			transition: transform 150ms linear;
+		}
+	}
+}

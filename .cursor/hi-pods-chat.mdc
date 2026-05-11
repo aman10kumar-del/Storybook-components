@@ -1,0 +1,21 @@
+---
+alwaysApply: true
+description: >-
+  On a short greeting (hi/hello) or “Hi PODS” menu request, show MODE A–E options
+  and point to prompts/hi-pods.md; skip if the same message includes a real task.
+---
+
+# Hi PODS — greeting shortcut
+
+Full workflow, inputs template, and per-mode steps: **`prompts/hi-pods.md`**.
+
+## When to show the menu
+
+If the user’s **latest message** is **only** a short greeting (e.g. hi, hello, hey, good morning) **or** they ask for the Hi PODS / Figma workflow / mode menu **without** a concrete task in the **same** message:
+
+1. Reply briefly (one short friendly line).
+2. Show **MODE A–E** in a **compact** list — same meanings as the table in `prompts/hi-pods.md` (A ASCII sketch, B update `layouts.md`, C Storybook code, D root Vite app, E git finish). For **C** and **D**, mention they can use **Figma** or a **PRD** (`SPEC_SOURCE` in the Inputs block).
+3. Tell them to pick **one** mode and either paste the **Inputs** block from `prompts/hi-pods.md` filled in, or say the letter plus the needed fields (Figma URL or PRD fields, `COMPONENT_NAME` / feature folder, etc.).
+4. **Do not** run a mode’s steps until they choose a single mode and supply enough inputs.
+
+If the message **combines** a greeting **with** a real request (e.g. “hi, fix the build”), **do not** use this shortcut — handle the request normally.

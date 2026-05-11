@@ -1,0 +1,177 @@
+@import "../../commonStyles/mixin";
+
+.dropdownContainer {
+  @include borderBox();
+  width: 100%;
+  @include colGap($gap-m);
+  .dropdown {
+    position: relative;
+    padding: $padding-vertical-2xl $padding-horizontal-2xl;
+    height: 48px;
+    border: solid 1px getColorVariable(--border-neutral-medium);
+    @include flexBox(flex, center, space-between, false, row, null, 0px);
+    @include rowGap(8px);
+    border-radius: 8px;
+    @include pointerCursor();
+    .label {
+      position: absolute;
+      left: 12px;
+      margin-left: 0px;
+      max-width: calc(100% - 42px);
+      white-space: nowrap;
+      overflow: hidden;
+      transition: all .2s ease;
+      @include getFontStyle(title3-medium,  getColorVariable(--text-neutral-medium));
+      @include ellipsis();
+      &.alignToTop {
+        top: -10px;
+        background: getColorVariable(--text-neutral-inverse);
+        @include getFontStyle(body-regular, getColorVariable(--text-neutral-strong));
+        max-width: calc(100% - 28px);
+        padding: 0px $padding-horizontal-m;
+      }
+      &.extraLeftPadding {
+        left: 44px;
+        max-width: calc(100% - 74px);
+      }
+      &.lowEmphasis {
+        @include getFontStyle(body-medium,  getColorVariable(--text-neutral-medium));
+        &.alignToTop {
+          @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+        }
+      }
+    }
+    .caret {
+      border: solid getColorVariable(--icon-neutral-strong);
+      border-width: 0 2px 2px 0;
+      display: inline-block;
+      padding: $padding-vertical-m $padding-horizontal-m;
+      -webkit-transform: rotate(45deg);
+      transform: rotate(45deg);
+      &.up {
+        -webkit-transform: rotate(-135deg);
+        transform: rotate(-135deg);
+      }
+    }
+    .icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      color: getColorVariable(--icon-neutral-strong);
+      > * {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .value {
+      white-space: nowrap;
+      overflow: hidden;
+      flex-grow: 1;
+      text-align: left;
+      @include getFontStyle(title3-medium, getColorVariable(--text-neutral-strong));
+      @include ellipsis();
+      &.lowEmphasis {
+        @include getFontStyle(body-medium, getColorVariable(--text-neutral-strong));
+      }
+    }
+    &.isError {
+      border: solid 1px getColorVariable(--border-negative-strong);
+      .label {
+        color: getColorVariable(--text-negative-strong);
+      }
+      &.lowEmphasis {
+        @include getFontStyle(subtext-regular, getColorVariable(--text-negative-strong));
+      }
+    }
+    &.disabled {
+      pointer-events: none;
+      &, .caret {
+        border-color: getColorVariable(--border-neutral-weak);
+      }
+      &, .label, .value {
+        color: getColorVariable(--text-neutral-weak) !important
+      }
+      .icon {
+        opacity: .4;
+      }
+    }
+    &:focus {
+      border: solid 1px getColorVariable(--border-primary-strong);
+      &.isError {
+        border: solid 1px getColorVariable(--border-negative-strong);
+      }
+    }
+  }
+  .infoSection {
+    padding: 0px $padding-horizontal-2xl;
+    @include getFontStyle(body-regular);
+    text-align: left;
+    .iText {
+      color: getColorVariable(--text-neutral-strong);
+      word-break: break-word;
+      &.lowEmphasis {
+        @include getFontStyle(subtext-regular, getColorVariable(--text-neutral-strong));
+      }
+    }
+    .error {
+      color: getColorVariable(--text-negative-strong);
+      word-break: break-word;
+      &.lowEmphasis {
+        @include getFontStyle(subtext-regular, getColorVariable(--text-negative-strong));
+      }
+    }
+    &.disabled {
+      .iText {
+        color: getColorVariable(--text-neutral-weak) !important
+      }
+    }
+  }
+}
+
+.childContainer {
+  width: 100%;
+  max-width: 100%;
+  word-break: break-word;
+  @include flexBox(flex, flex-start, flex-start, false, column, null, 0px);
+  @include colGap($gap-xl);
+  .dismissIcon {
+    color: getColorVariable(--icon-neutral-medium) !important;
+  }
+  .searchContainer {
+    padding-top: $padding-vertical-xl;
+    width: 100%;
+  }
+  .listOption {
+    margin-left: -12px;
+    margin-right: -12px;
+    width: calc(100% + 32px) !important;
+    max-height: calc(85vh - 144px);
+    overflow-y: auto;
+    flex-grow: 1;
+  }
+  .bottomSheetHeader {
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 100%;
+  }
+  .emptyState {
+    @include flexBox(flex, center, center, false, column, null, 0px);
+    @include colGap($gap-2xl);
+    padding: $padding-vertical-2xl $padding-horizontal-2xl;
+    @include dimensions(100%, 100%);
+    img {
+      @include dimensions(135px, 135px);
+    }
+    .emptyStateText {
+      @include getFontStyle(title4-bold, getColorVariable(--text-neutral-strong));
+    }
+  }
+}
+
+.bottomSheet {
+  max-height: 85vh !important;
+  @include colGap(8px !important);
+  overflow: hidden !important;
+  padding-left:  $padding-horizontal-2xl !important;
+  padding-right: $padding-horizontal-2xl !important;
+}

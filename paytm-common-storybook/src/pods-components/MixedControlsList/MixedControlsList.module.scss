@@ -1,0 +1,16 @@
+@import "../../commonStyles/mixin";
+
+/* Figma 252:7055 — Global / List - Mixed Controls */
+
+.root {
+  width: 100%;
+  @include borderBox();
+}
+
+.card {
+  padding: 0 !important;
+  border: none !important;
+  border-radius: $radius-3xl !important;
+  background-color: getColorVariable(--surface-level-1) !important;
+  overflow: hidden;
+}
